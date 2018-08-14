@@ -80,4 +80,4 @@ theme: landscape
 deploy:
   type: git
   repo: ssh:git@github.com:Vincent-Hoo/Vincent-Hoo.github.io.git
-  branch: master
+  branch: hexo
