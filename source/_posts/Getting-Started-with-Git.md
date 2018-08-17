@@ -49,6 +49,12 @@ git是一个管理代码的版本控制系统(Version Control System, VCS)，它
 - Committed：修改的文件在暂存区commit到版本库。
 {% asset_img git_four_states.png 800 400 %}
 
+Git项目的三个组成元素，各自代表一个版本，我们可以查看两两之间的差别：
+- git diff: 查看工作区和暂存区的差别。
+- git diff --cached: 查看暂存区和版本库的差别。
+- git diff HEAD: 查看工作区和版本库的差别。
+
+
 ## 版本回退
 ### 仓库版本回退
 Git既然能够跟踪文件的修改，自然就可以回溯，`.git`文件有保留每一次commit的信息，每一次commit都有一个唯一的commit id对应，它是经过SHA1计算出来的一个数字，用16进制表示，我们可以通过命令回退命令，回退到想要版本。
@@ -122,6 +128,79 @@ merge就是指两个仓库(或者一个仓库的两个分支)进行合并的过�
 - fetch：fetch是将远程仓库的某条分支的内容拉到本地，但是fetch后是看不到变化，而是在本地新开了一个分支，该分支的指针是`FETCH_HEAD`，checkout到该分支后可以查看远程分支的最新内容。然后切换到master分支，执行merge，选中`FETCH_HEAD`，合并后如果出现冲突则解决冲突，最后commit。
 - pull：pull相当于fetch和merge，自动将远程仓库更新到本地仓库
 ```
-git fetch origin master(将远程仓库的master分支拉到本地)
+git fetch origin master(将远程仓库的master分支拉到本地当前分支)
 git merge FETCH_HEAD
 ```
+
+# 分支管理和协作
+分支使得Git变得更加的强大，使得团队协作更加的方便。任何一个Git仓库，都会默认有一个master的分支，无论是本地仓库还是远程仓库，这个分支是在创建Git仓库的时候就会默认创建的。之前提到HEAD指针是指向最近一次commit的，但严格来讲，HEAD指针是指向master指针，master指针才是指向最近一次commit，所以可以理解为HEAD指针是指向当前的分支。
+如果这样来看的话，一条分支就好比链表，每一次commit就往链表尾部插入新的仓库snapshot。一个仓库可以有好几条分支，当新开一条分支的时候，原有的链表尾部就会开始分叉，同时会有另外一个新的指针指向新的分叉，当我们切换分支的时候，HEAD指针就会指向对应分支的指针。
+{% asset_img branch.png 500 250 %}
+
+## 创建、切换分支
+Git创建分支和切换分支都很快，因为无非就是创建一个指针，和改变HEAD指针的指向而已。
+```
+创建branch：git branch <branch_name>
+切换branch：git checkout <branch_name>
+创建并切换branch：git checkout -b <branch_name>
+查看branch list：git branch
+```
+
+## 分支合并
+在多人协作的时候，基本上都是每个人都在自己的分支上工作，完成自己的工作之后再把自己的代码合并到master分支上。
+之前提到，两条分支的merge可能会导致conflit，冲突的原因是两个**已经提交的分支**的相同文件相同位置的不同操作进行了合并。
+
+**注意**
+要避免冲突，就是最好每次修改文件之前，先merge别的分支(或者pull远程仓库)，这样就能保证自己是在别人最新版本的基础上修改的，自己修改完后去合并到别人分支(push到远程仓库)都不会产生冲突。
+这种情况就好比下图，第三个节点是最新版本，然后在dev分支上修改，修改完成后commit，再切换回master分支，然后跟dev分支进行merge，这时候这种merge叫做fast forward，因为是直接将master的指针指向了第四个节点，相当于直接覆盖。
+{% asset_img ff_merge.png 500 250 %}
+
+以下的情况会导致冲突，假如我在dev分支修改了a文件的第二行代码，并且提交了。然后我切换到master分支，假如我不知道dev分支改了什么，我在master分支也改了a文件的第二行代码，并且提交了。然后我在这个时候想把dev分支的修改一起merge到master分支上，冲突发生了，因为两个版本都修改了同一行代码，Git会将冲突的位置，用以下的方式告知我们，并要求我们人工进行修改。如果不解决冲突时没法提交或者切换分支的。
+```
+<<<<<<<< HEAD(Current Change)
+other code
+========
+your code
+>>>>>>>> your branch name(Incoming Change)
+```
+
+但是假如我在master分支改的时a文件的第三行代码，并且提交了，这时候再去将dev分支merge进来，不会有冲突，而是会自动合并，即使我在修改第三行代码前并没有先将dev的修改merge进来。但是还是建议先merge再做修改。
+
+## 与远端仓库的同步
+像之前所说，无论是本地仓库还是远端的仓库，都可以存在不同的分支，还是那句话，在修改代码前，先将远端仓库pull下来，方便以后push的时候，避免产生冲突。并且需要注意，本地仓库是从哪条分支pull下来的，最好就push回哪条分支，不然push不上去。
+如果本地仓库和远端仓库都只有一条分支，那么情况就简单很多，因为不需要明确地指明哪条分支到哪条分支。
+- pull：如果本地和远端都只有一条分支，直接git pull就好，如果想pull到当前分支，那么本地分支名可以省略。
+    ```
+    git pull [远程仓库名字，一般默认origin] [远端分支名]:[本地分支名]
+    eg: git pull origin master:master
+    ```
+- fetch：fetch不需要写本地分支名，因为它还没有merge，只是把远端分支拉到本地并保存到`FETCH_HEAD`而已。
+    ```
+    git fetch [远程仓库名字] [远端分支名]
+    ```
+- push：建议写全。
+    - 最常见到的是`git push origin master`，远程分支被省略，它表示将本地分支推送到与其存在追踪关系的远程分支(通常两者同名)，因为远端仓库肯定存在master分支，因此省略也没有问题。如果该远程分支不存在，则会被新建。
+    - 其它形式如`git push origin`，表示将当前分支push到远端与当前分支存在追踪关系的分支。
+    - `git push`，如果本地和远端都只有一条分支，那么全都可以省略。
+    ```
+    git push [远程仓库名字] [本地分支名]:[远端分支名]
+    ```
+
+## Stash
+Stash是一个工作状态保存栈，用于保存/恢复工作区的临时状态。
+{% asset_img stash.png 500 250 %}
+
+那么什么时候才需要将工作区的状态暂时保存起来呢？说到暂时，那么肯定就是修改只进行了一半，还没到commit或者stage的地步。比如我在master上进行了一些修改，但是还没有commit(加到暂存区也不行)，现在我需要切换到dev分支进行其它的修改。Git会reject你的分支切换(另一种reject分支切换的情况是出现conflit，conflit没解决之前，不允许切换分支)，并且告诉你要不将修改commit，要不将它放到stash里面，才可以切换分支。这就是stash出现的目的，暂时存储工作区的状态。
+将工作区临时保存起来可以用`git stash`命令，实际保存的是工作区的一个snapshot，将工作区stash之后，工作区变回干净状态(从git status可以看出)。因此可以多次stash，相当于将不同的几个snapshot保存起来，stash的地方是一个栈，遵循后进先出。
+`git stash list`可以查看栈里面的snapshot。如果要恢复工作区可以有两种方法：
+- `git stash pop`：将栈顶元素pop出来，恢复工作区的同时把stash的内容删掉。
+- `git stash apply stash@{n}` & `git stash drop stash@{n}`：从stash list选出需要恢复的snapshot，snapshot的命名就是`stash@{n}`。
+
+
+# 总结
+Git可以说是每一个开发者必备的工具，而Github更是全世界最活跃的网站之一，无论你是将Github看成是一个项目代码的仓库，还是在公司跟同事合作，掌握Git都会让你受益匪浅，个人推荐用Git Bash，不要依赖Github Desktop，虽然方便，但是沉下心来理解Git的基本概念和操作，也是每个开发者值得做和应该做的一件事。
+
+# 参考资料
+1. [廖雪峰Git教程](https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000)
+2. [backlog git tutorial](https://backlog.com/git-tutorial/)
+3. [Git官网](https://git-scm.com/docs/)，但是太难懂了，我暂时也没看懂>_<
