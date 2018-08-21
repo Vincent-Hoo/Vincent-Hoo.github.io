@@ -3,17 +3,18 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle:
-description:
+title: haven't got a name
+subtitle: keep foolish
+description: Get used to be ignored. Never trust again.
 keywords:
-author: John Doe
-language:
+author: Vincent Ho
+#language: zh-CN
+language: en
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: http://vincentho.name
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -81,3 +82,17 @@ deploy:
   type: git
   repo: git@github.com:Vincent-Hoo/Vincent-Hoo.github.io.git
   branch: master
+
+symbols_count_time:
+  symbols: true
+  time: true
+  total_symbols: true
+  total_time: true
+
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+
+  plugins: hexo-generate-feed

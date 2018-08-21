@@ -107,8 +107,8 @@ accessibility:
   next_page: Next page
 
 symbols_count_time:
-  count: Symbols count in article
-  count_total: Symbols count total
+  count: words count in article
+  count_total: words count total
   time: Reading time
   time_total: Reading time total
   time_minutes: mins.

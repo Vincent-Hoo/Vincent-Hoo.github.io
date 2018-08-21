@@ -2,6 +2,7 @@
 title: 用hexo搭建个人网站
 date: 2018-08-14 20:39:17
 tags:
+- hexo
 ---
 {% asset_img header.jpg 800 400 %}
 该文章简述如何使用hexo搭建个人博客
@@ -186,6 +187,11 @@ npm install hexo-deployer-git --save
 hexo g
 hexo d
 ```
+
+<br>
+# nexT主题配置和优化
+每一个主题都有自己的说明文档，具体看config文件就可以将基本的博客元素配齐，需要优化的可以参考附录的链接。
+
 <br>
 # 参考资料
 1. [hexo主页](https://hexo.io)
@@ -199,3 +205,8 @@ hexo d
 6. 视频教学系列
     6.1 https://www.youtube.com/watch?v=Ud1xAhu7t2Y&list=PLXbU-2B80FvDjD_RiuNwsSQ4eF8pkwAIa&index=1
     6.2 https://www.youtube.com/watch?v=Kt7u5kr_P5o&list=PLLAZ4kZ9dFpOMJR6D25ishrSedvsguVSm
+7. nexT主题优化
+    7.1 [基本配置](https://youngerli.github.io/2017/12/02/Hexo%E7%9A%84Next%E4%B8%BB%E9%A2%98%E8%AF%A6%E7%BB%86%E9%85%8D%E7%BD%AE/)
+    7.2 [优化](https://www.jianshu.com/p/3a05351a37dc)
+
+<br>

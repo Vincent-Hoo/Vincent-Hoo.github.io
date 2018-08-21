@@ -2,6 +2,8 @@
 title: Getting Started with Git
 date: 2018-08-15 14:50:13
 tags:
+categories:
+- Git
 ---
 
 {% asset_img header.jpg 500 250 %}
@@ -10,18 +12,18 @@ tags:
 
 
 <!--more -->
-
+<br>
 # 安装配置Git
 Linux下安装Git非常的简单，只需要简单的一条命令。
 ```bash
-sudo apt-get install git
+$ sudo apt-get install git
 ```
 配置本地Git的用户名和邮箱与Github的一致
 ```bash
-git config --global user.name "Your Name"
-git config --global user.email "email@example.com"
+$ git config --global user.name "Your Name"
+$ git config --global user.email "email@example.com"
 ```
-
+<br>
 # Git基本概念
 
 ## What is git?
@@ -40,14 +42,16 @@ git是一个管理代码的版本控制系统(Version Control System, VCS)，它
 1. 在工作区修改文件。
 2. 将工作区所有修改过的文件add(stage)到暂存区，准备commit。
 3. commit到版本库。
-{% asset_img git_workflow.png 800 400 %}
+
+{% asset_img git_workflow.png 600 300 %}
 
 一个文件的四个状态，可以通过git status命令看得到这些词。
 - Untracked: 当一个文件新创建，在版本库里面没有它，所以无法追踪。
 - Modified：一个文件在工作区被修改了，但是还没到暂存区。
 - Staged：修改的文件被stage到暂存区。
 - Committed：修改的文件在暂存区commit到版本库。
-{% asset_img git_four_states.png 800 400 %}
+
+{% asset_img git_four_states.png 600 300 %}
 
 Git项目的三个组成元素，各自代表一个版本，我们可以查看两两之间的差别：
 - git diff: 查看工作区和暂存区的差别。
@@ -59,13 +63,13 @@ Git项目的三个组成元素，各自代表一个版本，我们可以查看�
 ### 仓库版本回退
 Git既然能够跟踪文件的修改，自然就可以回溯，`.git`文件有保留每一次commit的信息，每一次commit都有一个唯一的commit id对应，它是经过SHA1计算出来的一个数字，用16进制表示，我们可以通过命令回退命令，回退到想要版本。
 ```
-git reset <mode> <你想回退到的版本的commit id的前几位>
+$ git reset <mode> <你想回退到的版本的commit id的前几位>
 ```
 
 在Git管理版本的时候，会有一个HEAD指针，指向最近的一次commit，每次的commit会练成一条链，回退的过程实际是将HEAD指针指向之前的节点
 {% asset_img git_reset.png 400 200 %}
 
-reset有三种mode：soft, mixed, hard，可以看到无论是哪个模式，HEAD的位置都肯定是会改变的，所以reset的另外一个作用就是撤销commit。
+reset有三种mode：soft, mixed(默认), hard，可以看到无论是哪个模式，HEAD的位置都肯定是会改变的，所以reset的另外一个作用就是撤销commit。
 
 | mode  | HEAD指针的位置 | 暂存区 | 工作区 |
 | :---: | :------------: | :----: | :----: |
@@ -78,13 +82,13 @@ reset有三种mode：soft, mixed, hard，可以看到无论是哪个模式，HEA
 ### 工作区修改撤销
 当你在工作区乱改一通，也忘了自己改了什么地方，那么你可以用本地版本库的内容直接替换工作区，丢弃工作区的所有改变，用以下的命令可以使得file回到最近一次commit或者stage时的状态(注意，stage也是可以的，有些人可能提交到暂存区后，又乱改一通，这条命令将暂存区的版本替换工作区)
 ```
-git checkout -- <file>
+$ git checkout -- <file>
 ```
 
 ### 暂存区版本回退
 当我们在commit之前发现文件有问题，不能commit，但是修改的文件已经添加到了暂存区了，可以用以下的命令将暂存区的修改撤销(unstage)，重新放回工作区。`git reset`命令既可以回退版本，也可以把暂存区的修改回退到工作区，用HEAD的时候，表示最新的版本。
 ```
-git reset HEAD <file>
+$ git reset HEAD <file>
 ```
 
 总结一下：
@@ -108,16 +112,16 @@ git reset HEAD <file>
 远端仓库使得我们可以和其它用户一起合作，只需要保证远端的版本库永远是最新的版本即可，因此，本地和远端版本库之间就需要频繁地进行同步，主要通过三个动作来完成：push, pull, merge。
 同步之前，我们需要绑定本地版本库到远端仓库，才能进行以后的同步操作。远端仓库默认叫做origin，当然也可以叫其它名字。
 ```
-git remote add origin <remote repo addr>
+$ git remote add origin <remote repo addr>
 ```
 
 ### Git push
 当我们想将本地版本库更新到远端仓库的时候，我们可以将其push到远端的仓库，这样就能使得远端仓库跟本地保持同步。
-{% asset_img push.png 500 250 %}
+{% asset_img push.png 600 300 %}
 
 ### Git pull
 当你的队友将他的本地仓库push到你们共同的远端仓库，你需要对自己本地的仓库进行更新，跟你队友的仓库保持一致，这时候我们就需要将远端仓库pull到自己的本地仓库。
-{% asset_img pull.png 500 250 %}
+{% asset_img pull.png 600 300 %}
 
 ### Git merge
 无论是上传到远端仓库还是从远端仓库下载，远端仓库永远是最新版本，拥有最高优先级的。当我们想push我们的本地仓库到远程仓库的时候，不幸你的本地库的版本不是最新版本(即你在修改自己的本地版本的同时，有人更新了远程仓库)，这时候push会被拒绝，因为远程仓库的有些更新并不在你的本地仓库。这时候我们需要将远端仓库先pull下来，并和本地仓库进行合并(merge)。
@@ -128,10 +132,10 @@ merge就是指两个仓库(或者一个仓库的两个分支)进行合并的过�
 - fetch：fetch是将远程仓库的某条分支的内容拉到本地，但是fetch后是看不到变化，而是在本地新开了一个分支，该分支的指针是`FETCH_HEAD`，checkout到该分支后可以查看远程分支的最新内容。然后切换到master分支，执行merge，选中`FETCH_HEAD`，合并后如果出现冲突则解决冲突，最后commit。
 - pull：pull相当于fetch和merge，自动将远程仓库更新到本地仓库
 ```
-git fetch origin master(将远程仓库的master分支拉到本地当前分支)
-git merge FETCH_HEAD
+$ git fetch origin master(将远程仓库的master分支拉到本地当前分支)
+$ git merge FETCH_HEAD
 ```
-
+<br>
 # 分支管理和协作
 分支使得Git变得更加的强大，使得团队协作更加的方便。任何一个Git仓库，都会默认有一个master的分支，无论是本地仓库还是远程仓库，这个分支是在创建Git仓库的时候就会默认创建的。之前提到HEAD指针是指向最近一次commit的，但严格来讲，HEAD指针是指向master指针，master指针才是指向最近一次commit，所以可以理解为HEAD指针是指向当前的分支。
 如果这样来看的话，一条分支就好比链表，每一次commit就往链表尾部插入新的仓库snapshot。一个仓库可以有好几条分支，当新开一条分支的时候，原有的链表尾部就会开始分叉，同时会有另外一个新的指针指向新的分叉，当我们切换分支的时候，HEAD指针就会指向对应分支的指针。
@@ -171,19 +175,19 @@ your code
 如果本地仓库和远端仓库都只有一条分支，那么情况就简单很多，因为不需要明确地指明哪条分支到哪条分支。
 - pull：如果本地和远端都只有一条分支，直接git pull就好，如果想pull到当前分支，那么本地分支名可以省略。
     ```
-    git pull [远程仓库名字，一般默认origin] [远端分支名]:[本地分支名]
+    $ git pull [远程仓库名字，一般默认origin] [远端分支名]:[本地分支名]
     eg: git pull origin master:master
     ```
 - fetch：fetch不需要写本地分支名，因为它还没有merge，只是把远端分支拉到本地并保存到`FETCH_HEAD`而已。
     ```
-    git fetch [远程仓库名字] [远端分支名]
+    $ git fetch [远程仓库名字] [远端分支名]
     ```
 - push：建议写全。
     - 最常见到的是`git push origin master`，远程分支被省略，它表示将本地分支推送到与其存在追踪关系的远程分支(通常两者同名)，因为远端仓库肯定存在master分支，因此省略也没有问题。如果该远程分支不存在，则会被新建。
     - 其它形式如`git push origin`，表示将当前分支push到远端与当前分支存在追踪关系的分支。
     - `git push`，如果本地和远端都只有一条分支，那么全都可以省略。
     ```
-    git push [远程仓库名字] [本地分支名]:[远端分支名]
+    $ git push [远程仓库名字] [本地分支名]:[远端分支名]
     ```
 
 ## Stash
@@ -196,11 +200,28 @@ Stash是一个工作状态保存栈，用于保存/恢复工作区的临时状�
 - `git stash pop`：将栈顶元素pop出来，恢复工作区的同时把stash的内容删掉。
 - `git stash apply stash@{n}` & `git stash drop stash@{n}`：从stash list选出需要恢复的snapshot，snapshot的命名就是`stash@{n}`。
 
+<br>
+# GitHub之pull request
+当我们在进行团队任务的时候，每个人都会在本地拥有自己的一条分支，同理，在远端也会有一条与之对应的分支，如feature分支、bug fix分支等，当我们在本地完成自己的任务，然后push到远端自己分支之后，我们准备将它merge到master分支(master分支永远是最新的版本)，首先我们不可能直接将自己本地的分支push到远端的master，因为万一出错了就会很麻烦，因此我们只会push到自己的分支，那么怎样能够更新远端的master分支呢？
+这就是pull request要做的事了，字面上理解pull request是指请求合并代码，或者请求对方pull一下自己的代码。pull request可以发生在一个仓库的不同分支，也可以发生在两个不同的仓库，但是这两个不同的仓库必须存在fork的关系，fork是指将别人的仓库copy到自己的仓库。
 
+假设你想为一些开源项目做一下贡献
+1. 将这个项目fork到自己的GitHub，并将它clone到本地(注意是自己GitHub上的那个仓库)
+2. 创建新分支，进行代码修改
+3. push到自己GitHub上对应的分支
+4. 发起pull request，pull request里有base和compare，base就是别人的代码，compare是指自己修改后的代码，在这里base要选择开源项目仓库的master分支，compare选自己仓库的那条分支。
+5. 对方进行代码审核，如果通过了，就会进行代码合并。
+<br>
+{% asset_img pr.jpg 500 250 %}
+
+<br>
 # 总结
 Git可以说是每一个开发者必备的工具，而Github更是全世界最活跃的网站之一，无论你是将Github看成是一个项目代码的仓库，还是在公司跟同事合作，掌握Git都会让你受益匪浅，个人推荐用Git Bash，不要依赖Github Desktop，虽然方便，但是沉下心来理解Git的基本概念和操作，也是每个开发者值得做和应该做的一件事。
 
+<br>
 # 参考资料
 1. [廖雪峰Git教程](https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000)
 2. [backlog git tutorial](https://backlog.com/git-tutorial/)
 3. [Git官网](https://git-scm.com/docs/)，但是太难懂了，我暂时也没看懂>_<
+
+<br>
