@@ -8,12 +8,12 @@ tags:
 该文章简述如何使用hexo搭建个人博客
 
 <!-- more -->
-# hexo介绍
+# 1. hexo介绍
 hexo是基于Git和Node.js的静态网站搭建框架，通过hexo命令可以自动生成静态网站的html和css，然后可以将其部署于服务器，生成个人网站。
 {% asset_img hexo_homepage.png 800 400 %}
 <br>
 
-# hexo本地安装与运行
+# 2. hexo本地安装与运行
 1. 安装Git和Node.js:   由于hexo是基于Git和Node.js的，所以在安装hexo之前，需要先安装[Git](https://git-scm.com/)和[Node.js](https://nodejs.org/en/).
 
 2. 安装hexo：输入下面这条语句，就会自动地安装hexo。
@@ -36,7 +36,7 @@ hexo是基于Git和Node.js的静态网站搭建框架，通过hexo命令可以�
     {% asset_img hexo网站初始化的样子.png %}
     <br>
 
-# hexo框架的基本结构
+# 3. hexo框架的基本结构
 在你的hexo project初始化完之后，project文件夹的目录结构如下。
 
 {% codeblock %}
@@ -53,7 +53,7 @@ hexo是基于Git和Node.js的静态网站搭建框架，通过hexo命令可以�
 
 
 
-## scaffolds
+## 3.1 scaffolds
 
 首先，hexo支持三种layout
 
@@ -93,7 +93,7 @@ categories:
 - [Cat3, Cat3.1]
 ```
 
-## source
+## 3.2 source
 source文件夹是整个博客里面最重要的文件夹，一个博客几乎所有的内容都存储在里面，之前提过，有两个子文件夹`_posts`和`_drafts`，当然还会有一些page和用户自定义的数据。
 `_posts`文件夹存储所有博客中显示的文章，`_drafts`文件夹存储所有的草稿，如果要将草稿转成文章，可以使用下面的命令
 ``` bash
@@ -108,15 +108,15 @@ $ hexo new (post) Hello-World
 $ hexo new page About-me
 ```
 
-## themes
+## 3.3 themes
 hexo博客在初始化的时候默认是用landscape主题，当然我们可以自己去下载另外的一些主题(https://hexo.io/themes/ )。切换主题只需要将`_config.yml`文件里面的`theme`改成对应的主题名字即可。
 当然，我们也可以DIY自己的主题，主题无非就是一些模板的CSS和HTML文件，还有一些脚本文件，定义了不同的地方需要如何去解析。而每一个的主题都会有自己的`_config.yml`，注意和全局的`_config.yml`区分，前者是定义主题里面的configuration，后者是定义整个博客。
 
-## config.yml
+## 3.4 config.yml
 config文件定义整个博客的设置，如网站的title，author，还有目录设置，文章写作的设置，这里特别说一个设置`post_asset_folder`，asset_folder是指一篇文章的数据，如图片，如果设置为true，在创建一篇post的时候，不仅仅创建一个文章的markdown，还创建一个对应的文件夹。还有一个设置是`render_draft`，默认是设置为false的，因为草稿不会显示在网页上，但如果设置为true，那么草稿也会显示出来。
 <br>
 
-# Tag Plugin
+# 4. Tag Plugin
 hexo博客的文章都是以markdown的形式来保存，markdown的强大使得文章写作变得简单，但hexo的tag plugin使得写文章变得更加的简单，它通过一些特殊的语句来添加特定的内容到文章，如图像、视频等。
 1. 引用别人的话block quote
 ```
@@ -150,7 +150,7 @@ eg: {% asset_img xxx.jpg %}
 {% asset_link slug [title] %}
 ```
 <br>
-# hexo常见命令
+# 5. hexo常见命令
 1. 本地调式，如果想让草稿显示出来，可以加draft；如果想浏览器自动打开网页，可以加open。
 ```
 hexo server (--draft) (--open)
@@ -164,7 +164,7 @@ hexo generate(g)
 hexo deploy(d)
 ```
 <br>
-# 部署到Github Pages
+# 6. 部署到Github Pages
 Github Pages可以被认为是用户编写的、托管在github上的静态网页。[GitHub Pages](https://pages.github.com/)本用于介绍托管在GitHub的项目，不过，由于他的空间免费稳定，用来做搭建一个博客再好不过了。最重要的是，Github Pages能为用户免费提供服务器，因此部署静态网站就不需要自己搭建服务器和数据库了。
 {% asset_img github_pages_homepage.png 800 400%}
 
@@ -189,15 +189,15 @@ hexo d
 ```
 
 <br>
-# nexT主题配置和优化
+# 7. nexT主题配置和优化
 每一个主题都有自己的说明文档，具体看config文件就可以将基本的博客元素配齐，需要优化的可以参考附录的链接。
 
-# 安装MathJax
+# 8. 安装MathJax
 在 hexo 中，你会发现我们不能用 Latex 语法来书写数学公式，这对于书写学术博客来说是很大的不便，因为我们会经常碰到很多的数学公式推导，但是我们可以通过安装第三方库来解决这一问题。
 可以参考该链接：https://blog.csdn.net/u014630987/article/details/78670258
 
 <br>
-# 参考资料
+# 9. 参考资料
 1. [hexo主页](https://hexo.io)
 2. 一些博客
     2.1 https://blog.csdn.net/gdutxiaoxu/article/details/53576018
