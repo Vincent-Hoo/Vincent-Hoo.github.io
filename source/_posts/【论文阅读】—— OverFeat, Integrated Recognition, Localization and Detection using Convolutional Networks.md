@@ -9,7 +9,8 @@ tags:
 
 > Title：OverFeat: Integrated Recognition, Localization and Detection using Convolutional Networks
 > Authors：Pierre Sermanet，Yann LeCun，et al
-> Abstract：本文改进了AlexNet，通过一个卷积网络来同时进行分类，定位和检测三个计算机视觉任务，并在ILSVRC 2013 中获得了很好的结果。 
+> Session：ICLR, 2014
+> Abstract：本文改进了AlexNet，通过一个卷积网络来同时进行分类，定位和检测三个计算机视觉任务，并在ILSVRC 2013 中获得了很好的结果，定位任务冠军，分类任务亚军。 
 
 
 
@@ -119,7 +120,12 @@ OverFeat 最具创新的地方在于它的测试过程，作者认为 AlexNet �
 
 这篇论文的核心在于 FCN 和 offset pooling，以及迁移学习的重要性，卷积神经网络在挖掘特征上很强势，因此才可以将特征提取层迁移到其它任务上。
 
- 
+
+<br>
+*reference*
+1. [blog1](https://www.jianshu.com/p/6d441e208547) 
+2. [blog2](https://www.cnblogs.com/liaohuiqiang/p/9348276.html)
+
 
  
 

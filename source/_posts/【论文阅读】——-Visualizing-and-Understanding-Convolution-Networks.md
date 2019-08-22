@@ -8,6 +8,7 @@ tags:
 
 > Title：Visualizing and Understanding Convolutional Networks
 > Authors：Matthew D. Zeiler，Rob Fergus
+> Session：ECCV, 2014
 > Abstract：作者提出了一种可视化卷积神经网络的方法，并且根据可视化结果，将 AlexNet 网络参数进行调整，在 ImageNet 上的结果有明显提升，并且得到了 ILSVRC 2013 的冠军，并将网络取名 ZFNet（两位作者的名字首字母）。
 
 
