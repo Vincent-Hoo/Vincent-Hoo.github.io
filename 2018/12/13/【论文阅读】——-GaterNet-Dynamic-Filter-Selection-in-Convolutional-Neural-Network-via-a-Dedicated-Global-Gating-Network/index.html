@@ -370,7 +370,7 @@
 <script type="math/tex; mode=display">f^{\prime} = FC_1(f)</script><script type="math/tex; mode=display">g^{\prime} = FC_2(ReLU(BatchNorm(f^{\prime})))</script><p>$g^{\prime}$ 向量是一个实向量，作者通过一个离散化的方法将其转成一个二进制向量，该方法为 Improved SemHash (改进的语意哈希)。</p>
 <p>在训练过程中，将 0 均值和单位标准差的 $c$ 维高斯噪声 $\epsilon$ 加到 $g^{\prime}$，即 $g^{\prime}_{\epsilon} = g^{\prime} + \epsilon$，计算两个向量</p>
 <script type="math/tex; mode=display">g_{\alpha} = \sigma^{\prime}(g^{\prime}_{\epsilon})</script><script type="math/tex; mode=display">g_{\beta} = 1(g^{\prime}_{\epsilon} > 0)</script><p>$\sigma^{\prime}(\cdot)$ 是饱和 sigmoid 函数</p>
-<script type="math/tex; mode=display">\sigma^{\prime}(x) = max(0, min(1, 1.2\sigma(x) - 0.1))</script><p>$\sigma(x)$ 是 sigmoid 函数，$g<em>\alpha$ 是一个实向量，范围在 0 - 1，可微分；而 $g</em>\beta$ 是一个二进制向量，不可微分。因此作者在前向传播的过程中，随机抽取一半的数据用 $g = g<em>\alpha$，另一半的数据用 $g = g</em>\beta$，当用 $g<em>\beta$ 的时候，用 $g</em>\alpha$ 的梯度去代替 $g_\beta$ 的梯度。</p>
+<script type="math/tex; mode=display">\sigma^{\prime}(x) = max(0, min(1, 1.2\sigma(x) - 0.1))</script><p>$\sigma(x)$ 是 sigmoid 函数，$g_\alpha$ 是一个实向量，范围在 0 - 1，可微分；而 $g_\beta$ 是一个二进制向量，不可微分。因此作者在前向传播的过程中，随机抽取一半的数据用 $g = g_\alpha$，另一半的数据用 $g = g_\beta$，当用 $g_\beta$ 的时候，用 $g_\alpha$ 的梯度去代替 $g_\beta$ 的梯度。</p>
 <img src="/2018/12/13/【论文阅读】——-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/2.png">
 <p>在预测阶段，不需要引入高斯噪声，且全部适用 $g = g_\beta$。 </p>
 <p>最后，作者希望 gater network 得到的 gates (二进制向量) 越稀疏越好，因此将 gater network 作为正则项</p>
@@ -523,7 +523,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

@@ -379,13 +379,13 @@
 <img src="/2019/08/24/Introduction-to-Reinforcement-Learning/4.png" width="600" height="600">
 <p>上面说到强化学习的目标函数为一次 episode 的总 reward，但是由于随机性，即使是同样的 actor，同样的输入，得到的 episode 也会不一样，因此定义总 reward 的期望作为目标函数。</p>
 <img src="/2019/08/24/Introduction-to-Reinforcement-Learning/5.png" width="600" height="600">
-<p>一次 episode 可以看成是一次 trajectory $\tau={s<em>1,a_1,r_1,s_2,a_2,r_2,…,s_T,a_T,r_T}$，trajectory 的总 reward 记为 $R(\tau)=\sum</em>{t=1}^Tr<em>t$，固定 actor $\pi</em>{\theta}(s)$，得到某一次 trajectory 的概率为 $P(\tau|\theta)$，$\bar{R_{\theta}}$ 可以近似为 N 次 trajectory reward 的平均。</p>
+<p>一次 episode 可以看成是一次 trajectory $\tau=\{s_1,a_1,r_1,s_2,a_2,r_2,…,s_T,a_T,r_T\}$，trajectory 的总 reward 记为 $R(\tau)=\sum_{t=1}^Tr_t$，固定 actor $\pi_{\theta}(s)$，得到某一次 trajectory 的概率为 $P(\tau|\theta)$，$\bar{R_{\theta}}$ 可以近似为 N 次 trajectory reward 的平均。</p>
 <img src="/2019/08/24/Introduction-to-Reinforcement-Learning/6.png" width="500" height="500">
-<p>我们的目的是要最大化 $\bar{R<em>{\theta}}$，因此只要对 $\bar{R</em>{\theta}}$ 求梯度，再进行梯度上升更新 $\pi_{\theta}(\cdot)$ 即可，下面看一下梯度的计算过程。</p>
+<p>我们的目的是要最大化 $\bar{R_{\theta}}$，因此只要对 $\bar{R_{\theta}}$ 求梯度，再进行梯度上升更新 $\pi_{\theta}(\cdot)$ 即可，下面看一下梯度的计算过程。</p>
 <script type="math/tex; mode=display">
 \nabla \bar{R_{\theta}}=\sum_{\tau}R(\tau)\nabla P(\tau|\theta)=\sum_{\tau}R(\tau)P(\tau|\theta)\frac{\nabla P(\tau|\theta)}{P(\tau|\theta)}</script><script type="math/tex; mode=display">
 =\sum_\tau R(\tau)P(\tau|\theta) \nabla logP(\tau|\theta)</script><script type="math/tex; mode=display">
-\approx \frac{1}{N}\sum_{n=1}^{N} R(\tau^n)\nabla logP(\tau^n|\theta)</script><p>假设 $\tau={s_1,a_1,r_1,s_2,a_2,r_2,…,s_T,a_T,r_T}$，那么 $\nabla logP(\tau|\theta)$ 是多少呢？</p>
+\approx \frac{1}{N}\sum_{n=1}^{N} R(\tau^n)\nabla logP(\tau^n|\theta)</script><p>假设 $\tau=\{s_1,a_1,r_1,s_2,a_2,r_2,…,s_T,a_T,r_T\}$，那么 $\nabla logP(\tau|\theta)$ 是多少呢？</p>
 <script type="math/tex; mode=display">
 P(\tau|\theta)=p(s_1)p(a_1|s_1,\theta)p(r_1,s_2|s_1,a_1)p(a_2|s_2,\theta)p(r_2,s_3|s_2,a_2)...</script><script type="math/tex; mode=display">
 =p(s_1)\prod_{t=1}^{T}p(a_t|s_t,\theta)p(r_t,s_{t+1}|s_t,a_t)</script><script type="math/tex; mode=display">
@@ -397,8 +397,8 @@ P(\tau|\theta)=p(s_1)p(a_1|s_1,\theta)p(r_1,s_2|s_1,a_1)p(a_2|s_2,\theta)p(r_2,s
 =\frac{1}{N}\sum_{n=1}^N\sum_{t=1}^{T_n}R(\tau^n)\nabla logp(a_t^n|s_t^n,\theta)</script><p>前面提到，我们目标函数考虑的是累计的 reward，而不是某个 action 后的瞬间 reward，我们假设在 $\tau^n$ 中，机器看到某个状态 $s_t^n$ 后采取了 $a_t^n$，假如整体的 $R(\tau^n)$ 为正，那么模型就会调整 $\theta$ 从而使得 $p(a_t^n|s_t^n,\theta)$ 增大，反之亦然。</p>
 <p>我们将强化学习的梯度和普通分类问题的梯度进行对比</p>
 <ul>
-<li>强化学习：$\frac{1}{N}\sum<em>{n=1}^N\sum</em>{t=1}^{T_n}R(\tau^n)\nabla logp(a_t^n|s_t^n,\theta)$</li>
-<li>分类问题：$\frac{1}{N}\sum<em>{n=1}^N\sum</em>{t=1}^{T_n}yi\nabla logp(a_t^n|s_t^n,\theta)$</li>
+<li>强化学习：$\frac{1}{N}\sum_{n=1}^N\sum_{t=1}^{T_n}R(\tau^n)\nabla logp(a_t^n|s_t^n,\theta)$</li>
+<li>分类问题：$\frac{1}{N}\sum_{n=1}^N\sum_{t=1}^{T_n}yi\nabla logp(a_t^n|s_t^n,\theta)$</li>
 </ul>
 <p>其实对于 actor 来说，它就是一个分类器，给定一个 state，输出各个 action 的概率，而强化学习的目标函数只是在各个概率前，用 $R(\tau^n)$ 作为其权重而已。</p>
 <h3 id="Value-based-Approach——Learning-a-Critic"><a href="#Value-based-Approach——Learning-a-Critic" class="headerlink" title="Value-based Approach——Learning a Critic"></a>Value-based Approach——Learning a Critic</h3><p>Critic 不会用来决定一个 action，但是给定一个 actor，它可以判断它的好坏，因此 actor 可以从 critic 中找出来，经典的算法就是 Q-learning。</p>
@@ -407,7 +407,7 @@ P(\tau|\theta)=p(s_1)p(a_1|s_1,\theta)p(r_1,s_2|s_1,a_1)p(a_2|s_2,\theta)p(r_2,s
 <p>critic 让 actor 自己玩游戏，当输入状态 s 后，观察 actor 能得到多少 reward。</p>
 <img src="/2019/08/24/Introduction-to-Reinforcement-Learning/7.png" width="500" height="500">
 <p><strong>Temporal-difference approach</strong></p>
-<p>有些应用的 episode 很长，或者甚至不会停止，那么我们只能用中间的一小部分来进行训练，假设只有一长串 episode 的一部分 ${…,s<em>t,a_t,r_t,s</em>{t+1},…}$，易证得：$V^\pi(s<em>t)-r_t=V^\pi(s</em>{t+1})$，</p>
+<p>有些应用的 episode 很长，或者甚至不会停止，那么我们只能用中间的一小部分来进行训练，假设只有一长串 episode 的一部分 $\{…,s_t,a_t,r_t,s_{t+1},…\}$，易证得：$V^\pi(s_t)-r_t=V^\pi(s_{t+1})$，</p>
 <img src="/2019/08/24/Introduction-to-Reinforcement-Learning/8.png" width="500" height="500">
 <p><br></p>
 
@@ -527,7 +527,7 @@ P(\tau|\theta)=p(s_1)p(a_1|s_1,\theta)p(r_1,s_2|s_1,a_1)p(a_2|s_2,\theta)p(r_2,s
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

@@ -349,7 +349,7 @@
 <p><br></p>
 <h1 id="DenseNet"><a href="#DenseNet" class="headerlink" title="DenseNet"></a>DenseNet</h1><p>ResNet 中每一个 residual block 可以看成以下的式子，$H_l()$ 表示第 $l$ 个 block 的 residual function，按照 ResNet-v2，应该是 BN-ReLu-Conv。</p>
 <script type="math/tex; mode=display">x_l = H_l(x_{l-1}) + x_{l-1}</script><p>作者认为相加可能会阻碍信息的流动，因此作者提出的 DenseNet 不仅将前面层的输出作为后面层的输入，merge 方式也采取 concatenation 而不是 summation，因此 DenseNet 中某一层可以看成下面该式子</p>
-<script type="math/tex; mode=display">x_l = H_l([x_0, x_1, ..., x_{l-1}])</script><p>上面的式子成立的前提是：$x<em>0, x_1,…,x</em>{l-1}$ feature map 的大小相同，然后在 channel 维度上拼接，有点像 Inception 中的 split-transform-merge 的思想。为了能够 concatenation，作者将网络分为两个 component：transition layer 和 dense block，如下图。</p>
+<script type="math/tex; mode=display">x_l = H_l([x_0, x_1, ..., x_{l-1}])</script><p>上面的式子成立的前提是：$x_0, x_1,…,x_{l-1}$ feature map 的大小相同，然后在 channel 维度上拼接，有点像 Inception 中的 split-transform-merge 的思想。为了能够 concatenation，作者将网络分为两个 component：transition layer 和 dense block，如下图。</p>
 <ul>
 <li>transition layer：由一个 $1\times 1$ 的卷积层和一个 $2\times2$ 的 avg-pooling 层组成，pooling 层的 stride 为 2。transition layer 的作用在于降维，每次将 feature map 的大小减半。</li>
 <li>dense block：由一系列的 BN-ReLu-Conv 层组成，每一个 Conv 的输出都是相同大小，前面提到 transition layer 的作用在于降维，因此在 dense block 中 feature map 的大小会维持不变，Conv 采用的是 SAME 卷积。</li>
@@ -499,7 +499,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

@@ -361,7 +361,7 @@
 <p>不同点</p>
 </blockquote>
 <ul>
-<li>MobileNet-v2 在 DW 前加了一个 PW，这么做的原因，是因为 DW 卷积由于本身的计算特性决定它自己没有改变通道数的能力，上一层给它多少通道，它就只能输出多少通道。所以如果上一层给的通道数本身很少的话，DW 也只能在低维空间提特征，因此效果不够好。 MobileNet-v2 为了改善这个问题，给每个 DW 之前都配备了一个 PW，专门用来升维，定义升维系数（expansion ratio）$t = 6$ ，这样不管输入通道数 $C<em>{in}$ 是多是少，经过第一个 PW 升维之后，DW 都是在相对的更高维 ( $t \cdot C</em>{in}$ ) 进行着特征提取。</li>
+<li>MobileNet-v2 在 DW 前加了一个 PW，这么做的原因，是因为 DW 卷积由于本身的计算特性决定它自己没有改变通道数的能力，上一层给它多少通道，它就只能输出多少通道。所以如果上一层给的通道数本身很少的话，DW 也只能在低维空间提特征，因此效果不够好。 MobileNet-v2 为了改善这个问题，给每个 DW 之前都配备了一个 PW，专门用来升维，定义升维系数（expansion ratio）$t = 6$ ，这样不管输入通道数 $C_{in}$ 是多是少，经过第一个 PW 升维之后，DW 都是在相对的更高维 ( $t \cdot C_{in}$ ) 进行着特征提取。</li>
 <li><strong>V2 去掉了第二个 PW 的激活函数</strong>。论文作者称其为 Linear Bottleneck。这么做的原因，是因为作者认为激活函数在高维空间能够有效的增加非线性，而在低维空间时则会破坏特征，不如线性的效果好。由于第二个 PW 的主要功能就是降维，因此按照上面的理论，降维之后就不宜再使用 ReLU6 了。<img src="/2018/12/11/【论文阅读】——-MobileNetV2-Inverted-Residuals-and-Linear-Bottlenecks/3.png">
 </li>
 </ul>
@@ -538,7 +538,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

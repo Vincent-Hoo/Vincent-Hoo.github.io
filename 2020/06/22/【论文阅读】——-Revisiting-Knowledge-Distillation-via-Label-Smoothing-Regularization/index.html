@@ -367,7 +367,7 @@ q^{\prime}(k)=(1-\alpha)q(k)+\alpha u(k)</script><p>此时的损失函数变为<
 <script type="math/tex; mode=display">
 L_{LS}=(1-\alpha)H(q,p)+\alpha D_{KL}(u,p)</script><p>而知识蒸馏的设定里面，学生网络的损失函数同样包含两项，$\tau$ 是温度 temperature</p>
 <script type="math/tex; mode=display">
-L_{KD}=(1-\alpha)H(q,p)+\alpha D_{KL}(p_{\tau}^t, p_\tau)</script><p>对比 $L<em>{LS}$ 和 $L</em>{KD}$，唯一不同在于 $u$ 和 $p_\tau ^t$，我们可以将 KD 看成是一个特殊的 LSR，特殊点在于用于平滑的分布是一个学习出来的教师网络，而不是一个预先设定好的分布；或者我们可以将 LSR 看成一个特殊的知识蒸馏，$u$ 是一个虚拟的教师网络，对于每个类别都给出相同的概率。</p>
+L_{KD}=(1-\alpha)H(q,p)+\alpha D_{KL}(p_{\tau}^t, p_\tau)</script><p>对比 $L_{LS}$ 和 $L_{KD}$，唯一不同在于 $u$ 和 $p_\tau ^t$，我们可以将 KD 看成是一个特殊的 LSR，特殊点在于用于平滑的分布是一个学习出来的教师网络，而不是一个预先设定好的分布；或者我们可以将 LSR 看成一个特殊的知识蒸馏，$u$ 是一个虚拟的教师网络，对于每个类别都给出相同的概率。</p>
 <p>从下面的可视化图看出，当增大温度，网络的输出就更加趋向于一个均匀分布，KD 也就越加取向 LSR</p>
 <img src="/2020/06/22/【论文阅读】——-Revisiting-Knowledge-Distillation-via-Label-Smoothing-Regularization/5.png">
 <p>因此 Re-KD 和 De-KD 可以解释为这些 poorly-trained 的网络输出的软标签在高温度下能给学生网络提供一个正则的作用，因此上面的实验结果有效更多是在高温度的设定下进行的，作者在附录中也给出了参数，温度设为 20.</p>
@@ -497,7 +497,7 @@ L_{KD}=(1-\alpha)H(q,p)+\alpha D_{KL}(p_{\tau}^t, p_\tau)</script><p>对比 $L<e
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

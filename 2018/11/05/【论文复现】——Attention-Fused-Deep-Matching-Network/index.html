@@ -340,7 +340,7 @@
 <p><br></p>
 <h1 id="Natural-Language-Inference"><a href="#Natural-Language-Inference" class="headerlink" title="Natural Language Inference"></a>Natural Language Inference</h1><p>NLI是NLP中一个比较核心的任务，主要用来判断两个句子是否有一定的关联，两个句子分为称为premise sentence和hopothesis sentence，NLI通常被看为是一个分类任务，经典的数据集包括SNLI、MultiNLI和Quora，这个分类任务的标签为entailment、contradiction和neural，一般基于神经网络的NLI模型包含三个层：encoder层、matching层、prediction层。</p>
 <ul>
-<li>encoder层：给定两个句子 $p = (p<em>1, …, p_m)$，$q = (q_1, …, q_n)$，经过embedding之后为 $p = (e</em>{p<em>1}, …, e</em>{p<em>m})$，$q = (e</em>{q<em>1}, …, e</em>{q<em>n})$，encoder层就是将两个句子分别通过一个Bi-LSTM进行压缩，得到 $H_p = (h</em>{p<em>1}, …, h</em>{p<em>m})$，$H_q = (h</em>{q<em>1}, …, h</em>{q_n})$，$H_p$ 和 $H_q$ 作为句子 $p$ 和 $q$ 的encoded representation。</li>
+<li>encoder层：给定两个句子 $p = (p_1, …, p_m)$，$q = (q_1, …, q_n)$，经过embedding之后为 $p = (e_{p_1}, …, e_{p_m})$，$q = (e_{q_1}, …, e_{q_n})$，encoder层就是将两个句子分别通过一个Bi-LSTM进行压缩，得到 $H_p = (h_{p_1}, …, h_{p_m})$，$H_q = (h_{q_1}, …, h_{q_n})$，$H_p$ 和 $H_q$ 作为句子 $p$ 和 $q$ 的encoded representation。</li>
 <li>matching层：匹配层将两个句子联系起来，$g()$ 是一个匹配函数，$V_p = g(H_p, H_q)$，$V_q = g(H_q, H_p)$，得到新的representation</li>
 <li>prediction层：这一层将两个句子 $V_p$ 和 $V_q$ 各自的重要信息提取出来，提取方法采用pooling的方法，分别用GlobalMaxPooling和AveragedPooling进行提取，提取后的信息进行拼接后接入全连接网络进行预测。 </li>
 </ul>
@@ -348,7 +348,7 @@
 <h1 id="Attention-Fused-Deep-Matching-Network-AFDMN"><a href="#Attention-Fused-Deep-Matching-Network-AFDMN" class="headerlink" title="Attention-Fused Deep Matching Network(AFDMN)"></a>Attention-Fused Deep Matching Network(AFDMN)</h1><p>作者提出了一个基于注意力机制的匹配网络，来得到更好的interaction效果，注意力机制可以计算一个词与另一个句子的相关性，即attention weight。作者提出的网络结构大致如下，作者提出的matching层分为四个部分：cross attention层，fusion层，self attention层，fusion层，一个matching layer成为一个computational block，整个matching layer可以有多个blocks。</p>
 <img src="/2018/11/05/【论文复现】——Attention-Fused-Deep-Matching-Network/afdmn.JPG" width="600" height="300">
 <ol>
-<li><p>cross attention<br>给定两个句子来自上一个block的representation，$H<em>p^{t-1} = (h</em>{p<em>1}^{t-1}, …, h</em>{p<em>m}^{t-1})$ 和 $H_q^{t-1} = (h</em>{q<em>1}^{t-1}, …, h</em>{q<em>n}^{t-1})$，首先计算一个相关性矩阵 $A$，$A</em>{i,j}$ 表示 句子 $p$ 的第 $i$ 个词和句子 $q$ 的第 $j$ 个词的相关性，$<a, b="">$ 表示内积。</a,></p>
+<li><p>cross attention<br>给定两个句子来自上一个block的representation，$H_p^{t-1} = (h_{p_1}^{t-1}, …, h_{p_m}^{t-1})$ 和 $H_q^{t-1} = (h_{q_1}^{t-1}, …, h_{q_n}^{t-1})$，首先计算一个相关性矩阵 $A$，$A_{i,j}$ 表示 句子 $p$ 的第 $i$ 个词和句子 $q$ 的第 $j$ 个词的相关性，$<a, b="">$ 表示内积。</a,></p>
 <script type="math/tex; mode=display">A_{i,j}^t = h_{p_i}^{t-1} W h_{q_j}^{t-1} + <U_l^t, h_{p_i}^{t-1}> + <U_r^t, h_{q_j}^{t-1}></script><p>$A$ 矩阵的第 $i$ 行做softmax就可以得到句子 $p$ 的第 $i$ 个词对于句子 $q$ 的attention weight，<br>$A$ 矩阵的第 $j$ 列做softmax就可以得到句子 $q$ 的第 $j$ 个词对于句子 $p$ 的attention weight。</p>
 <script type="math/tex; mode=display">a_{p_i}^t = softmax(A_{i:}^t)，a_{q_j}^t = softmax(A_{:j}^t)</script><p>然后句子 $p$ 可以用句子 $q$ 和attention weight来表示，同理句子 $q$。</p>
 <script type="math/tex; mode=display">\tilde{h}_{p_i}^t = H_q^{t-1} \cdot a_{p_i}^t，\tilde{h}_{q_j}^t = H_p^{t-1} \cdot a_{q_j}^t</script></li>
@@ -491,7 +491,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

@@ -351,10 +351,10 @@
 <img src="/2019/09/18/【论文阅读】——-Image-Super-Resolution-Using-Knowledge-Distillation/2.png" width="500" height="500">
 <h3 id="Knowledge-Distillation"><a href="#Knowledge-Distillation" class="headerlink" title="Knowledge Distillation"></a>Knowledge Distillation</h3><p>只采用了特征蒸馏，并没有采用软标签蒸馏，对于特征蒸馏，提出四种特征提取方式</p>
 <ul>
-<li>$(G<em>{mean})^pF=(\frac{1}{C}\sum</em>{i=1}^CF_i)^p$</li>
-<li>$(G^p)<em>{mean}F=\frac{1}{C}\sum</em>{i=1}^C(F_i^p)$</li>
-<li>$G<em>{max}F=max</em>{i=1,C}F_i$</li>
-<li>$G<em>{min}F=min</em>{i=1,C}F_i$</li>
+<li>$(G_{mean})^pF=(\frac{1}{C}\sum_{i=1}^CF_i)^p$</li>
+<li>$(G^p)_{mean}F=\frac{1}{C}\sum_{i=1}^C(F_i^p)$</li>
+<li>$G_{max}F=max_{i=1,C}F_i$</li>
+<li>$G_{min}F=min_{i=1,C}F_i$</li>
 </ul>
 <p>特征位置的选取上，由于教师和学生网络在 NonLinear Mapping 部分均为 10 层，因此作者提取 第 4、7、10 层的特征。模型整体的 Loss 如下，$Y$ 为 HR image。</p>
 <script type="math/tex; mode=display">
@@ -492,7 +492,7 @@ loss = loss_0(\tilde{Y},Y) + \lambda_1loss_1(s_1,t_1)+\lambda_2loss_2(s_2,t_2)+\
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

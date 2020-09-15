@@ -373,9 +373,9 @@
 <img src="/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/2.png" width="500" height="500">
 <p>回答上面提到的问题，旧模型和旧数据如何利用？</p>
 <ul>
-<li>新数据为 $X^m={(x_i, y_i), 1\le i\le M, y_i \in [n+1, …,n+m]}$</li>
-<li>旧数据 exemplar 为 $\hat{X}^n={(\hat{x}_j, \hat{y}_j), 1\le j\le N_s, \hat{y}_j \in [1, …,n]}$</li>
-<li>新模型的输出 $o^{n+m}(x)=[o<em>1(x), …,x_n(x), o</em>{n+1}(x),…,o_{n+m}(x)]$</li>
+<li>新数据为 $X^m=\{(x_i, y_i), 1\le i\le M, y_i \in [n+1, …,n+m]\}$</li>
+<li>旧数据 exemplar 为 $\hat{X}^n=\{(\hat{x}_j, \hat{y}_j), 1\le j\le N_s, \hat{y}_j \in [1, …,n]\}$</li>
+<li>新模型的输出 $o^{n+m}(x)=[o_1(x), …,x_n(x), o_{n+1}(x),…,o_{n+m}(x)]$</li>
 <li>旧模型的输出 $\hat{o}^n(x)=[\hat{o}_1(x), …,\hat{o}_n(x)]$\</li>
 </ul>
 <p>我们把旧模型作为 teacher 模型，进行知识蒸馏，注意这里蒸馏的时候只在前面 n 个类别上进行，并且用到的是全部数据，即新数据和旧数据，有人可能会问为什么新数据也要进行蒸馏，旧模型是在旧类别上训练的，但是将新数据输入到旧模型里面，我们依旧能得到新数据在就类别上的预测概率值，可以知道新图片在旧类别上的概率分布，这对于新模型 FC 层前 n 个神经元的训练还是有所帮助的。</p>
@@ -557,7 +557,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

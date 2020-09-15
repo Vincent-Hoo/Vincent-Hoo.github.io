@@ -364,7 +364,7 @@
 <img src="/2020/08/30/【论文阅读】——OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/8.png">
 <p>网路训练引入了 intermediate supervision，每个 stage 的输出都用来进行监督</p>
 <img src="/2020/08/30/【论文阅读】——OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/9.png">
-<h4 id="Multi-person-Parsing-using-PAFs"><a href="#Multi-person-Parsing-using-PAFs" class="headerlink" title="Multi-person Parsing using PAFs"></a>Multi-person Parsing using PAFs</h4><p>我们网络预测得到 candidate parts 和 candidate limbs，组合过程采取启发式的方法，对于一条 limb c，连接它的两个关节点分别是 $j<em>1$ 和 $j_2$，检测到的两种关节点数量为 $D</em>{j<em>1}$ 和 $D</em>{j_2}$，这两个数量不一定相等，因为存在遮挡或者半身情况，然后建立一个二分图，边的权重为上面提到的能量值，然后对于一条 limb c，我们需要找出一个使得边权重最大的二分图，然后这就是最可能的 limb。</p>
+<h4 id="Multi-person-Parsing-using-PAFs"><a href="#Multi-person-Parsing-using-PAFs" class="headerlink" title="Multi-person Parsing using PAFs"></a>Multi-person Parsing using PAFs</h4><p>我们网络预测得到 candidate parts 和 candidate limbs，组合过程采取启发式的方法，对于一条 limb c，连接它的两个关节点分别是 $j_1$ 和 $j_2$，检测到的两种关节点数量为 $D_{j_1}$ 和 $D_{j_2}$，这两个数量不一定相等，因为存在遮挡或者半身情况，然后建立一个二分图，边的权重为上面提到的能量值，然后对于一条 limb c，我们需要找出一个使得边权重最大的二分图，然后这就是最可能的 limb。</p>
 <p>对于整个 body，分别找出每条 limb 的组合，再拼接起来即为最终结果。</p>
 <h4 id="foot-detection"><a href="#foot-detection" class="headerlink" title="foot detection"></a>foot detection</h4><p>openpose 将 coco 的 17 个点扩展成 25 个点，其中增加了 6 个脚部的点，脚部的数据集是部分 coco 数据集中标注出来的，共 1.5k 张。叫上脚部检测后，解决了遮挡的问题，左图的 b 和 c。</p>
 <img src="/2020/08/30/【论文阅读】——OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/10.png">
@@ -488,7 +488,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

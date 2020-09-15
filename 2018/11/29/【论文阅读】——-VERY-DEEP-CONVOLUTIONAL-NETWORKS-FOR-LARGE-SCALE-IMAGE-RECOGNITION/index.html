@@ -370,7 +370,7 @@
 </li>
 <li><p>scale jittering，原始图像首先会被调整到某一个尺度，如 $N\times S$，$S &lt; N$，然后我们再从中 crop 出 $224 \times 224$ 的图片作为网络的输入；如果 $S = 224$，那么这个 crop 就相当于把图像的全部信息作为输入了；而如果 $S &gt; 224$，那么输入图片为原图像的一部分。作者提出了两种方法来设定 $S$ 值。</p>
 <ul>
-<li>固定 $S = 256 \ or \  384$，256 是 AlexNet 和 ZFNet 使用的数值。</li>
+<li>固定 $S = 256  or   384$，256 是 AlexNet 和 ZFNet 使用的数值。</li>
 <li>设定 $S \in [256, 512]$ 之间的随机数值。</li>
 </ul>
 <p>因此对于一张图像，首先将其调整到 $N \times S$，再将它随机裁剪出 $224 \times 224$ 的部分。</p>
@@ -384,7 +384,7 @@
 <p>作者基于 dense evaluation 提出了两种评测方式</p>
 <ul>
 <li>single-scale evaluation：顾名思义，测试图片的尺度是固定的</li>
-<li>multi-scale evaluation：选择多个 Q 值，从而对于一张图片产生多个测试图片。这里需要注意的是，Q 值的选择需要参考 S 值，如果 S 值是固定的数值，如 256 或者 384，那么 Q 值就取 $ {S - 32, S, S+ 32 }$ 三个数值；如果 S 是 $[256, 512]$ 中的随机数，那么 Q 值就取 ${ 256, 384,512 }$ 三个数值。</li>
+<li>multi-scale evaluation：选择多个 Q 值，从而对于一张图片产生多个测试图片。这里需要注意的是，Q 值的选择需要参考 S 值，如果 S 值是固定的数值，如 256 或者 384，那么 Q 值就取 $ \{S - 32, S, S+ 32 \}$ 三个数值；如果 S 是 $[256, 512]$ 中的随机数，那么 Q 值就取 $\{ 256, 384,512 \}$ 三个数值。</li>
 </ul>
 <p>multi-scale evaluation 会得到 3 个 Q 值 class score map，然后综合考虑，决定出最后的预测结果。</p>
 <p><br></p>
@@ -543,7 +543,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

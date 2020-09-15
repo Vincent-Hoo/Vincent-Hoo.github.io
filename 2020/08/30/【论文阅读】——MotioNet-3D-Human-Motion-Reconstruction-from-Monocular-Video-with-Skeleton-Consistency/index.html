@@ -73,8 +73,6 @@
 
 
 
-  
-
 
   <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
 
@@ -354,7 +352,7 @@
 <img src="/2020/08/30/【论文阅读】——MotioNet-3D-Human-Motion-Reconstruction-from-Monocular-Video-with-Skeleton-Consistency/2.png">
 <p>FK(forward kinematics) 模块的输入是 T-pose、joint rotation、root position，$\tilde{s}_{init} \in R^{3J}$ 相当于这个人的初始 pose，J 为关节点数，然后每一帧，将 T-pose 根据 joint rotation $\tilde{q}^t \in R^{4J}$ 进行旋转，关节旋转用四元数表示。</p>
 <img src="/2020/08/30/【论文阅读】——MotioNet-3D-Human-Motion-Reconstruction-from-Monocular-Video-with-Skeleton-Consistency/3.png">
-<p>对于每一帧，J 个关节点遵循从 root 到 leaf 的规则，$\tilde{P}<em>n^t=\tilde{P}^t</em>{parent(n)}+R^t_n\tilde{s}_n$，$\tilde{P}_n^t \in R^3$ 是第 n 个关节点在时间 t 的位置，关节 n 的 parent 指的是骨骼关系里的 parent，比如手肘是手腕的 parent， $R_n^t$ 是第 n 个关节点的旋转矩阵，$\tilde{s}_n \in R^3$ 是第 n 个关节点相对其 parent 的offset，手腕的位置等于手肘的位置加上旋转乘以手腕相对手肘的位置偏移</p>
+<p>对于每一帧，J 个关节点遵循从 root 到 leaf 的规则，$\tilde{P}_n^t=\tilde{P}^t_{parent(n)}+R^t_n\tilde{s}_n$，$\tilde{P}_n^t \in R^3$ 是第 n 个关节点在时间 t 的位置，关节 n 的 parent 指的是骨骼关系里的 parent，比如手肘是手腕的 parent， $R_n^t$ 是第 n 个关节点的旋转矩阵，$\tilde{s}_n \in R^3$ 是第 n 个关节点相对其 parent 的offset，手腕的位置等于手肘的位置加上旋转乘以手腕相对手肘的位置偏移</p>
 <img src="/2020/08/30/【论文阅读】——MotioNet-3D-Human-Motion-Reconstruction-from-Monocular-Video-with-Skeleton-Consistency/4.png">
 <p>最后再加上根节点的移动</p>
 <img src="/2020/08/30/【论文阅读】——MotioNet-3D-Human-Motion-Reconstruction-from-Monocular-Video-with-Skeleton-Consistency/5.png">
@@ -483,7 +481,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

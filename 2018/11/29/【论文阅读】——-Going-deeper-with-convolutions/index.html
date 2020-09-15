@@ -358,7 +358,7 @@
 <img src="/2018/11/29/【论文阅读】——-Going-deeper-with-convolutions/1.png">
 </li>
 </ul>
-<p>GoogLeNet 总共有 22 层（只算带参数的层），网络结构如下，输入为 $224 \times 224 \times 3$ 的 RGB 图像，SAME 卷积，#$ 3 \times 3 \ reduce$ 指的是 $3 \times 3$ 前面的 $1 \times 1$ 卷积核的个数。</p>
+<p>GoogLeNet 总共有 22 层（只算带参数的层），网络结构如下，输入为 $224 \times 224 \times 3$ 的 RGB 图像，SAME 卷积，#$ 3 \times 3  reduce$ 指的是 $3 \times 3$ 前面的 $1 \times 1$ 卷积核的个数。</p>
 <img src="/2018/11/29/【论文阅读】——-Going-deeper-with-convolutions/2.png">
 <p><strong>注意：</strong> GoogLeNet 中作者认为网络太深可能会影响梯度的反向传递，因此设置了两个辅助输出，分别在 Inception(4b) 和 Inception(4e) 后 接入一个小网络输出结果，因此整个网络会有 3 个 loss，这样可以增加梯度的回传，还有附加的正则化作用。</p>
 <h1 id="测试细节"><a href="#测试细节" class="headerlink" title="测试细节"></a>测试细节</h1><p>用的是 multi-crop 的方法，和 AlexNet 一样，但是 GoogLeNet 将这种方法做到了极致。</p>
@@ -488,7 +488,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

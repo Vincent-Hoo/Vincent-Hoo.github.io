@@ -412,7 +412,8 @@
 </li>
 <li>例题2：有a个红球，b个黑球，问第k次抽到红球的概率<ul>
 <li>解法1：将问题转变成，有 $a+b$ 个格子，往里面放球，求第 $k$ 个格子是红球的概率，样本空间为 $a+b$ 个格子中球的摆放情况，总情况个数 $(a+b)!$，第 $k$ 个格子为红球的情况：可以往第 $k$ 个格子放一个红球，剩下 $a+b-1$ 个格子的情况为 $(a+b-1)!$ ，因此概率为 $\frac{(a+b-1)!}{(a+b)!} = \frac{a}{a+b}$ </li>
-<li>解法2：先简化问题，假设只有1个红球，$b$ 个黑球，求问第 $k$ 次抽到红球的概率，第 $k$ 次抽到红球，意味着前面 $k-1$ 次抽到的都是黑球，利用上面的乘法公式，设 $A<em>i$为第 $i$ 次抽到黑球，$A$ 为第 $k$ 次抽到红球，则$$P(A) = P(A_1) <em> P(A_2 \mid A_1) </em> P(A_3 \mid A_1A_2) <em> … </em> P(\overline{A_k} \mid A_1A_2…A</em>{k-1})<br>= \frac{b}{b+1} <em>\frac{b-1}{b} </em> \frac{b-2}{b-1}<script type="math/tex">$$* ... * \frac{1}{b-k+1} = \frac{1}{b+1}</script>，所以跟 $k$ 无关。<br>现在问题升级为 $a$ 个红球，$b$ 个黑球，我们可以将问题转成第 $k$ 次抽到红球一号或者红球二号或者红球三号或红球 $a$ 号的概率，显然不同红球之间是相互独立，因此整体概率等于各自概率之和，上面已经算过1个红球的情况，因此相加后概率为 $\frac{a}{a+b}$</li>
+<li>解法2：先简化问题，假设只有1个红球，$b$ 个黑球，求问第 $k$ 次抽到红球的概率，第 $k$ 次抽到红球，意味着前面 $k-1$ 次抽到的都是黑球，利用上面的乘法公式，设 $A_i$为第 $i$ 次抽到黑球，$A$ 为第 $k$ 次抽到红球，则<script type="math/tex">P(A) = P(A_1) * P(A_2 \mid A_1) * P(A_3 \mid A_1A_2) * ... * P(\overline{A_k} \mid A_1A_2...A_{k-1})
+= \frac{b}{b+1} *\frac{b-1}{b} * \frac{b-2}{b-1}</script> <script type="math/tex">* ... * \frac{1}{b-k+1} = \frac{1}{b+1}</script>，所以跟 $k$ 无关。<br>现在问题升级为 $a$ 个红球，$b$ 个黑球，我们可以将问题转成第 $k$ 次抽到红球一号或者红球二号或者红球三号或红球 $a$ 号的概率，显然不同红球之间是相互独立，因此整体概率等于各自概率之和，上面已经算过1个红球的情况，因此相加后概率为 $\frac{a}{a+b}$</li>
 </ul>
 </li>
 </ul>
@@ -594,7 +595,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

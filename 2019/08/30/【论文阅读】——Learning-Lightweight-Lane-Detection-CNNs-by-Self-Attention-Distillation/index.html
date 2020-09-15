@@ -347,9 +347,9 @@
 <p><br></p>
 <h2 id="Self-Attention-Distillation-SAD"><a href="#Self-Attention-Distillation-SAD" class="headerlink" title="Self-Attention Distillation(SAD)"></a>Self-Attention Distillation(SAD)</h2><p>类似 attention transfer 论文，提出了三种 attention map 的计算方式</p>
 <ul>
-<li>$G<em>{sum}(A_m)=\sum</em>{i=1}^{C_m}|A_m|$</li>
-<li>$G<em>{sum}^p(A_m)=\sum</em>{i=1}^{C_m}|A_m|^p$</li>
-<li>$G<em>{max}^p(A_m)=\max</em>{i=1,C_m}|A_m|^p$</li>
+<li>$G_{sum}(A_m)=\sum_{i=1}^{C_m}|A_m|$</li>
+<li>$G_{sum}^p(A_m)=\sum_{i=1}^{C_m}|A_m|^p$</li>
+<li>$G_{max}^p(A_m)=\max_{i=1,C_m}|A_m|^p$</li>
 </ul>
 <p>网络的整体框架如下，AT-GEN 模块将计算到的 attention map 再经过 bilinear upsampling 后，通过一个 spatial softmax。</p>
 <img src="/2019/08/30/【论文阅读】——Learning-Lightweight-Lane-Detection-CNNs-by-Self-Attention-Distillation/1.png" width="650" height="650">
@@ -483,7 +483,7 @@ L_{distill}=\sum_{m=1}^{M-1}L(AT-GEN(A_m),AT-GEN(A_{m+1}))</script><p>训练过�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

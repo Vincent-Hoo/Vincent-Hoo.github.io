@@ -401,7 +401,7 @@
 <li><p>求解 $P(X = x_k)$取最大值的 $k$ 值</p>
 <ul>
 <li>令 $b_k = P(X = x_k)  = C_n^k p^k(1-p)^{n-k} = \frac{n!}{k!(n-k)!}p^k(1-p)^{n-k}$ </li>
-<li>最大值应该满足 $\frac{b<em>k}{b</em>{k-1}} \ge 1$ 且 $\frac{b<em>{k}}{b</em>{k+1}} \ge 1$</li>
+<li>最大值应该满足 $\frac{b_k}{b_{k-1}} \ge 1$ 且 $\frac{b_{k}}{b_{k+1}} \ge 1$</li>
 <li>解得 $p(n+1)-1 \le k \le p(n+1)$  </li>
 <li>若 $p(n+1)$ 为整数，则最大值时k有两个值</li>
 </ul>
@@ -435,9 +435,9 @@
 </li>
 <li><p>分布函数直观来说就是表示随机变量取值小于某个值的概率，它具有以下几个性质</p>
 <ul>
-<li>分布函数是非递减的，且 $lim<em>{x\to -\infty} F(x) =0$ ，$lim</em>{x\to +\infty} F(x) =1$，从分布函数的定义就可以看出。</li>
+<li>分布函数是非递减的，且 $lim_{x\to -\infty} F(x) =0$ ，$lim_{x\to +\infty} F(x) =1$，从分布函数的定义就可以看出。</li>
 <li>离散型随机变量的分布函数不连续，因为离散变量的取值是有限的，因此分布函数会呈现出阶梯状，且是右连续的<ul>
-<li>$F(x) = P(X \le x)=\sum<em>{x</em>{k} \le x} P(X = x_k) $ </li>
+<li>$F(x) = P(X \le x)=\sum_{x_{k} \le x} P(X = x_k) $ </li>
 </ul>
 </li>
 <li>连续型随机变量的分布函数是连续且递增的，有了分布函数，某个区间的概率值就很容易计算，$P(a &lt; X \le b) = F(b) - F(a)$，<img src="/2018/09/04/【概率论与数理统计】——随机变量及其分布/分布函数.png">
@@ -456,7 +456,7 @@
 </ol>
 <p>从上面的定义可以看出，密度函数 $f(x)$ 是分布函数 $F(x)$ 的微分，而 $F(x)$ 是 $f(x)$ 的积分，所以计算以下概率可以转变成求密度函数的积分，注意无论是分布函数还是密度函数，还是分布律，他们都是服务于算概率的</p>
 <script type="math/tex; mode=display">P(a < X \le b) = F(b) - F(a) = \int_a^b f(x)dx</script><p>上面定义的第二点，也很容易理解，$\int_{-\infty}^{+\infty} f(x)dx=F(+\infty)-F(-\infty)=1-0=1$  </p>
-<p>对于连续型随机变量 $P(X = a) = 0$，因为 $P(X = a) = lim<em>{h\to 0} \int</em>{a-h}^{a}f(x)dx=0$ </p>
+<p>对于连续型随机变量 $P(X = a) = 0$，因为 $P(X = a) = lim_{h\to 0} \int_{a-h}^{a}f(x)dx=0$ </p>
 <p>分布函数连续不一定是连续型随机变量的分布函数，连续不一定可微，只有密度函数存在，才能说是连续随机变量</p>
 <h2 id="4-3-总结一下"><a href="#4-3-总结一下" class="headerlink" title="4.3 总结一下"></a>4.3 总结一下</h2><p>对于离散型的随机变量，只可以取有限个或者可数个值，我们可以用分布律去描述它，$P(X = x_k) = p_k$   </p>
 <p>对于连续型的随机变量，我们用一个区间去表示一个随机事件，但由于区间涉及两个边界值，我们引入分布函数 $F(x)$ 描述随机变量取值小于某个值的概率，进而引入密度函数 $f(x)$，然后概率值就可以转化为求密度函数的积分值</p>
@@ -488,7 +488,7 @@
 <li>令事件 $A$ 为 $X &gt; s+t$，事件 $B$ 为 $X &gt; s$，则 $P(A \mid B) = \frac{P(AB)}{P(B)}$  </li>
 <li>可以看出 $B \subset A$，所以 $P(AB) = P(A)$ </li>
 <li>$P(A) = \int_{s+t}^{+\infty} \lambda e^{-\lambda x}dx$ </li>
-<li>令 $\lambda x=u$，则 $P(A) = \int<em>{\lambda(s+t)}^{+\infty} e^{-u}du = -e^{-u} \mid</em>{\lambda(s+t)}^{+\infty} = e^{-\lambda(s+t)}$  </li>
+<li>令 $\lambda x=u$，则 $P(A) = \int_{\lambda(s+t)}^{+\infty} e^{-u}du = -e^{-u} \mid_{\lambda(s+t)}^{+\infty} = e^{-\lambda(s+t)}$  </li>
 <li>同理，$P(B)=e^{-\lambda s}$  </li>
 <li>因此，$P(A \mid B) = \frac{P(A)}{P(B)} = e^{-\lambda t} = P(X &gt; t)$  </li>
 </ul>
@@ -512,7 +512,7 @@
 </ul>
 <p><br></p>
 <h1 id="6-多维随机变量"><a href="#6-多维随机变量" class="headerlink" title="6. 多维随机变量"></a>6. 多维随机变量</h1><p>多维随机变量也称随机向量，跟一维随机变量一样，多维随机变量就是多个随机事件的并集，或者说是多个事件的联合概率，像一维随机变量，我们同样关注多维随机向量的分布。</p>
-<h2 id="6-1-二维离散型随机向量的分布"><a href="#6-1-二维离散型随机向量的分布" class="headerlink" title="6.1 二维离散型随机向量的分布"></a>6.1 二维离散型随机向量的分布</h2><p>$P(X=x<em>i, Y=y_j)=p</em>{i,j}$ </p>
+<h2 id="6-1-二维离散型随机向量的分布"><a href="#6-1-二维离散型随机向量的分布" class="headerlink" title="6.1 二维离散型随机向量的分布"></a>6.1 二维离散型随机向量的分布</h2><p>$P(X=x_i, Y=y_j)=p_{i,j}$ </p>
 <p> 同样应该满足密度分布的基本条件</p>
 <ol>
 <li>$p_{i,j}&gt;0$</li>
@@ -524,18 +524,18 @@
 <p>$F(x,y)$ 有如下性质：</p>
 <ol>
 <li>给定 $y$，$F(x,y)$ 是 $x$ 的非减函数；给定 $x$, $F(x,y)$ 是 $y$ 的非减函数</li>
-<li>$\lim<em>{x \rightarrow -\infty} F(x,y)=0$，$\lim</em>{y \rightarrow -\infty} F(x,y)=0$，$\lim_{x \rightarrow +\infty, y \rightarrow +\infty} F(x,y)=1$ </li>
+<li>$\lim_{x \rightarrow -\infty} F(x,y)=0$，$\lim_{y \rightarrow -\infty} F(x,y)=0$，$\lim_{x \rightarrow +\infty, y \rightarrow +\infty} F(x,y)=1$ </li>
 <li>$P(a&lt;X \le b, c &lt; Y \le d) = F(b,d) - F(a,d) - F(b,c) + F(a,c)$     </li>
 <li>$P(X \le x_i) = P(X \le x_i, Y \le +\infty) = F(x_i, +\infty)$ </li>
 <li>$F(x,y)$ 分别是关于 $x$ 和 $y$ 右连续</li>
 </ol>
-<p>同样从分布函数引出概率密度函数，若对分布函数 $F(x,y)$，存在 $f(x,y) \ge 0$，使得对任一 $(x,y) \in R^2$，有 $F(x,y)=\int<em>{-\infty}^{x} \int</em>{-\infty}^{y} f(u,v)dudv$，则称 $F(x,y)$ 为连续型联合分布函数，$f(x,y)$ 为联合密度函数。 $f(x,y)$ 同样具有以下性质：</p>
+<p>同样从分布函数引出概率密度函数，若对分布函数 $F(x,y)$，存在 $f(x,y) \ge 0$，使得对任一 $(x,y) \in R^2$，有 $F(x,y)=\int_{-\infty}^{x} \int_{-\infty}^{y} f(u,v)dudv$，则称 $F(x,y)$ 为连续型联合分布函数，$f(x,y)$ 为联合密度函数。 $f(x,y)$ 同样具有以下性质：</p>
 <ol>
 <li>$f(x,y) \ge 0$  </li>
-<li>$\int<em>{-\infty}^{+\infty} \int</em>{-\infty}^{+\infty} f(x,y)dxdy=1$ </li>
+<li>$\int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} f(x,y)dxdy=1$ </li>
 <li>$\frac{\partial F(x,y)}{\partial x \partial y} = f(x,y)$ </li>
 </ol>
-<p>几何上，$z=f(x,y)$ 表示空间的一个曲面，$\int<em>{-\infty}^{+\infty} \int</em>{-\infty}^{+\infty} f(x,y)dxdy=1$ 表示介于 $f(x,y)$ 与 $xOy$  平面之间的空间区域的面积。<br><img src="/2018/09/04/【概率论与数理统计】——随机变量及其分布/二维正态.png"></p>
+<p>几何上，$z=f(x,y)$ 表示空间的一个曲面，$\int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} f(x,y)dxdy=1$ 表示介于 $f(x,y)$ 与 $xOy$  平面之间的空间区域的面积。<br><img src="/2018/09/04/【概率论与数理统计】——随机变量及其分布/二维正态.png"></p>
 <p><br></p>
 <h1 id="7-边缘分布-marginal-distribution"><a href="#7-边缘分布-marginal-distribution" class="headerlink" title="7. 边缘分布(marginal distribution)"></a>7. 边缘分布(marginal distribution)</h1><ul>
 <li><p>定义：已知 $(X,Y)$ 的联合分布函数为 $F(x,y)$，则 $X$ 的分布 $F_1(x)$ 和 $Y$ 的分布 $F_2(y)$ 称为 $F(x,y)$ 的边缘分布</p>
@@ -547,18 +547,18 @@
 <li><p>二维离散型随机变量的边缘分布</p>
 <ul>
 <li>二维离散随机变量的分布一般以联表的形式表示</li>
-<li>固定某个 $x<em>i$，$P(X=x_i) = \sum</em>{j=1}^{m}p<em>{ij}$，联表每一行的求和就是随机变量 $X$ 的边缘分布，可记为 $p</em>{i\bullet}$ </li>
-<li>固定某个 $y<em>i$ ，$P(Y=y_j) = \sum</em>{i=1}^{n}p<em>{ij}$ ，联表每一列的求和就是随机变量 $Y$ 的边缘分布，可记为 $p</em>{\bullet j}$ </li>
+<li>固定某个 $x_i$，$P(X=x_i) = \sum_{j=1}^{m}p_{ij}$，联表每一行的求和就是随机变量 $X$ 的边缘分布，可记为 $p_{i\bullet}$ </li>
+<li>固定某个 $y_i$ ，$P(Y=y_j) = \sum_{i=1}^{n}p_{ij}$ ，联表每一列的求和就是随机变量 $Y$ 的边缘分布，可记为 $p_{\bullet j}$ </li>
 </ul>
 </li>
 <li><p>二维连续型随机变量的边缘分布</p>
 <ul>
 <li>二维连续随机变量的分布一般以概率密度函数的形式表示</li>
-<li>从联合密度函数，求 $X$ 的密度函数，就需要将随机变量 $Y$ 从积分中去掉，$f<em>X(u) = \int</em>{-\infty}^{+\infty}f(u,v)dv$ <ul>
-<li>$F<em>X(x) = F(x, +\infty)=\int</em>{-\infty}^x[\int<em>{-\infty}^{+\infty}f(x,y)dy]dx=\int</em>{-\infty}^{x}f_X(x)dx$ </li>
+<li>从联合密度函数，求 $X$ 的密度函数，就需要将随机变量 $Y$ 从积分中去掉，$f_X(u) = \int_{-\infty}^{+\infty}f(u,v)dv$ <ul>
+<li>$F_X(x) = F(x, +\infty)=\int_{-\infty}^x[\int_{-\infty}^{+\infty}f(x,y)dy]dx=\int_{-\infty}^{x}f_X(x)dx$ </li>
 </ul>
 </li>
-<li>同理，求 $Y$ 的密度函数，，$f<em>Y(v) = \int</em>{-\infty}^{+\infty}f(u,v)du$    </li>
+<li>同理，求 $Y$ 的密度函数，，$f_Y(v) = \int_{-\infty}^{+\infty}f(u,v)du$    </li>
 </ul>
 </li>
 <li><p>二维正态分布的边缘分布就是一维正态分布</p>
@@ -569,7 +569,7 @@
 <p><br></p>
 <h1 id="8-条件分布"><a href="#8-条件分布" class="headerlink" title="8. 条件分布"></a>8. 条件分布</h1><p>假设有两个随机变量 $X,Y$，在给定 $Y$ 取某个或某些值的条件下，$X$ 的概率分布就叫做 $Y = y_j$ 条件下 $X$ 的条件分布律。</p>
 <h2 id="8-1-离散型随机变量的条件分布"><a href="#8-1-离散型随机变量的条件分布" class="headerlink" title="8.1 离散型随机变量的条件分布"></a>8.1 离散型随机变量的条件分布</h2><ul>
-<li>定义：设 $(X,Y)$ 为二维离散型随机变量，若对固定的 $j$ ，称 $P(X=x<em>i \mid Y=y_j) = \frac{p</em>{ij}}{p<em>{\bullet j}}$ 为 $Y = y_j$ 条件下的 $X$ 的条件分布律；同理，对固定的 $i$ ，称 $P(Y=y_j \mid X=x_i) = \frac{p</em>{ij}}{p_{i\bullet}}$  为 $X = x_i$ 条件下的 $Y$ 的条件分布律；</li>
+<li>定义：设 $(X,Y)$ 为二维离散型随机变量，若对固定的 $j$ ，称 $P(X=x_i \mid Y=y_j) = \frac{p_{ij}}{p_{\bullet j}}$ 为 $Y = y_j$ 条件下的 $X$ 的条件分布律；同理，对固定的 $i$ ，称 $P(Y=y_j \mid X=x_i) = \frac{p_{ij}}{p_{i\bullet}}$  为 $X = x_i$ 条件下的 $Y$ 的条件分布律；</li>
 <li>条件分布是一种概率分布，它具有概率分布的一切性质，正如条件概率是一种概率，具有概率的一切性质一样。<ul>
 <li>$P(X=x_i \mid Y=y_j) \ge 0$</li>
 <li>$\sum_{i=1}^{\infty} P(X=x_i \mid Y=y_j) =1$ </li>
@@ -582,17 +582,17 @@
 </li>
 </ul>
 <h2 id="8-2-连续型随机变量的条件分布"><a href="#8-2-连续型随机变量的条件分布" class="headerlink" title="8.2 连续型随机变量的条件分布"></a>8.2 连续型随机变量的条件分布</h2><ul>
-<li><p>定义：设 $X$ 和 $Y$ 的联合概率密度为 $f(x,y)$，$(X,Y)$ 关于 $Y$ 的边缘概率密度为 $f<em>Y(y)$，若对于固定的 $y$，$f_Y(y) &gt;0$，则称 $\frac{f(x,y)}{f_Y(y)}$ 为在 $Y = y$ 的条件下 $X$ 的条件概率密度，记为 $f</em>{X \mid Y}(x \mid y) = \frac{f(x,y)}{f<em>Y(y)}$，同理，$f</em>{Y \mid X}(y \mid x) = \frac{f(x,y)}{f_X(x)}$ </p>
+<li><p>定义：设 $X$ 和 $Y$ 的联合概率密度为 $f(x,y)$，$(X,Y)$ 关于 $Y$ 的边缘概率密度为 $f_Y(y)$，若对于固定的 $y$，$f_Y(y) &gt;0$，则称 $\frac{f(x,y)}{f_Y(y)}$ 为在 $Y = y$ 的条件下 $X$ 的条件概率密度，记为 $f_{X \mid Y}(x \mid y) = \frac{f(x,y)}{f_Y(y)}$，同理，$f_{Y \mid X}(y \mid x) = \frac{f(x,y)}{f_X(x)}$ </p>
 </li>
 <li><p>由条件密度和边缘密度，可以得到联合密度</p>
 <ul>
-<li>$f(x,y)=f<em>X(x)f</em>{Y \mid X}(y \mid x)$ </li>
+<li>$f(x,y)=f_X(x)f_{Y \mid X}(y \mid x)$ </li>
 </ul>
 </li>
 <li>例题：从 [0,1] 中随机取一个数 $X$， 则 $X \sim U(0,1)$，当 $X=x$ 时，再从 $(0,x)$ 中随机取一个数 $Y$，求 $Y$ 的分布。<ul>
 <li>题目给定 $X$ 的分布，以及在 $X = x$ 下 $Y$ 的条件分布，自然可以算出 $(X,Y)$ 的联合分布，再从联合分布就可以算出 $Y$ 的边缘分布</li>
-<li>$f<em>X(x)=I</em>{(0,1)}(x)$，$f<em>{Y \mid X}(y \mid x) = \frac{1}{x}I</em>{(0,x)}(y)$ </li>
-<li>联合分布：$f(x,y) = I<em>{(0,1)}(x) \frac{1}{x}I</em>{(0,x)}(y)$ </li>
+<li>$f_X(x)=I_{(0,1)}(x)$，$f_{Y \mid X}(y \mid x) = \frac{1}{x}I_{(0,x)}(y)$ </li>
+<li>联合分布：$f(x,y) = I_{(0,1)}(x) \frac{1}{x}I_{(0,x)}(y)$ </li>
 <li>边缘分布：$f_Y(y)=\int f(x.y)dx$，算这种积分最重要的就是搞清楚，谁变谁不变，以及积分的上下限是多少，显然被积的是 $x$，所以 $x$ 是变量，$y$ 是常数，所以我们固定某一个 $y$，可以得出 $x$ 的范围是 $[y,1]$，因此 $f_Y(y)=-ln(y)$ ，最后限定 $y$ 的范围是 $(0,1)$ </li>
 </ul>
 </li>
@@ -613,23 +613,23 @@
 <h1 id="10-随机变量的函数的概率分布"><a href="#10-随机变量的函数的概率分布" class="headerlink" title="10. 随机变量的函数的概率分布"></a>10. 随机变量的函数的概率分布</h1><ul>
 <li>随机变量函数：已知随机变量 $X$ 的分布，另一个随机变量 $Y$ 满足 $Y = g(X)$，这就是随机变量的函数，我们可以从自变量(随机变量 $X$ )的分布求出随机变量 $Y$ 的分布<ul>
 <li>连续型：$F(y) = P(Y \le y) = \int_{g(x)\le y} f(x)dx$ </li>
-<li>离散型：$P(Y = y<em>j) = \sum</em>{g(x_i)=y_j}P(X = x_i)$ </li>
+<li>离散型：$P(Y = y_j) = \sum_{g(x_i)=y_j}P(X = x_i)$ </li>
 </ul>
 </li>
 <li>推广至随机向量的函数：已知随机向量 $(X,Y)$ 的分布，另一个随机变量 $Z = g(X, Y)$，求 $Z$ 的分布<ul>
 <li>连续型： $F(Z) = P(Z \le z)= \int\int_{g(x,y) \le z}f(x,y)dxdy$ </li>
-<li>离散型：$P(Z = z<em>q) = \sum</em>{g(x_i,y_j) = z_q}P(X = x_i, Y = y_j)$，若 $X$ 和 $Y$ 独立，那么后面的概率可以拆成两个单独概率想乘。</li>
+<li>离散型：$P(Z = z_q) = \sum_{g(x_i,y_j) = z_q}P(X = x_i, Y = y_j)$，若 $X$ 和 $Y$ 独立，那么后面的概率可以拆成两个单独概率想乘。</li>
 </ul>
 </li>
 <li>推广至随机向量的多个函数： 已知随机向量 $(X,Y)$ 的分布，另一个随机变量 $Z_1 = g_1(X, Y)$，另一个随机变量 $Z_2 = g_2(X, Y)$，求 $(Z_1, Z_2)$ 的联合分布<ul>
-<li>$F(Z<em>1, Z_2) = P(Z_1 \le z_1, Z_2 \le z_2) = \int\int</em>{Z_1 = g_1(X, Y) \le z_1, Z_2 = g_2(X, Y) \le z_2} f(x,y)dxdy$  </li>
+<li>$F(Z_1, Z_2) = P(Z_1 \le z_1, Z_2 \le z_2) = \int\int_{Z_1 = g_1(X, Y) \le z_1, Z_2 = g_2(X, Y) \le z_2} f(x,y)dxdy$  </li>
 <li>设 $u = g_1(x,y)$，$v = g_2(x,y)$，若反函数存在，即 $x = \phi(u, v)$，$y = \psi(u,v)$， </li>
-<li>$\int\int<em>{Z_1 = g_1(X, Y) \le z_1, Z_2 = g_2(X, Y) \le z_2} f(x,y)dxdy = \int\int</em>{u \le z_1, v \le z_2} f(\phi(u,v), \psi(u,v)) \frac{dxdy}{dudv}dudv$ <ul>
+<li>$\int\int_{Z_1 = g_1(X, Y) \le z_1, Z_2 = g_2(X, Y) \le z_2} f(x,y)dxdy = \int\int_{u \le z_1, v \le z_2} f(\phi(u,v), \psi(u,v)) \frac{dxdy}{dudv}dudv$ <ul>
 <li>$\frac{dxdy}{dudv} = |J|$，为 $(x,y)$ 关于 $(u,v)$ 的 Jacobi行列式</li>
-<li>$J = \left|\begin{array}{cccc}  \frac{\partial x}{\partial u} &amp;    \frac{\partial x}{\partial v} \<br>\frac{\partial y}{\partial u} &amp;    \frac{\partial y}{\partial v}\<br>\end{array}\right|  $     </li>
+<li>$J = \left|\begin{array}{cccc}  \frac{\partial x}{\partial u} &amp;    \frac{\partial x}{\partial v} \\<br>\frac{\partial y}{\partial u} &amp;    \frac{\partial y}{\partial v}\ <br>\end{array}\right|  $     </li>
 </ul>
 </li>
-<li>所以 $(Z<em>1,Z_2)$ 的分布函数等于 $F(Z_1, Z_2) = \int</em>{-\infty}^{z<em>1}\int</em>{-\infty}^{v_1} f(\phi(u,v), \psi(u,v)) |J|dudv$，</li>
+<li>所以 $(Z_1,Z_2)$ 的分布函数等于 $F(Z_1, Z_2) = \int_{-\infty}^{z_1}\int_{-\infty}^{v_1} f(\phi(u,v), \psi(u,v)) |J|dudv$，</li>
 <li>同理，$(Z_1,Z_2)$ 的密度函数为 $ f(\phi(u,v), \psi(u,v)) |J|$ </li>
 </ul>
 </li>
@@ -637,12 +637,12 @@
 <ul>
 <li>题意是已知 $X$ 和 $Y$ 的分布，求 $(R,t)$ 的联合分布</li>
 <li>反函数很容易得：$x = Rcost$，$y = Rsint$，$R \in [0, +\infty]$，$t \in [0, 2 \pi)$ </li>
-<li><p>$J = \left|\begin{array}{cccc} \frac{\partial x}{\partial R} &amp;    \frac{\partial x}{\partial t} \<br>\frac{\partial y}{\partial R} &amp;    \frac{\partial y}{\partial t}\<br>\end{array}\right| = \left|\begin{array}{cccc} cost &amp;    -Rsint \<br>sint &amp;   Rcost\<br>\end{array}\right| = R$</p>
+<li><p>$J = \left|\begin{array}{cccc} \frac{\partial x}{\partial R} &amp;    \frac{\partial x}{\partial t} \\<br>\frac{\partial y}{\partial R} &amp;    \frac{\partial y}{\partial t}\ <br>\end{array}\right| = \left|\begin{array}{cccc} cost &amp;    -Rsint \\<br>sint &amp;   Rcost\ <br>\end{array}\right| = R$</p>
 </li>
 <li><p>$(X,Y)$ 的联合密度为其边缘密度的乘积($X$ 和 $Y$ 相互独立)，$f(x,y) = \frac{1}{2\pi}exp(-\frac{x^2+y^2}{2})$ </p>
 </li>
 <li>$f(R,t) =  f(Rcost, Rsint) |J| = \frac{1}{2\pi}Rexp(-\frac{R^2}{2})$，$R &gt; 0$，$t \in [0, 2 \pi)$ </li>
-<li>$f(R,t) = f<em>1(R)f_2(t)$，其中 $f_1(R) = Rexp(-\frac{R^2}{2})I</em>{R&gt;0}(R)$，$f<em>2(t) = \frac{1}{2\pi}I</em>{[0,2\pi)}(t)$，由于f(R,t) 可以写成两个密度函数的乘积，所以 $R$ 和 $t$ 相互独立，且 $t$ 服从 $[0,2\pi)$ 的均匀分布 </li>
+<li>$f(R,t) = f_1(R)f_2(t)$，其中 $f_1(R) = Rexp(-\frac{R^2}{2})I_{R&gt;0}(R)$，$f_2(t) = \frac{1}{2\pi}I_{[0,2\pi)}(t)$，由于f(R,t) 可以写成两个密度函数的乘积，所以 $R$ 和 $t$ 相互独立，且 $t$ 服从 $[0,2\pi)$ 的均匀分布 </li>
 </ul>
 </li>
 <li><p>注意：两个服从正态分布的随机变量的和也服从正态分布，$X \sim N(\mu_1, \sigma_1^2)$，$Y \sim N(\mu_2, \sigma_2^2)$，且 $X$ 和 $Y$ 相互独立，则 $X + Y  \sim N(\mu_1 +\mu_2, \sigma_1^2 + \sigma_2^2)$ </p>
@@ -714,14 +714,14 @@
 </li>
 </ul>
 <h2 id="11-3-F-分布"><a href="#11-3-F-分布" class="headerlink" title="11.3 F 分布"></a>11.3 F 分布</h2><ul>
-<li><p>定义：$X \sim \chi<em>n^2$， $Y \sim \chi_m^2$，$X$ 和 $Y$ 相互独立，令 $Z = \frac{X/n}{Y/m}$，则称 $Z$ 为自由度是 $n$ 和 $m$ 的 $F$ 分布，记为 $F \sim F</em>{n,m}$ </p>
+<li><p>定义：$X \sim \chi_n^2$， $Y \sim \chi_m^2$，$X$ 和 $Y$ 相互独立，令 $Z = \frac{X/n}{Y/m}$，则称 $Z$ 为自由度是 $n$ 和 $m$ 的 $F$ 分布，记为 $F \sim F_{n,m}$ </p>
 </li>
 <li><p>$t$ 分布的平方为一个自由度为1和n的F分布，$t_n^2 = \frac{X^2}{Y/n}$，$X$ 为标准正态，$X^2$ 为自由度为1的卡方分布</p>
 </li>
 <li><p>同样有上测 $\alpha$ 分位数的概念</p>
 <img src="/2018/09/04/【概率论与数理统计】——随机变量及其分布/F分布.png">
 </li>
-<li><p>性质：$F<em>{m,n}(1-\alpha) = \frac{1}{F</em>{n,m}(\alpha)}$<br><br></p>
+<li><p>性质：$F_{m,n}(1-\alpha) = \frac{1}{F_{n,m}(\alpha)}$<br><br></p>
 <h1 id="12-总结"><a href="#12-总结" class="headerlink" title="12. 总结"></a>12. 总结</h1><p>这一章将随机事件过渡为随机变量，进而描述一系列随机事件发生的概率，也就是所谓的随机变量的分布，很多第一章提到的概念，如条件概率，在这一章都会以分布的形式出现，都是描述一系列的概率值，牢记，无论是分布函数还是密度函数，还是积分，它们都是为算概率服务的，最终目的都是算概率。</p>
 </li>
 </ul>
@@ -849,7 +849,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

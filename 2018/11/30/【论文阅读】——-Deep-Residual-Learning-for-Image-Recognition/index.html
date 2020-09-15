@@ -371,7 +371,7 @@
 <img src="/2018/11/30/【论文阅读】——-Deep-Residual-Learning-for-Image-Recognition/residual_block.png">
 <p>作者称这种首尾相连的线为 shortcut 或者 skip-connection，它们是用来实现 Identity Mapping 的，一个 block 的方程如下，非线性层只需学习残差即可</p>
 <script type="math/tex; mode=display">(1)：y = F(x, \{ W_i\}) +x</script><p>这种 shortcut 连接并没有引入任何的参数和很多的计算量（除了 element-wise 加法），但是却能解决退化问题。</p>
-<p>当 $F(x, {  W_i})$ 的输出与 $x$ 的维度不匹配的时候，我们还需要将输入 $x$ 进行 projection。</p>
+<p>当 $F(x, \{  W_i\})$ 的输出与 $x$ 的维度不匹配的时候，我们还需要将输入 $x$ 进行 projection。</p>
 <script type="math/tex; mode=display">(2)：y = F(x, \{  W_i\}) +W_s x</script><p>公式 (1) 称为 Identity Mapping，而公式 (2) 称为 projection shortcut，一般上除非维度不匹配，否则都用 Identity Mapping 即可，没有太多必要引入额外的参数。</p>
 <p><br></p>
 <h1 id="ResNet结构"><a href="#ResNet结构" class="headerlink" title="ResNet结构"></a>ResNet结构</h1><p>下图是 VGG-19、plain network 以及 residual network 的网络图。plain network 和 residual network 都去掉了全连接层，而改用了 global pooling，residual network 中的实线连接为 Identity mapping，而虚线连接为 projection shortcut。</p>
@@ -533,7 +533,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

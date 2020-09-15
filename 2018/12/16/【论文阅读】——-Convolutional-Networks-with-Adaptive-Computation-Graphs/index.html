@@ -353,8 +353,8 @@
 <p><br></p>
 <h1 id="AdaNet"><a href="#AdaNet" class="headerlink" title="AdaNet"></a>AdaNet</h1><p>ResNet 可以定义如下，它的提出使得上千层的网络得以诞生，但是研究也表明，尽管这些层是一起训练的，去掉任何一层也不会影响最后的性能。</p>
 <script type="math/tex; mode=display">x_l = x_{l-1} + F_l(x_{l-1})</script><h2 id="Adaptive-Computation-Graph"><a href="#Adaptive-Computation-Graph" class="headerlink" title="Adaptive Computation Graph"></a>Adaptive Computation Graph</h2><p>作者受到《Residual networks behave like ensembles of relatively shallow networks》这篇论文结果的启发，思考卷积网络是否需要一个固定的结构，由于固定的结构会带来很多冗余的计算，因此作者想自适应地选择或组装 (assemble) 网络，自适应的网络会根据输入来决定通过哪些必要的层，而跳过不必要的层，因此提出了门结构的 residual block。$z(x_{l-1})$ 是 gating function，根据每一层的输入来决定是否执行。</p>
-<script type="math/tex; mode=display">x_l = x_{l-1} + z(x_{l-1}) \cdot F_l(x_{l-1}), z(x_{l-1}) \in \{0,1 \}</script><p>作者把上面的方式和 highway network 进行了对比，highway network 中每一层的输出为：$x<em>l = (1-z(x</em>{l-1})) \cdot x<em>{l-1} + z(x</em>{l-1}) \cdot F<em>l(x</em>{l-1})$，两个式子有点类似，但是 highway network 的式子更像是一种 soft 注意力机制，关注某些层和不关注其他层。而 AdaNet 是直接跳过不执行某一层。</p>
-<h2 id="Gating-Unit"><a href="#Gating-Unit" class="headerlink" title="Gating Unit"></a>Gating Unit</h2><p>$z<em>(x</em>{l-1})$ 分为两个阶段</p>
+<script type="math/tex; mode=display">x_l = x_{l-1} + z(x_{l-1}) \cdot F_l(x_{l-1}), z(x_{l-1}) \in \{0,1 \}</script><p>作者把上面的方式和 highway network 进行了对比，highway network 中每一层的输出为：$x_l = (1-z(x_{l-1})) \cdot x_{l-1} + z(x_{l-1}) \cdot F_l(x_{l-1})$，两个式子有点类似，但是 highway network 的式子更像是一种 soft 注意力机制，关注某些层和不关注其他层。而 AdaNet 是直接跳过不执行某一层。</p>
+<h2 id="Gating-Unit"><a href="#Gating-Unit" class="headerlink" title="Gating Unit"></a>Gating Unit</h2><p>$z_(x_{l-1})$ 分为两个阶段</p>
 <ol>
 <li>根据输入，评估需要执行 residual block 的概率。</li>
 <li>根据概率值，抽样出一个离散的样本。</li>
@@ -501,7 +501,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

@@ -350,14 +350,14 @@
 <p><em>preface</em></p>
 <p>ResNe t和 DenseNet是近几年两种比较热门的网络结构，ResNet 把输入直接加到（element-wise adding）卷积的输出上，DenseNet则把每一层的输出都拼接（concatenate）到其后每一层的输入上。在这篇论文中作者用High Order RNN 结构（HORNN）把 DenseNet 和 ResNet 联系到了一起，证明了 DenseNet 能从靠前的层级中提取到新的特征，而 ResNet 本质上是对之前层级中已提取特征的复用。通过把这两种结构的优点结合到一起，提出了 Dual Path Networks（DPN）。</p>
 <p><br></p>
-<h1 id="Revisiting-ResNet-DenseNet-and-Higher-Order-RNN"><a href="#Revisiting-ResNet-DenseNet-and-Higher-Order-RNN" class="headerlink" title="Revisiting ResNet, DenseNet and Higher Order RNN"></a>Revisiting ResNet, DenseNet and Higher Order RNN</h1><h2 id="Higher-Order-RNN-HORNN"><a href="#Higher-Order-RNN-HORNN" class="headerlink" title="Higher Order RNN(HORNN)"></a>Higher Order RNN(HORNN)</h2><p>在普通的 RNN 结构中，一个时刻的输入会与上一时刻的状态共同决定这一时刻的状态，而高阶 RNN 中，一个时刻的状态不仅与上一个时刻的状态有关，还和前面所有时刻的状态都有关，每个时刻的计算公式如下，$h^k$ 表示第 $k$ 个时刻的状态，也是当前状态，$f^k<em>t(h^t)$ 表示计算从 $h^t$ 传到 $h^k$ 的信息，$\sum</em>{t=0}^{k-1}f_t^k(h^t)$ 表示前 $k-1$ 个状态传给第 $k$ 个状态的信息和，$g^k(\cdot)$ 将汇聚起来的信息进行处理得到第 $k$ 个时刻的状态。</p>
+<h1 id="Revisiting-ResNet-DenseNet-and-Higher-Order-RNN"><a href="#Revisiting-ResNet-DenseNet-and-Higher-Order-RNN" class="headerlink" title="Revisiting ResNet, DenseNet and Higher Order RNN"></a>Revisiting ResNet, DenseNet and Higher Order RNN</h1><h2 id="Higher-Order-RNN-HORNN"><a href="#Higher-Order-RNN-HORNN" class="headerlink" title="Higher Order RNN(HORNN)"></a>Higher Order RNN(HORNN)</h2><p>在普通的 RNN 结构中，一个时刻的输入会与上一时刻的状态共同决定这一时刻的状态，而高阶 RNN 中，一个时刻的状态不仅与上一个时刻的状态有关，还和前面所有时刻的状态都有关，每个时刻的计算公式如下，$h^k$ 表示第 $k$ 个时刻的状态，也是当前状态，$f^k_t(h^t)$ 表示计算从 $h^t$ 传到 $h^k$ 的信息，$\sum_{t=0}^{k-1}f_t^k(h^t)$ 表示前 $k-1$ 个状态传给第 $k$ 个状态的信息和，$g^k(\cdot)$ 将汇聚起来的信息进行处理得到第 $k$ 个时刻的状态。</p>
 <script type="math/tex; mode=display">h^k = g^k[\sum_{t=0}^{k-1}f_t^k(h^t)]</script><p>HORNN 一个重要的特点是，对于任意的 $k$ 和 $t$，都有：</p>
 <ul>
 <li>$g^k(\cdot) = g(\cdot)$，即每个时刻的状态计算函数是相同的，就像普通的 RNN 一样，不同时刻用同一个隐层。</li>
 <li>$f^k_t(\cdot) = f_t(\cdot)$，即每个状态对后面时刻状态传递的信息是一样的，不会随着不同时刻而改变。</li>
 </ul>
 <h2 id="用-HORNN-去解释-DenseNet"><a href="#用-HORNN-去解释-DenseNet" class="headerlink" title="用 HORNN 去解释 DenseNet"></a>用 HORNN 去解释 DenseNet</h2><p>DenseNet 每一层的输入是前面所有层输出 concate 的结果，concate 之后进入一个 bottleneck layer，即 $1 \times 1$ 的卷积层，然后经过一个 $3 \times 3$ 的卷积层，得到该层的输出。</p>
-<p>假设 DenseNet 的 growth rate 为 c，每一层输出的 feature map 大小为 $h \times w$，那么第 $k$ 层的输入大小为 $h \times w \times (k-1)c$，$f^k(\cdot)$ 为 $1 \times 1 \times (k-1)c$ 的卷积层，由于是一个 $1 \times 1$ 的卷积，就相当于 feature map 的每个像素点 $x$ (一个长度为 $(k-1)c$ 的向量) 和卷积核 $w$ 进行向量內积，$w$ 和 $x$ 都是一个 $(k-1)c$ 维的向量，我们不妨将这两个向量分成 $k-1$ 份，$x = [x<em>1, x_2, …, x</em>{k-1}]$，$w = [w<em>1, w_2, …, w</em>{k-1}]$，每一份单独做內积再相加等同于整体內积，即 $w^Tx = \sum w_i^T x_i$。</p>
+<p>假设 DenseNet 的 growth rate 为 c，每一层输出的 feature map 大小为 $h \times w$，那么第 $k$ 层的输入大小为 $h \times w \times (k-1)c$，$f^k(\cdot)$ 为 $1 \times 1 \times (k-1)c$ 的卷积层，由于是一个 $1 \times 1$ 的卷积，就相当于 feature map 的每个像素点 $x$ (一个长度为 $(k-1)c$ 的向量) 和卷积核 $w$ 进行向量內积，$w$ 和 $x$ 都是一个 $(k-1)c$ 维的向量，我们不妨将这两个向量分成 $k-1$ 份，$x = [x_1, x_2, …, x_{k-1}]$，$w = [w_1, w_2, …, w_{k-1}]$，每一份单独做內积再相加等同于整体內积，即 $w^Tx = \sum w_i^T x_i$。</p>
 <p>由上面的推论，我们可以得知，concat 后作 $1 \times 1$ 的卷积，等同于前面 $k-1$ 个状态单独做一个 $1 \times 1$ 的卷积后相加，而 $f_t^k(\cdot)$ 等于 $f^k$ 对应的 $1 \times 1$ 的卷积核在 channel 上的第 $t$ 组，如 $f_1^k(\cdot)$ 就等于卷积核的 $[1,1, 0 : c]$ 这部分。</p>
 <img src="/2018/12/11/【论文阅读】——-Dual-Path-Network/1.png">
 <p>从这可以看出，DenseNet 的形式完全符合 HORNN 的形式，$f_t^k(\cdot)$ 表示第 $k$ 层第 $t$ 组 channel，$g^k(\cdot)$ 表示 $3 \times 3$ 的卷积层。需要注意的是，DenseNet 不满足 HORNN 的一个条件，即  $f^k_t(\cdot) = f_t(\cdot)$ 和 $g^k(\cdot) = g(\cdot)$，因为 DenseNet 每一层的 $1 \times 1$ 卷积层和 $3 \times 3$ 卷积层都不同。</p>
@@ -373,7 +373,7 @@
 <img src="/2018/12/11/【论文阅读】——-Dual-Path-Network/7.png">
 <p>下图是 ResNet 的图，左边的矩形代表 channel，灰圈代表 $r^k$，$r^k$ 经过一系列卷积后和 $r^k$ 相加得到 $r^{k+1}$，这幅图并没有从 HORNN 的角度去解释 ResNet（即上图的下半部分）。</p>
 <img src="/2018/12/11/【论文阅读】——-Dual-Path-Network/5.png">
-<p>上面我们证明了 ResNet 是 DenseNet 在 $f^k<em>t(\cdot) = f_t(\cdot)$ 下的特殊表达式，下图证明了这一点，(b) 中每一时刻的 $1 \times 1$ 卷积都不同，即绿色和橙色的箭头在每个时刻都不同。而 (c) 将 (b) 的形式 reformulate 了一下，将加法写成了一个独立的主分支，由于不同时刻的 $f_t(\cdot)$ 都一样。那么对于 k 时刻，$f_1(h^1) + … + f</em>{k-1}(h^{k-1})$，而对于 k+1 时刻，$f<em>1(h^1) + … + f</em>{k-1}(h^{k-1}) + f_k(h^k)$，因此只需要每次往右边的主干上加入 $f_k(h^k)$ 即可，这也就是下面的 (c) 图，$\underline{1 \times 1}$ 和 $3 \times 3$ 表示 $g^k(\cdot)$，经过 $g^k(\cdot)$ 得到 $h^k$，然后经过一个 $1\times1$ 的卷积得到 $f_k(h^k)$（橙色箭头）加入到右边。绿色和橙色的箭头只会出现在residual block中一次，也就意味着被加到了主分支之后，再也不会改变了。这也就是 with shared connections 的含义。  </p>
+<p>上面我们证明了 ResNet 是 DenseNet 在 $f^k_t(\cdot) = f_t(\cdot)$ 下的特殊表达式，下图证明了这一点，(b) 中每一时刻的 $1 \times 1$ 卷积都不同，即绿色和橙色的箭头在每个时刻都不同。而 (c) 将 (b) 的形式 reformulate 了一下，将加法写成了一个独立的主分支，由于不同时刻的 $f_t(\cdot)$ 都一样。那么对于 k 时刻，$f_1(h^1) + … + f_{k-1}(h^{k-1})$，而对于 k+1 时刻，$f_1(h^1) + … + f_{k-1}(h^{k-1}) + f_k(h^k)$，因此只需要每次往右边的主干上加入 $f_k(h^k)$ 即可，这也就是下面的 (c) 图，$\underline{1 \times 1}$ 和 $3 \times 3$ 表示 $g^k(\cdot)$，经过 $g^k(\cdot)$ 得到 $h^k$，然后经过一个 $1\times1$ 的卷积得到 $f_k(h^k)$（橙色箭头）加入到右边。绿色和橙色的箭头只会出现在residual block中一次，也就意味着被加到了主分支之后，再也不会改变了。这也就是 with shared connections 的含义。  </p>
 <img src="/2018/12/11/【论文阅读】——-Dual-Path-Network/6.png">
 <h2 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h2><p>从上面的分析可以看出，由于 ResNet 中 $f^k_t = f_t$，所以后面的层在复用前面层已经提取过的特征，除去这些直连的复用特征外，真正由卷积提取出来的特征“纯度”就比较高了，基本都是之前没有提取到过的全新特征，所以作者说 ResNet 提取的特征中冗余度比较低，且鼓励 feature reuse。而 DenseNet 每一层的 $f^k_t$ 都是不相同的，前面层提取出的特征不再是被后面层简单的复用，而是创造了全新的特征，这种结构后面层用卷积提取到的特征很有可能是前面层已提取过的，所以作者说 DenseNet 提取的特征冗余度高，但是鼓励探索新特征。</p>
 <p>ResNet 有高的特征复用率，但冗余度低，DenseNet 能创造新特征，但是冗余度高，作者提出把两种结构结合起来，提出 dual path network。</p>
@@ -527,7 +527,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

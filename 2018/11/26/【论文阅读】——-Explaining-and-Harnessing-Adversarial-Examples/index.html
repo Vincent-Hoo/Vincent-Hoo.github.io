@@ -382,7 +382,7 @@
 <p>而对抗样本不属于数据的manifold，可以理解为非自然点，即不在正常数据的分布内。有人理解对抗样本的存在是因为训练数据不够大没有覆盖到对抗样本，才导致模型欠拟合出现分类错误，但实际上对抗样本不属于正常数据，即使我们的训练数据有无穷多，也不可能包含对抗样本，因为对抗样本不在正常数据的分布内。</p>
 <p><br></p>
 <h1 id="对抗训练"><a href="#对抗训练" class="headerlink" title="对抗训练"></a>对抗训练</h1><p>这是基于 Ian Goodfellow 论文中提到的方法</p>
-<h2 id="线性模型的对抗训练"><a href="#线性模型的对抗训练" class="headerlink" title="线性模型的对抗训练"></a>线性模型的对抗训练</h2><p>考虑最简单的逻辑回归模型，假设训练一个逻辑回归模型来进行分类，分类的标签 $y \in { -1, +1}$，预测函数 $P(y = 1) = \sigma(w^T x + b)$，损失函数为 $J(x,y) = \zeta(-y(w^Tx + b))$，其中 $\zeta(x) = log(1 + exp(z))$ 为softplus函数。</p>
+<h2 id="线性模型的对抗训练"><a href="#线性模型的对抗训练" class="headerlink" title="线性模型的对抗训练"></a>线性模型的对抗训练</h2><p>考虑最简单的逻辑回归模型，假设训练一个逻辑回归模型来进行分类，分类的标签 $y \in \{ -1, +1\}$，预测函数 $P(y = 1) = \sigma(w^T x + b)$，损失函数为 $J(x,y) = \zeta(-y(w^Tx + b))$，其中 $\zeta(x) = log(1 + exp(z))$ 为softplus函数。</p>
 <p>其实这个损失函数就是我们一般的cross-entropy loss，经过一系列变形成上面的形式。</p>
 <script type="math/tex; mode=display">Likelihood(x,y) = \sigma(\hat{y})^{\frac{y+1}{2}}(1-\sigma(\hat{y}))^{1-\frac{y+1}{2}}</script><p>其中 $\hat{y} = w^Tx + b$  </p>
 <script type="math/tex; mode=display">Loss(x,y) = -log\ Likelihood(x,y) = \begin{cases} log(1 + exp(-\hat{y})) & y = 1 \\ log(1 + exp(\hat{y})) & y = -1 \end{cases}</script><p><br></p>
@@ -522,7 +522,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
