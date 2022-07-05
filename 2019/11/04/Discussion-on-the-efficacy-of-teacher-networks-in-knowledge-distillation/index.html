@@ -1,37 +1,851 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="本文将介绍几篇最近看到的论文，这些论文都共同讨论了教师网络的有效性，当我们在进行知识蒸馏的时候，都会想到的一个问题是：应该选择什么样的教师网络去进行知识迁移？是否越深准确率越高的大网络就一定有利于知识蒸馏呢？答案不是肯定的。这几篇文章从实验的角度给我们展示了在不同教师网络设定下的知识蒸馏的结果，并且提出改进。 本文讨论的论文如下：  Improved Knowledge Distillation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Discussion on the efficacy of teacher networks in knowledge distillation">
+<meta property="og:url" content="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="本文将介绍几篇最近看到的论文，这些论文都共同讨论了教师网络的有效性，当我们在进行知识蒸馏的时候，都会想到的一个问题是：应该选择什么样的教师网络去进行知识迁移？是否越深准确率越高的大网络就一定有利于知识蒸馏呢？答案不是肯定的。这几篇文章从实验的角度给我们展示了在不同教师网络设定下的知识蒸馏的结果，并且提出改进。 本文讨论的论文如下：  Improved Knowledge Distillation">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/1.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/2.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/3.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/4.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/5.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/6.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/7.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/8.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/9.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/10.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/11.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/12.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/13.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/14.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/15.png">
+<meta property="article:published_time" content="2019-11-04T13:20:24.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.286Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/"/>
+
+
+
+
+
+  <title>Discussion on the efficacy of teacher networks in knowledge distillation | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Discussion on the efficacy of teacher networks in knowledge distillation</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-04T21:20:24+08:00">
+                2019-11-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文将介绍几篇最近看到的论文，这些论文都共同讨论了教师网络的有效性，当我们在进行知识蒸馏的时候，都会想到的一个问题是：应该选择什么样的教师网络去进行知识迁移？是否越深准确率越高的大网络就一定有利于知识蒸馏呢？答案不是肯定的。这几篇文章从实验的角度给我们展示了在不同教师网络设定下的知识蒸馏的结果，并且提出改进。</p>
+<p>本文讨论的论文如下：</p>
+<ul>
+<li>Improved Knowledge Distillation via Teacher Assistant: Bridging the Gap Between Student and Teacher</li>
+<li>On the Efﬁcacy of Knowledge Distillation</li>
+<li>Distilling Knowledge From a Deep Pose Regressor Network</li>
+</ul>
+<span id="more"></span>
+<p><br></p>
+<h2 id="Improved-Knowledge-Distillation-via-Teacher-Assistant-Bridging-the-Gap-Between-Student-and-Teacher"><a href="#Improved-Knowledge-Distillation-via-Teacher-Assistant-Bridging-the-Gap-Between-Student-and-Teacher" class="headerlink" title="Improved Knowledge Distillation via Teacher Assistant: Bridging the Gap Between Student and Teacher"></a>Improved Knowledge Distillation via Teacher Assistant: Bridging the Gap Between Student and Teacher</h2><p>这是 DeepMind 今年放在 arxiv 上的一篇文章，作者通过一些小实验发现，在进行知识蒸馏的时候，增加教师网络的模型大小反而会使得知识蒸馏的效果变差，结果如下，学生网络是一个 2 层的 CNN，而教师网络分别是 4-10 层的 CNN，从结果可以看出，继续增加教师网络深度，并不一定能提高知识蒸馏的性能。</p>
+<img src="/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/1.png" class="" width="500" height="500">
+<p>从这个 toy experiment 可以看出，教师网络和学生网络之间的 Gap 确实是影响知识蒸馏的一个重要因素，当 Gap 变大的时候，从图中可以得出以下几个结论</p>
+<ul>
+<li>教师网络的性能不断提高，证明不是过拟合导致的知识蒸馏性能下降。</li>
+<li>教师网络的 capacity 不断增大，而学生网络的 capacity 不变，当 gap 增大到一定程度，学生网络的 capacity 不足以支撑其模仿教师网络。</li>
+<li>教师网络的性能不断提高，对于训练样本置信度增高，使得教师网络提供的软标签变“硬”，这也使得知识蒸馏性能下降。</li>
+</ul>
+<p>为了进一步证明 gap 确实影响知识蒸馏，作者做了一个小对比实验，固定教师网络为 10 层 CNN，改变学生网络的层数，结果如下，确实当 gap 大于某个阈值或者小于某个阈值的时候，知识蒸馏的效果都不是最优。</p>
+<img src="/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/2.png" class="" width="500" height="500">
+<p>基于这个观察，作者很自然地提出在大网络和小网络之间增加一个中等大小的网络（teacher assistant，TA），先用教师网络蒸馏 TA，再用 TA 蒸馏学生网络。</p>
+<img src="/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/3.png" class="" width="500" height="500">
+<p>当加入 TA 后，学生网络的蒸馏效果明显比直接蒸馏教师网络要好，NOKD = 没有 KD，BLKD = baseline KD，TAKD 是作者提出的方法。</p>
+<img src="/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/4.png" class="" width="500" height="500">
+<p>一个很自然的问题是，为什么要用蒸馏的 TA，而不直接训练一个 TA 呢？结果显示蒸馏的 TA 效果更好，从右图可以看出，蒸馏的 TA (KD-TA) 比直接训练的 TA (FS-TA) 要好。</p>
+<img src="/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/5.png" class="" width="500" height="500">
+<p>作者同时尝试了多阶段的 TA，即蒸馏一个 TA，再用该 TA 蒸馏下一个 TA，以此类推，结果如下，越多个阶段效果越好，但是越费时间和空间，这里的结果和上面 Table 1 的结果有一点矛盾，可以看出 10 -&gt; 2 实际就是 BLKD，但是这里显示的结果是 42.56，Table 1 显示的结果是 44.57，而 44.57 是 10 -&gt; 6 -&gt; 2 的结果，不知道是笔误还是什么。</p>
+<img src="/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/6.png" class="" width="700" height="700">
+<p>作者同时也对比了其他蒸馏方法，BSS 为基于对抗样本的蒸馏，MUTUAL 为 deep mutual learning，虽然结果显示作者的方法结果最好，但是这些方法差异较大，没有太多比较的必要，FITNET, AT, FSP 都是特征蒸馏方法，而 TAKD 为软标签蒸馏，但是可以看出作者提出的 TAKD 还是普遍好于其他的方法。同样的，这里也有一个和 Table 1 矛盾的地方，ResNet8 的 NOKD 在 Table 1 为 88.52，这里就变成了 86.02。</p>
+<img src="/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/7.png" class="">
+<p>这篇文章提出了一个影响知识蒸馏的因素：gap，学生网络的表达能力或者 capacity 有限，而如果教师网络太过强，就会提供一些超过学生网络能够学习范围的知识，就会导致反作用，因此如何找到恰当大小的教师网络是一个比较难的问题，作者采用的 TA 的方式，层层蒸馏，下一层吸收上一层的知识，再传递给下一层，确实是一个很好的办法，这解决了我们不知道选什么大小的教师网络的问题。</p>
+<p><br></p>
+<h2 id="On-the-Efﬁcacy-of-Knowledge-Distillation"><a href="#On-the-Efﬁcacy-of-Knowledge-Distillation" class="headerlink" title="On the Efﬁcacy of Knowledge Distillation"></a>On the Efﬁcacy of Knowledge Distillation</h2><blockquote>
+<p>Authors: Jang Hyun Cho,  Bharath Hariharan<br>Conference: ICCV 2019</p>
+</blockquote>
+<p>跟上面的文章一样，作者也认为 bigger models are not better teachers，但是他并不是做的 toy experiment，而是用 wide-resnet 在 cifar 和 ImageNet 上做了实验。教师网络无论是 wide-resnet 还是 DenseNet，无论是增加深度还是宽度，都是会有 degradation。</p>
+<img src="/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/8.png" class="">
+<img src="/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/9.png" class="">
+<p>而在 ImageNet 上的结果，有点出人意料，可能是 wide-resnet 的缘故，也可能是 ImageNet 的缘故，增加深度，性能不断下降，且 KD 完全无效。学生网络为 ResNet18，教师网络无论选什么，都比学生网络没有蒸馏的差。</p>
+<img src="/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/10.png" class="" width="500" height="500">
+<p>作者将 degradation 的原因归于教师网络和学生网络 capacity 的 mismatch，教师网络太过强大，因此作者提出两种小策略，来选出 capacity 相对较小的教师网络。</p>
+<h3 id="Early-stopping-KD-ESKD"><a href="#Early-stopping-KD-ESKD" class="headerlink" title="Early stopping KD(ESKD)"></a>Early stopping KD(ESKD)</h3><p>作者比较 ResNet18 在蒸馏下和无蒸馏下的 ImageNet 训练曲线发现，KD 一开始是有用的，但到后来就比 scratch 的要差，无论教师网络选择 ResNet34 还是 ResNet50。这两张图直接否定了 KD 的有效性，因此 ImageNet 是否是一个比较难进行知识蒸馏的数据集呢？因为很多 KD 的文章都没有在 ImageNet 上进行验证。</p>
+<img src="/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/11.png" class="">
+<p>基于上面的观察，作者决定提前结束 KD 过程，即 ESKD，结果如下，这时候 KD 确实有效果了，但是网络深度增加，degradation 现象依旧存在。</p>
+<img src="/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/12.png" class="" width="500" height="500">
+<p>ESKD 的训练曲线</p>
+<img src="/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/13.png" class="">
+<h3 id="Early-stopped-teacher"><a href="#Early-stopped-teacher" class="headerlink" title="Early-stopped teacher"></a>Early-stopped teacher</h3><p>解决 degradation 问题，就要把 teacher 的 capacity 降到 student 能够触碰的范围内，一个简单的方法就是早停策略，即不完全训练的 teacher。不完全训练的 teacher 表现上就和小网络一样。完全训练的 teacher 的实验设定为 200 epoch，60 epoch 将学习率（60/200），不完全训练的 teacher 遵循 (15/50，10/35) 等策略。</p>
+<p>下图为训练不完全的 teacher 用来蒸馏的效果，可以看出都比训练完全的 teacher 要好。</p>
+<img src="/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/14.png" class="">
+<p>用不同的学生和教师网络同样验证 ES teacher 的有效性</p>
+<img src="/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/15.png" class="">
+<p>这篇文章主要是实验型文章（实验结果很多），研究教师网络对于 KD 有效性的影响，并且提出两种策略来使得教师网络的 capacity 和学生网络相匹配，第一种方法为提前结束 KD 过程，至于为什么 KD 到了后面会不如 scratch，原因或许出于软标签上；而第二种方法为教师网络主动降低 capacity 来 match 学生网络。</p>
+<p>目前为止的这两篇文章都是围绕如何找到 match 学生网络 capacity 的教师网络。这里改进的点有很多。</p>
+<p><br></p>
+<h2 id="Distilling-Knowledge-From-a-Deep-Pose-Regressor-Network"><a href="#Distilling-Knowledge-From-a-Deep-Pose-Regressor-Network" class="headerlink" title="Distilling Knowledge From a Deep Pose Regressor Network"></a>Distilling Knowledge From a Deep Pose Regressor Network</h2><p>这篇文章在前面有专门的博客介绍，其关注的是回归问题，而不是分类问题，作者认为回归问题的解空间过大，因此对于学生网络不容易学习，并且回归问题中，网络输出是一张图，而不是一个概率分布，一张图是没有任何限制的，因此教师网络很有可能会给出非常错误的知识，因为回归网络的输出并没有任何约束。所以作者提出要对教师网络的输出进行约束，约束为：若教师网络生成的结果很差，就不用 KD，在 KD Loss 前面为每个样本添加一个系数，来衡量该样本是否值得知识迁移。</p>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/" rel="next" title="【论文阅读】—— Data-Free Learning of Student Networks">
+                <i class="fa fa-chevron-left"></i> 【论文阅读】—— Data-Free Learning of Student Networks
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/08/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94Be-Your-Own-Teacher-Improve-the-Performance-of-Convolutional-Neural-Networks-via-Self-Distillation/" rel="prev" title="【论文阅读】——Be Your Own Teacher, Improve the Performance of Convolutional Neural Networks via Self Distillation">
+                【论文阅读】——Be Your Own Teacher, Improve the Performance of Convolutional Neural Networks via Self Distillation <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Improved-Knowledge-Distillation-via-Teacher-Assistant-Bridging-the-Gap-Between-Student-and-Teacher"><span class="nav-number">1.</span> <span class="nav-text">Improved Knowledge Distillation via Teacher Assistant: Bridging the Gap Between Student and Teacher</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#On-the-Ef%EF%AC%81cacy-of-Knowledge-Distillation"><span class="nav-number">2.</span> <span class="nav-text">On the Efﬁcacy of Knowledge Distillation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Early-stopping-KD-ESKD"><span class="nav-number">2.1.</span> <span class="nav-text">Early stopping KD(ESKD)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Early-stopped-teacher"><span class="nav-number">2.2.</span> <span class="nav-text">Early-stopped teacher</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Distilling-Knowledge-From-a-Deep-Pose-Regressor-Network"><span class="nav-number">3.</span> <span class="nav-text">Distilling Knowledge From a Deep Pose Regressor Network</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

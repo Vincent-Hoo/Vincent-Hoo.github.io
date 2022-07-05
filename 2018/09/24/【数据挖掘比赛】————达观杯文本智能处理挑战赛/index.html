@@ -1,37 +1,829 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="“达观杯”文本智能处理挑战赛是达观集团在DataCastle举办的数据挖掘比赛，比赛全程一个人solo，最终排名为：40&#x2F;3182(top2%)。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【数据挖掘比赛】————达观杯文本智能处理挑战赛">
+<meta property="og:url" content="http://vincentho.name/2018/09/24/%E3%80%90%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%E3%80%91%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E8%BE%BE%E8%A7%82%E6%9D%AF%E6%96%87%E6%9C%AC%E6%99%BA%E8%83%BD%E5%A4%84%E7%90%86%E6%8C%91%E6%88%98%E8%B5%9B/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="“达观杯”文本智能处理挑战赛是达观集团在DataCastle举办的数据挖掘比赛，比赛全程一个人solo，最终排名为：40&#x2F;3182(top2%)。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2018/09/24/%E3%80%90%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%E3%80%91%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E8%BE%BE%E8%A7%82%E6%9D%AF%E6%96%87%E6%9C%AC%E6%99%BA%E8%83%BD%E5%A4%84%E7%90%86%E6%8C%91%E6%88%98%E8%B5%9B/header.png">
+<meta property="article:published_time" content="2018-09-24T04:21:44.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.415Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2018/09/24/%E3%80%90%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%E3%80%91%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E8%BE%BE%E8%A7%82%E6%9D%AF%E6%96%87%E6%9C%AC%E6%99%BA%E8%83%BD%E5%A4%84%E7%90%86%E6%8C%91%E6%88%98%E8%B5%9B/header.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2018/09/24/【数据挖掘比赛】————达观杯文本智能处理挑战赛/"/>
+
+
+
+
+
+  <title>【数据挖掘比赛】————达观杯文本智能处理挑战赛 | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2018/09/24/%E3%80%90%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%E3%80%91%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E8%BE%BE%E8%A7%82%E6%9D%AF%E6%96%87%E6%9C%AC%E6%99%BA%E8%83%BD%E5%A4%84%E7%90%86%E6%8C%91%E6%88%98%E8%B5%9B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【数据挖掘比赛】————达观杯文本智能处理挑战赛</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-24T12:21:44+08:00">
+                2018-09-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <img src="/2018/09/24/%E3%80%90%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%E3%80%91%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E8%BE%BE%E8%A7%82%E6%9D%AF%E6%96%87%E6%9C%AC%E6%99%BA%E8%83%BD%E5%A4%84%E7%90%86%E6%8C%91%E6%88%98%E8%B5%9B/header.png" class="">
+<p><a target="_blank" rel="noopener" href="http://www.dcjingsai.com/common/cmpt/%E2%80%9C%E8%BE%BE%E8%A7%82%E6%9D%AF%E2%80%9D%E6%96%87%E6%9C%AC%E6%99%BA%E8%83%BD%E5%A4%84%E7%90%86%E6%8C%91%E6%88%98%E8%B5%9B_%E7%AB%9E%E8%B5%9B%E4%BF%A1%E6%81%AF.html">“达观杯”文本智能处理挑战赛</a>是达观集团在<a target="_blank" rel="noopener" href="http://www.dcjingsai.com/">DataCastle</a>举办的数据挖掘比赛，比赛全程一个人solo，最终排名为：40/3182(top2%)。</p>
+<span id="more"></span>
+<h2 id="比赛信息"><a href="#比赛信息" class="headerlink" title="比赛信息"></a>比赛信息</h2><h3 id="赛题任务"><a href="#赛题任务" class="headerlink" title="赛题任务"></a>赛题任务</h3><p>自然语言处理一直是人工智能领域的重要话题，而人类语言的复杂性也给 NLP 布下了重重困难等待解决。长文本的智能解析就是颇具挑战性的任务，如何从纷繁多变、信息量庞杂的冗长文本中获取关键信息，一直是文本领域难题。随着深度学习的热潮来临，有许多新方法来到了 NLP 领域，给相关任务带来了更多优秀成果，也给大家带来了更多应用和想象的空间。</p>
+<p>此次比赛提供了一批长文本数据和分类信息，我们需要构建文本分类模型，实现精准分类。</p>
+<h3 id="赛题数据"><a href="#赛题数据" class="headerlink" title="赛题数据"></a>赛题数据</h3><p>这是一个文本分类的任务，并且针对的是长文本，数据给定了长文本经过分词后的结果，并且数据进行了脱敏处理，无法知道原文本是什么内容，数据特征列如下：</p>
+<ul>
+<li>word_seg：str，文本分词后的每一个词，用空格间隔，一个词用一个数字代表</li>
+<li>article：str，文本中的每一个字，同样用空格间隔，一个数字代表一个字。从这里可以看出文本应该是中文，存在字和词的信息。</li>
+<li>class：int，文本所属的类别（共19个类）</li>
+</ul>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="特征提取"><a href="#特征提取" class="headerlink" title="特征提取"></a>特征提取</h3><p>文本信息不能作为分类模型的输入，我们必须要将文本的词信息转成数字信息，常用的方法有onehot，tf-idf，LDA，word2vec，在本次比赛中，我采用了tf-idf和word2vec这两种特征提取方法</p>
+<p>sklearn中有TfidfVectorizer的工具可以直接将文本信息转成t-fidf矩阵，比较重要的参数如下</p>
+<ul>
+<li>ngram-range：tuple，ngram是指将多个词看成一个词的一种做法，这样做可以将词序考虑进去，而不是将每个词都看成是独立的。</li>
+<li>min_df, max_df：int/double，这两个参数都是限定哪些词需要考虑的，出现太多次或者太少次都需要被过滤。</li>
+<li>use_idf：默认为true</li>
+<li>smooth_idf：默认为true防止分母为0。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vec = TfidfVectorizer(ngram_range=(<span class="number">1</span>,<span class="number">3</span>),min_df=<span class="number">3</span>, max_df=<span class="number">0.9</span>,use_idf=<span class="number">1</span>,smooth_idf=<span class="number">1</span>, sublinear_tf=<span class="number">1</span>)</span><br><span class="line">x = vec.fit_transform(x)</span><br></pre></td></tr></table></figure>
+<h3 id="单模型"><a href="#单模型" class="headerlink" title="单模型"></a>单模型</h3><h4 id="线性模型"><a href="#线性模型" class="headerlink" title="线性模型"></a>线性模型</h4><p>长文本提取出来的tf-idf矩阵维度达到了百万级，远远大于训练集的样本数，这时候选取线性模型的分类效果和训练时间都会比较好，因此我选择了逻辑回归分类器和线性svm作为基本的分类器，并且通过交叉验证和网格搜索找到较好的参数设置。</p>
+<h4 id="深度学习模型"><a href="#深度学习模型" class="headerlink" title="深度学习模型"></a>深度学习模型</h4><ul>
+<li><p>fasttext是Facebook提出的一个快速文本分类的模型，本质上是一个线性模型，因为它的网络没有用到激活函数，而fasttext重要的一点是用到了character-ngram的trick，但是在这个任务中， 由于数据脱敏了，所以这个trick就没有太大的作用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clf = fasttext.supervised(input_file = <span class="string">&#x27;fasttext_trainset.txt&#x27;</span>, output=<span class="string">&#x27;fasttext_model&#x27;</span>, label_prefix = <span class="string">&#x27;__label__&#x27;</span>, bucket = <span class="number">2000000</span>, word_ngrams = <span class="number">1</span>, ws = <span class="number">20</span>, epoch=<span class="number">40</span>, silent = <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>CNN模型用于文本分类，主要是将文本拼成一个矩阵，然后进行卷积操作，网络结构如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">input_layer = Input(shape = (MAX_WORD_NUM,), dtype = <span class="string">&#x27;int32&#x27;</span>, name = <span class="string">&#x27;input&#x27;</span>)</span><br><span class="line">embedding_layer = Embedding(input_dim=vocab_size, output_dim=embedding_dim, input_length= MAX_WORD_NUM, trainable = <span class="literal">True</span>)(input_layer)</span><br><span class="line"></span><br><span class="line">conv_output = []</span><br><span class="line"><span class="keyword">for</span> filter_ <span class="keyword">in</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]:</span><br><span class="line">    conv = Conv1D(<span class="number">256</span>, filter_, padding=<span class="string">&#x27;same&#x27;</span>)(embedding_layer)</span><br><span class="line">    conv = Activation(<span class="string">&#x27;relu&#x27;</span>)(conv)</span><br><span class="line">    conv = GlobalMaxPool1D()(conv)</span><br><span class="line">    conv_output.append(conv)</span><br><span class="line"></span><br><span class="line">conv_output = concatenate(conv_output)</span><br><span class="line">full_connected_layer = Dense(<span class="number">256</span>)(conv_output)</span><br><span class="line">full_connected_layer = Dropout(<span class="number">0.3</span>)(full_connected_layer)</span><br><span class="line">full_connected_layer = Activation(<span class="string">&#x27;relu&#x27;</span>)(full_connected_layer)</span><br><span class="line">full_connected_layer = Dense(<span class="number">72</span>)(full_connected_layer)</span><br><span class="line">full_connected_layer = Activation(<span class="string">&#x27;relu&#x27;</span>)(full_connected_layer)</span><br><span class="line">full_connected_layer = Dense(<span class="number">19</span>)(full_connected_layer)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>bi-lstm用于文本分类也很常见，lstm能够解决RNN梯度消失的问题，并且能够捕获文本长时间的依赖关系，网络结构如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">input_layer = Input(shape = (MAX_WORD_NUM, ), dtype=<span class="string">&#x27;int32&#x27;</span>)</span><br><span class="line">embedding_layer = Embedding(input_dim=vocab_size, output_dim=embedding_dim, input_length=MAX_WORD_NUM, trainable = <span class="literal">True</span>)(input_layer)</span><br><span class="line">x = Dropout(<span class="number">0.3</span>)(embedding_layer)</span><br><span class="line">x = LSTM(units=<span class="number">128</span>, return_sequences= <span class="literal">True</span>)(embedding_layer)</span><br><span class="line">x = Dropout(<span class="number">0.3</span>)(x)</span><br><span class="line">x = Flatten()(x)</span><br><span class="line">x = Dense(units=<span class="number">19</span>)(x)</span><br></pre></td></tr></table></figure>
+<h3 id="模型融合"><a href="#模型融合" class="headerlink" title="模型融合"></a>模型融合</h3><p>单模型效果最好的是几个线性模型，深度模型的效果都一般般，但通过最后的stacking，使得整体模型的效果有了一定的提升，stacking过程分5折</p>
+<ul>
+<li>第一层<ul>
+<li>逻辑回归，搭配不同的solver</li>
+<li>linear svc</li>
+<li>fasttext</li>
+<li>lstm</li>
+<li>cnn</li>
+</ul>
+</li>
+<li>第二层：lgb</li>
+</ul>
+</li>
+</ul>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><p>比赛代码可以到<a target="_blank" rel="noopener" href="https://github.com/Vincent-Hoo/2018-Dc-DataGrand-TextClassification">这里</a>查看，比赛前十的答辩ppt如下：<a href="/2018/09/24/%E3%80%90%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%E3%80%91%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E8%BE%BE%E8%A7%82%E6%9D%AF%E6%96%87%E6%9C%AC%E6%99%BA%E8%83%BD%E5%A4%84%E7%90%86%E6%8C%91%E6%88%98%E8%B5%9B/%E8%BE%BE%E8%A7%82%E6%9D%AF%E5%8D%81%E5%BC%BA%E5%88%86%E4%BA%AB%E6%B1%87%E6%80%BBppt.pdf" title="达观杯十强分享汇总ppt.pdf">达观杯十强分享汇总ppt.pdf</a></p>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/" rel="next" title="【概率论与数理统计】————随机变量及其分布">
+                <i class="fa fa-chevron-left"></i> 【概率论与数理统计】————随机变量及其分布
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/27/%E4%BF%9D%E7%A0%94%E5%8E%86%E7%A8%8B%E5%88%86%E4%BA%AB/" rel="prev" title="保研历程分享">
+                保研历程分享 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AF%94%E8%B5%9B%E4%BF%A1%E6%81%AF"><span class="nav-number">1.</span> <span class="nav-text">比赛信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B5%9B%E9%A2%98%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.1.</span> <span class="nav-text">赛题任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B5%9B%E9%A2%98%E6%95%B0%E6%8D%AE"><span class="nav-number">1.2.</span> <span class="nav-text">赛题数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96"><span class="nav-number">2.1.</span> <span class="nav-text">特征提取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">单模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.1.</span> <span class="nav-text">线性模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.2.</span> <span class="nav-text">深度学习模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%9E%8D%E5%90%88"><span class="nav-number">2.3.</span> <span class="nav-text">模型融合</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">3.</span> <span class="nav-text">附录</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

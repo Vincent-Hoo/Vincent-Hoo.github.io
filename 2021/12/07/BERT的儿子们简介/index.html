@@ -1,37 +1,886 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Bert 的面世带动了 NLP 预训练模型的蓬勃发展，同时也衍生了很多的 bert 的变种，这里我们介绍一下 bert 的这些变种模型，如 ALBERT，fastbert，tinybert等，看下他们都是做了哪些优化的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BERT的儿子们简介">
+<meta property="og:url" content="http://vincentho.name/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="Bert 的面世带动了 NLP 预训练模型的蓬勃发展，同时也衍生了很多的 bert 的变种，这里我们介绍一下 bert 的这些变种模型，如 ALBERT，fastbert，tinybert等，看下他们都是做了哪些优化的。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/roberta-1.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/roberta-2.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/albert-1.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/albert-2.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/albert-3.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/albert-4.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/albert-5.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/distill-table.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/distill-bilstm.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/bert-pkd.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/tinybert-1.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/tinybert-2.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/miniLM.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/fastbert.png">
+<meta property="article:published_time" content="2021-12-07T11:45:40.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.252Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/roberta-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2021/12/07/BERT的儿子们简介/"/>
+
+
+
+
+
+  <title>BERT的儿子们简介 | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">BERT的儿子们简介</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-12-07T19:45:40+08:00">
+                2021-12-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Bert 的面世带动了 NLP 预训练模型的蓬勃发展，同时也衍生了很多的 bert 的变种，这里我们介绍一下 bert 的这些变种模型，如 ALBERT，fastbert，tinybert等，看下他们都是做了哪些优化的。</p>
+<span id="more"></span>
+<p><br></p>
+<h3 id="RoBERTa"><a href="#RoBERTa" class="headerlink" title="RoBERTa"></a>RoBERTa</h3><blockquote>
+<p>RoBERTa: A Robustly Optimized BERT Pretraining Approach</p>
+</blockquote>
+<p>roberta 在结构上和 bert 完全一样，只是通过一些其他的方式证明 bert 还没完全训练完，性能还能提升，与 bert 比较，roberta 在预训练的时候做了以下改进</p>
+<p>1：动态 mask：对比 bert 的 mask，稍微好一点</p>
+<ul>
+<li>bert 的训练数据在训练前就全部构造好了，因此对于一个 sample，它的 mask 的位置是固定的，每个 epoch 都是一样</li>
+<li>而 roberta 构造训练数据是在数据输入模型前，这样能保证每个 epoch 的 sample，mask 的位置不同<img src="/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/roberta-1.png" class="" width="500" height="500">
+</li>
+</ul>
+<p>2： 去掉 NSP 任务，并且更改数据输入格式为全部填充可以跨越多个文档</p>
+<ul>
+<li>结论就是 NSP 任务没什么用，ALBERT 也验证了并换成难度更大的 SOP 任务</li>
+<li>roberta 试验了四种输入格式<ul>
+<li>segment-pair + NSP：就是 bert 的输入格式</li>
+<li>sentence-pair + NSP：输入的是一对句子，前后都是单个句子；对比 segment-pair，这个效果更差，因为两句句子太短了，对比一大段的两段文字，前后关系不好判断。</li>
+<li>full-sentence：如果输入的最大长度为 512，那么就是尽量选择 512 长度的连续句子。如果跨 document 了，就在中间加上一个特殊分隔符。无 NSP。实验使用了这个，因为能够固定 batch size 的大小。</li>
+<li>doc-sentence：输入和 full-sentence 类似，但不能跨两个 document</li>
+</ul>
+</li>
+</ul>
+<img src="/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/roberta-2.png" class="" width="500" height="500">
+<p>3：更多的数据，更大的 batch size，更多的步数，更长的训练时间</p>
+<ul>
+<li>数据：bert：16G，roberta：160G</li>
+<li>batchsize：bert：256，roberta：8k</li>
+</ul>
+<p><br></p>
+<h3 id="ALBERT"><a href="#ALBERT" class="headerlink" title="ALBERT"></a>ALBERT</h3><blockquote>
+<p> ALBERT: A Lite BERT For Self-Supervised Learning Of Language Representations</p>
+</blockquote>
+<p>从论文题目看，albert 是主打 lightweight 的，对比 bert 主要有下面几点改进</p>
+<ol>
+<li>Factorized embedding parameterization：bert 的 embedding 层，每个词向量的大小 E 都和 transformer 隐藏层 H 一样，$E = H = 768$，因此词表占了很大的一个参数量，因此 albert 将 E 和 H 分开，令 $E &lt; H$，通过一个矩阵进行映射即可</li>
+<li>Cross-layer parameter sharing：为了减少网络的参数量，albert 对不同层的参数进行共享，参数共享有三种方式：只共享 feed-forward network 的参数、只共享 attention 的参数、共享全部参数。albert 默认是共享全部参数的</li>
+<li>Inter-sentence coherence loss：去掉 NSP 任务，改做 sentence-order-prediction（SOP）任务，NSP 任务比较简单，模型更多的会通过两个句子的 topic 是否一致来判断，而不是通过句子间的关系来判断，而 SOP 任务直接判断两个句子是正的还是反的，并且两个句子来自同一个文档，topic 保持一致。</li>
+</ol>
+<p>作者实验了以下几种网络参数，通过共享所有层的参数，参数量大幅度下降</p>
+<img src="/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/albert-1.png" class="">
+<p>其实 Albert 只能做到减少参数量，并不能很好的加快推理速度，因为网络还是那么深，对比 bert-large 和 albert-large，他们唯一不同就在于 embedding 层变小了，但就这一点不同，就有 1.7 倍的加速了；另外我们可以看出共享参数是会掉精度的，这也很好理解</p>
+<img src="/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/albert-2.png" class="">
+<p>改变 embedding size，对于 bert 和 albert 都有一定影响，128 效果最好</p>
+<img src="/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/albert-3.png" class="">
+<p>共享不同参数，可以看出 FFN 比较重要，attention 没那么重要，但考虑到压缩量，作者还是选择全部共享</p>
+<img src="/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/albert-4.png" class="">
+<p>SOP 任务训练可以解决 NSP 任务，但 NSP 任务训练不可以解决 SOP 任务</p>
+<img src="/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/albert-5.png" class="">
+<p>最后，作者尝试了用更多的数据（roberta的训练数据集），训练更长时间，都能得到提升，并且作者去掉 dropout 也能提升，因为模型还没到过拟合的程度，因此不需要 dropout。</p>
+<p>albert 能做到好的结果，得益于 更大的 H，更多的数据，SOP 任务，dropout 的去除，将这些 trick 应用到 bert 上，bert 也能得到提升。</p>
+<p><br></p>
+<h3 id="BERT-Distillation"><a href="#BERT-Distillation" class="headerlink" title="BERT Distillation"></a>BERT Distillation</h3><blockquote>
+<p>Distilling Task-Specific Knowledge from BERT into Simple Neural Networks.<br>Patient Knowledge Distillation for BERT Model Compression.<br>DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter.<br>TinyBERT: Distilling BERT for Natural Language Understanding.<br>MobileBERT: a Compact Task-Agnostic BERT for Resource-Limited Devices.<br>MINILM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers.<br>FastBERT: a Self-distilling BERT with Adaptive Inference Time.</p>
+</blockquote>
+<p>上面蒸馏方法的对比如下表，可以看出主要的差别在于</p>
+<ol>
+<li>KD 的阶段是在预训练阶段还是微调阶段</li>
+<li>KD 的位置，从最后的输出 logit 到中间特征层，和 CV 的 KD 一样</li>
+<li>是否用教师网络来初始化学生网络</li>
+</ol>
+<img src="/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/distill-table.png" class="">
+<h4 id="Distilled-BiLSTM"><a href="#Distilled-BiLSTM" class="headerlink" title="Distilled BiLSTM"></a>Distilled BiLSTM</h4><p>教师网络是先将 BERT-large 微调到具体任务，学生网络是 BiLSTM，将教师网络的 logit 输出蒸馏到学生网络的 logit，这里应该是用的教师网络的 [CLS] 的那个logit 输出，距离函数直接用的 MSE，针对不同输入的任务，都是将 lstm 两边的输出拼接然后接 softmax 得到任务的 logit。最终的损失函数为 ground-true label 的 CE loss + 教师网络和学生网络 logit 之间的 MSE（作者发现 MSE 比 CE 好）。</p>
+<p>另外因为 KD 是在 fine-tune 阶段，所以做了 data augmentation。</p>
+<img src="/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/distill-bilstm.png" class="" width="500" height="500">
+<h4 id="BERT-PKD"><a href="#BERT-PKD" class="headerlink" title="BERT-PKD"></a>BERT-PKD</h4><p>同样是 finetune 阶段的 KD，将 BERT-BASE 在下游任务上进行 finetune 得到教师网络，学生网络同样是 BERT，但是深度比教师网络浅，比如 3 或6 层，因为只是深度减少了，所以可以用教师网络来初始化学生网络，损失函数为下游任务的 ground-true CE loss + 教师网络和学生网络 logit CE loss + 中间层的蒸馏，中间层蒸馏也不是每个 token 都比较，只蒸馏 [CLS]，用的是 MSE loss，中间层的选择有两种，分别是 PKD-last 和 PKD-skip，skip 的结果好一点</p>
+<img src="/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/bert-pkd.png" class="" width="500" height="500">
+<h4 id="DistilledBert"><a href="#DistilledBert" class="headerlink" title="DistilledBert"></a>DistilledBert</h4><p>前面两个 KD 的工作都是在 finetune 阶段，学生网络从教师网络中学习到的都是 task-specific 的知识，DistilledBert 选择预训练阶段进行蒸馏，也叫做通用蒸馏（general distillation）。</p>
+<ul>
+<li>教师网络是 BERT-base，学生网络为 6 层 bert，采取 PKD-skip 的方式初始化</li>
+<li>训练方式采取 roberta 的方式，去掉 NSP 任务，采取动态 mask，但训练数据和 bert 保持一致，16G</li>
+<li>由于只有 MLM 任务，因此损失函数有 MLM loss，教师网络-学生网络最后一层的交叉熵，除此之外，作者加了一个 cosine embedding loss，比较最后一层 hidden（softmax 层之前）</li>
+</ul>
+<h4 id="Tinybert"><a href="#Tinybert" class="headerlink" title="Tinybert"></a>Tinybert</h4><p>将前面所有工作混在一起，既进行预训练阶段的蒸馏，也进行微调阶段的蒸馏，蒸馏的位置包括输出 logit、中间层特征（attention map，hidden state）、word embedding。</p>
+<p>整体的流程如下，首先有一个教师网络 bert-base，和一个没训练的学生网络，这里不拿教师网络去初始化，因为学生网络的隐藏层和教师网络可能不一样，初始化不了，然后用教师网络进行 general distillation 得到 general tinybert，然后将教师网络在下游任务中进行 finetune，再拿这个 finetune 的教师网络去进行 task-specific 的蒸馏得到 finetune tinybert（有数据增广）。</p>
+<img src="/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/tinybert-1.png" class="" width="500" height="500">
+<p>损失函数如下，注意 general distillation 没有 logit 的 loss，中间层的蒸馏采用 pkd-skip 的方式对应。</p>
+<ol>
+<li>输出层 logit 采取 CE loss</li>
+<li>中间层 attention map 蒸馏（MSE），用的是未 softmax 之前的 map</li>
+<li>中间层 hidden state 蒸馏（MSE），由于维度不同，会加一个映射矩阵</li>
+<li>embedding 蒸馏（MSE），同样维度不同，也会加一个映射矩阵</li>
+</ol>
+<img src="/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/tinybert-2.png" class="" width="700" height="700">
+<h4 id="miniLM"><a href="#miniLM" class="headerlink" title="miniLM"></a>miniLM</h4><p>这篇论文的方法是最简洁的，也提出了一种新的知识——value-value 矩阵，attention map 是 K 和 V 点乘得到的，而 value-value 矩阵是将 V 矩阵和 V 矩阵的转置进行点乘，然后进行蒸馏；考虑到教师网络和学生网络层数、维度等都不同，所以只蒸馏最后一层，距离度量采取的是 KL 散度；最后引入助教制度，先蒸馏到助教，助教再蒸馏到学生。</p>
+<p>性能的话，还要比 tinybert 和 distilledbert 要好不少，miniLM 只进行 general distillation，简洁效果又好，比 tinybert 蒸馏一大堆性价比高太多了</p>
+<img src="/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/miniLM.png" class="" width="700" height="700">
+<h4 id="mobileBert"><a href="#mobileBert" class="headerlink" title="mobileBert"></a>mobileBert</h4><p>个人最不喜欢的一篇文章，结构复杂，虽说像 mobilenet 那样引入 bottleneck 的结构，但整体的流程太复杂，不推荐。</p>
+<h4 id="FastBert"><a href="#FastBert" class="headerlink" title="FastBert"></a>FastBert</h4><p>fastbert 参考了 CV 领域里面的 self-distillation 和 adaptive inference 的策略，由于是自蒸馏，因此教师网络就是学生网络，具体流程是：先拿一个预训练好的 bert 模型，在下游任务中进行 finetune 好，然后在每一层 transformer 后加入一个 classifier，这些 classifier 叫做 student classifier，最后一层的 classifier（finetune 好的）叫做 teacher classifier，然后就是自蒸馏的部分，teacher classifier 的输出分别蒸馏给每一个 student classifier，用的是 KL 散度。</p>
+<p>adaptive inference 部分就是对于一个样本，每经过一层 transformer，就经过一个 student classifier，然后输出的 logit，计算不确定性，不确定性用 logit 的 entropy 来表示，如果不确定性低于阈值，就停止往下过网络，反之继续过网络。</p>
+<img src="/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/fastbert.png" class="" width="700" height="700">
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/12/07/NLP%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%86%B5/" rel="next" title="NLP预训练模型概况">
+                <i class="fa fa-chevron-left"></i> NLP预训练模型概况
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/12/14/VIT%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/" rel="prev" title="VIT预训练模型介绍">
+                VIT预训练模型介绍 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#RoBERTa"><span class="nav-number">1.</span> <span class="nav-text">RoBERTa</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ALBERT"><span class="nav-number">2.</span> <span class="nav-text">ALBERT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BERT-Distillation"><span class="nav-number">3.</span> <span class="nav-text">BERT Distillation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Distilled-BiLSTM"><span class="nav-number">3.1.</span> <span class="nav-text">Distilled BiLSTM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BERT-PKD"><span class="nav-number">3.2.</span> <span class="nav-text">BERT-PKD</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DistilledBert"><span class="nav-number">3.3.</span> <span class="nav-text">DistilledBert</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tinybert"><span class="nav-number">3.4.</span> <span class="nav-text">Tinybert</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#miniLM"><span class="nav-number">3.5.</span> <span class="nav-text">miniLM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mobileBert"><span class="nav-number">3.6.</span> <span class="nav-text">mobileBert</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FastBert"><span class="nav-number">3.7.</span> <span class="nav-text">FastBert</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

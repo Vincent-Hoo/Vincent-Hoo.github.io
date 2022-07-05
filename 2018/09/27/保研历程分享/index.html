@@ -1,37 +1,881 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="从今年3月开始关注保研的信息，到9月份的尘埃落定，半年里奔跑于各一大城市，各种交流面试，这一路保研的历程充满着焦虑、紧张到最后的喜悦，现在回想起来，总有值得总结和分享的地方。这篇文章将我的保研历程分为三部分：前期准备、夏令营和九月推免。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="保研历程分享">
+<meta property="og:url" content="http://vincentho.name/2018/09/27/%E4%BF%9D%E7%A0%94%E5%8E%86%E7%A8%8B%E5%88%86%E4%BA%AB/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="从今年3月开始关注保研的信息，到9月份的尘埃落定，半年里奔跑于各一大城市，各种交流面试，这一路保研的历程充满着焦虑、紧张到最后的喜悦，现在回想起来，总有值得总结和分享的地方。这篇文章将我的保研历程分为三部分：前期准备、夏令营和九月推免。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-09-27T07:06:33.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.766Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2018/09/27/保研历程分享/"/>
+
+
+
+
+
+  <title>保研历程分享 | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2018/09/27/%E4%BF%9D%E7%A0%94%E5%8E%86%E7%A8%8B%E5%88%86%E4%BA%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">保研历程分享</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-27T15:06:33+08:00">
+                2018-09-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>从今年3月开始关注保研的信息，到9月份的尘埃落定，半年里奔跑于各一大城市，各种交流面试，这一路保研的历程充满着焦虑、紧张到最后的喜悦，现在回想起来，总有值得总结和分享的地方。这篇文章将我的保研历程分为三部分：前期准备、夏令营和九月推免。</p>
+<span id="more"></span>
+<p>夏令营中最后悔的是没有申请中科院，无论是计算所、软件所还是自动化所，都很值得去尝试；上交的报名系统是我见过最简单的，没有之一，像平常问卷那样，不用上传任何材料；北大本部是我一心向往却无法接近的存在（同清华）</p>
+<ul>
+<li>夏令营申请：清华叉院，清华伯克利，北大信科，北大信工，北大叉院，南大AI学院，复旦计科，上交计科</li>
+<li>夏令营入营：清华伯克利，北大信工（推掉），南大，复旦（与考试冲突）</li>
+</ul>
+<p><br></p>
+<h3 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h3><p>3月份开始，各大论坛和学院官网就会公布夏令营的报名信息，一般的夏令营都会在7月上中旬举行，但是也有6月份的，如清华叉院，南大lambda实验室（为了提前抢人）。然后就是准备各种申请材料，包括简历、个人陈述、研究计划、推荐信以及各种获奖证书，一般情况，材料只需要中文即可，但是也存在某些院要求中英文（如清华的某院），所以最好就是两个版本都准备一下。</p>
+<p>材料准备的过程十分漫长和煎熬，跟出国的材料基本一致，只是国内夏令营的材料水分更大，不需要特别的精雕细刻。准备材料的时候，你会感受到自己的中文和英文都无比的差 &gt;_&lt;</p>
+<ul>
+<li>简历：英文简历最好用latex，中文简历自己找个像样的模板即可。</li>
+<li>PS：保证一定的叙事性，同时加入一定的学术性，可以说是非常难了。</li>
+<li>研究计划：并不是简单的写自己未来想做什么，要写出文献综述的感觉，总结过去的工作，找出研究问题的关键之处，并且给出有一定可行性的解决方案作为未来的研究计划。</li>
+<li>推荐信：国内的推荐信基本都是学生写，然后老师签名，与申请国外学校不一样，国内推荐信只是形式；而信的内容就是各种自夸。</li>
+</ul>
+<p>另外：强烈推荐做一个自己本科阶段科研工作展示报告的ppt，用处很大，面试的时候也可以给老师看，这比老师看简历要来得更加容易。</p>
+<p>材料准备完，然后就去学校夏令营的报名系统报名，然后寄纸质材料。如果没有推荐信的话，我觉得夏令营的申请都比较容易，但是由于推荐信需要老师亲自签名，所以经常会出现拿着好几封推荐信要老师签名的情况，老师找得太多次又不好意思，然而推荐信的作用在所有申请材料里面基本为 0，这个形式上的推荐信，我是非常想吐槽的！！！</p>
+<hr>
+<p>至此，夏令营申请基本完成了，然后你就可以每天进行焦急的等待。</p>
+<p>但如果你有明确的研究方向，或者你有明确的导师意向，你就可以提前进行套磁，套磁的过程基本就是发一封邮件给有意向的导师进行自荐，并且附上自己的简历等材料。套磁的结果需要理性分析，并不能太过先入为主，要分析老师的回复是套话还是真的对你有兴趣；我发了邮件给十几个老师，清华的老师基本就是不回，或者回复名额已满；北大的sx老师直接回复“欢迎报考xxx院，我那里还有名额，我会重点关注你”，给了我一种老师对我很有兴趣的假象，然而北大本部岂是我这种渣渣能进去的地方；复旦hxj老师直接回复“夏令营进了再跟我说”，拒绝套磁；南大dxy老师反问有无读博的想法……</p>
+<p>总之，套磁有一定成功率，但是也不要报太大的希望，虽然说老师有主导权，但是就凭简单的几封邮件交流，老师又怎么能一定保你能进呢？</p>
+<p><br></p>
+<h3 id="夏令营"><a href="#夏令营" class="headerlink" title="夏令营"></a>夏令营</h3><p>本渣只去了两个夏令营，清华伯克利和南大，复旦由于期末考推掉，北大信工由于夏令营不发offer且没有感兴趣的老师也推掉了。</p>
+<h4 id="清华伯克利（TBSI）"><a href="#清华伯克利（TBSI）" class="headerlink" title="清华伯克利（TBSI）"></a>清华伯克利（TBSI）</h4><p>安排住宿且有交通费补贴，夏令营三天，第一天报道，第二天开营宣讲加实验室参观，第三天面试，无机试，TBSI招收的学生面比较广，对编程能力要求不高，基础知识和英语比较重要。面试如下</p>
+<ul>
+<li>全程英语</li>
+<li>面试前阅读英文文献，内容是关于语音识别的，面试时会提问</li>
+<li>简单的知识问答，如dropout是什么，距离度量有哪些等</li>
+<li>开放性问题：喜欢哪个实验室，GPA5分制解释一下，为什么那么多人参加美赛，最喜欢的编程语言</li>
+<li>气氛比较轻松，老师也比较nice，但是被安排在当天的最后一个面试。</li>
+</ul>
+<p>面试完十几分钟，就有老师联系我说想让我跟他做毕设，他就是我未来的老师，起初还是各种纠结，最后还是决定先答应着，然后参观了他们的实验室，和老师聊了一下，老师人很nice，听了他们的组会，老师的指导也蛮到位</p>
+<h4 id="南大计算机系"><a href="#南大计算机系" class="headerlink" title="南大计算机系"></a>南大计算机系</h4><p>南大国际四星级酒店，超级豪华，夏令营三天，第一天报道，第二天自由交流，第三天机试面试。南大会有一个意向接受导师签名的东西，相当于是一个第一志愿，一般你对某个老师感兴趣，就找他签名，老师不会拒绝。</p>
+<ul>
+<li><p>交流</p>
+<ul>
+<li>dxy老师<ul>
+<li>研究方向对口的老师，同NLP</li>
+<li>简单介绍下项目，问了下实验结果</li>
+<li>想读硕士还是博士</li>
+</ul>
+</li>
+<li>hsj老师<ul>
+<li>跟dxy老师同一个组</li>
+<li>叫我英文介绍项目，好在我TBSI那时准备过</li>
+<li>项目有没有能改进的地方，全程瞎逼，天马行空</li>
+</ul>
+</li>
+<li>lm老师<ul>
+<li>lambda实验室的老师，lambda的名额大部分都已经提前招完了，还有少数留在夏令营</li>
+<li>同样项目介绍</li>
+<li>给8分钟阅读他的论文，概括论文整体思想</li>
+<li>IQ题</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>机试</p>
+<ul>
+<li><p>共3道题，按样例给分，共300分</p>
+</li>
+<li><p>1）找规律题：给定一个正整数 $n$，计算所有 $n$ 位长度的二进制串且没有连续 $1$ 的个数，如 $n=3$，有 000, 001, 010, 100, 101。找下规律，就可以推出递推公式。</p>
+</li>
+<li>2）搜索题：给定一个正整数 $n$，从 $1$ 到 $n$ 中选择 $n-1$ 个数，以随机的顺序拼接成字符串 $s$，给定这个字符串，找出缺失的那个数字</li>
+<li>3）动归：题目忘了。。。</li>
+</ul>
+</li>
+<li><p>面试</p>
+<ul>
+<li>3个老师分别对应三个大方向问题，面试10分钟</li>
+<li>第一个老师问项目</li>
+<li>第二个老师问算法，分治法是什么，动归是什么，分治和动归的差别是什么，当场眩晕。。</li>
+<li>第三个老师问操作系统，死锁和怎么预防死锁</li>
+<li>最后补了一个英文问题：最喜欢的编程语言</li>
+</ul>
+</li>
+</ul>
+<p>虽然南大面试感觉不好，但是机试发挥比较正常，最后也如愿拿到offer，然后又是各种纠结，对比南大和TBSI，最后还是选择了TBSI，拒绝了南大。</p>
+<p><br></p>
+<h3 id="九月推免"><a href="#九月推免" class="headerlink" title="九月推免"></a>九月推免</h3><h4 id="TBSI"><a href="#TBSI" class="headerlink" title="TBSI"></a>TBSI</h4><p>TBSI九月份的面试纯属走流程，水到爆炸，但我又是最后一个面试。。面试前同样看文献，这次是nature上面一篇关于AlphaGo Zero的文章，然后面试过程基本就是随便问下项目，然后就是open discussion，讨论阿法狗以及强化学习等，全程瞎逼逼，不懂强化学习的渣渣路过</p>
+<h4 id="中大"><a href="#中大" class="headerlink" title="中大"></a>中大</h4><ul>
+<li>机试不算分数，10道题</li>
+<li>面试注重基本知识，如高数线代，问了微分中值定理，线性方程组有解的必要条件，还有就是开放性问题，机器学习和深度学习不同点</li>
+</ul>
+<h4 id="复旦"><a href="#复旦" class="headerlink" title="复旦"></a>复旦</h4><ul>
+<li>机试<ul>
+<li>给定一条直线和一个圆，求直线在圆上的长度。分情况讨论即可</li>
+<li>给定一个数组，在某一位置的左边，求比该数大的且距离最近的位置</li>
+<li>面试经典题：一个数组，求三个数字相加等于某一个数的组合数</li>
+</ul>
+</li>
+<li>面试<ul>
+<li>自我介绍，聊项目，问了一下项目相关的一些论文</li>
+<li>聊完项目后，问有无其它学校offer，回答若为有，面试结束，回答若为无，面试官质疑你，面试也结束。  </li>
+</ul>
+</li>
+</ul>
+<p><br><br><em>写在最后</em></p>
+<p>我的选择是清华伯克利，一方面是因为清华的学位确实很吸引，另一方面是我一直有一个留学的梦想，但是由于种种原因最后放弃，但是现在有一个去伯克利修读一年拿硕士学位的机会摆在我面前，我不想放弃，虽然清华伯克利学院在深圳，且办学年限补偿，不如北京本部历史积累丰富，但是我相信这个联合培养计划不会像中大和卡耐基那样突然中止，我也相信我能够成功毕业，拿到双学位，祝愿我吧。</p>
+<p>托福GRE我又要来了（我以为我不会再见你了）。</p>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/24/%E3%80%90%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%E3%80%91%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E8%BE%BE%E8%A7%82%E6%9D%AF%E6%96%87%E6%9C%AC%E6%99%BA%E8%83%BD%E5%A4%84%E7%90%86%E6%8C%91%E6%88%98%E8%B5%9B/" rel="next" title="【数据挖掘比赛】————达观杯文本智能处理挑战赛">
+                <i class="fa fa-chevron-left"></i> 【数据挖掘比赛】————达观杯文本智能处理挑战赛
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/03/%E5%8C%97%E4%BA%AC%E4%B8%8A%E6%B5%B7%E9%82%A3%E4%BA%9B%E4%BA%8B/" rel="prev" title="北京上海那些事">
+                北京上海那些事 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">前期准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8F%E4%BB%A4%E8%90%A5"><span class="nav-number">2.</span> <span class="nav-text">夏令营</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B8%85%E5%8D%8E%E4%BC%AF%E5%85%8B%E5%88%A9%EF%BC%88TBSI%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">清华伯克利（TBSI）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%97%E5%A4%A7%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB"><span class="nav-number">2.2.</span> <span class="nav-text">南大计算机系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%9D%E6%9C%88%E6%8E%A8%E5%85%8D"><span class="nav-number">3.</span> <span class="nav-text">九月推免</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TBSI"><span class="nav-number">3.1.</span> <span class="nav-text">TBSI</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%AD%E5%A4%A7"><span class="nav-number">3.2.</span> <span class="nav-text">中大</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%8D%E6%97%A6"><span class="nav-number">3.3.</span> <span class="nav-text">复旦</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

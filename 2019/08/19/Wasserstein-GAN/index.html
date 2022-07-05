@@ -1,37 +1,906 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="课程来源：李宏毅2018生成对抗网络课程课程主页：http:&#x2F;&#x2F;speech.ee.ntu.tw&#x2F;~tlkagk&#x2F;courses_MLDS18.html文章梗概：WGAN 作者首先详细证明了为什么原始 GAN 训练困难的问题，然后提出解决方案，用 Wasserstein 距离来衡量两个分布之间的距离。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Wasserstein GAN">
+<meta property="og:url" content="http://vincentho.name/2019/08/19/Wasserstein-GAN/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="课程来源：李宏毅2018生成对抗网络课程课程主页：http:&#x2F;&#x2F;speech.ee.ntu.tw&#x2F;~tlkagk&#x2F;courses_MLDS18.html文章梗概：WGAN 作者首先详细证明了为什么原始 GAN 训练困难的问题，然后提出解决方案，用 Wasserstein 距离来衡量两个分布之间的距离。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2019/08/19/Wasserstein-GAN/1.png">
+<meta property="og:image" content="http://vincentho.name/2019/08/19/Wasserstein-GAN/2.png">
+<meta property="og:image" content="http://vincentho.name/2019/08/19/Wasserstein-GAN/3.png">
+<meta property="og:image" content="http://vincentho.name/2019/08/19/Wasserstein-GAN/4.png">
+<meta property="og:image" content="http://vincentho.name/2019/08/19/Wasserstein-GAN/5.png">
+<meta property="og:image" content="http://vincentho.name/2019/08/19/Wasserstein-GAN/6.png">
+<meta property="article:published_time" content="2019-08-19T03:58:32.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.408Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2019/08/19/Wasserstein-GAN/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2019/08/19/Wasserstein-GAN/"/>
+
+
+
+
+
+  <title>Wasserstein GAN | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2019/08/19/Wasserstein-GAN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Wasserstein GAN</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-19T11:58:32+08:00">
+                2019-08-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>课程来源：李宏毅2018生成对抗网络课程<br>课程主页：<a target="_blank" rel="noopener" href="http://speech.ee.ntu.tw/~tlkagk/courses_MLDS18.html">http://speech.ee.ntu.tw/~tlkagk/courses_MLDS18.html</a><br>文章梗概：WGAN 作者首先详细证明了为什么原始 GAN 训练困难的问题，然后提出解决方案，用 Wasserstein 距离来衡量两个分布之间的距离。</p>
+</blockquote>
+<span id="more"></span>
+<p><br></p>
+<h2 id="Original-GAN-review"><a href="#Original-GAN-review" class="headerlink" title="Original GAN review"></a>Original GAN review</h2><p>2014 年，Ian Goodfellow 提出的生成对抗网络由生成器和判别器两个网络组成，两个网络相互对抗，从而最后实现生成器能够生成出真实照片的功能。对于生成器，它尽可能地去模仿真实分布，而判别器尽可能地区分开真实分布和生成分布。</p>
+<p>判别器的目标函数为：</p>
+<script type="math/tex; mode=display">
+V(G,D)=E_{x\sim P_{data}}[logD(x)]+E_{x\sim P_g}[log(1-D(x))]</script><p>而生成器的目标函数有两种：</p>
+<ul>
+<li>原始 GAN 论文（公式一）</li>
+</ul>
+<script type="math/tex; mode=display">
+E_{x\sim P_g}[log(1-D(x))]</script><ul>
+<li>the - log D trick（公式二）</li>
+</ul>
+<script type="math/tex; mode=display">
+E_{x\sim{P_g}}[-logD(x)]</script><p><br></p>
+<h2 id="GAN’s-problems"><a href="#GAN’s-problems" class="headerlink" title="GAN’s problems"></a>GAN’s problems</h2><p>GAN 提出来之后一直面临着很多问题，如训练困难，生成器和判别器的 loss 无法指导训练过程，生成样本缺乏多样性等，WGAN 论文就上面提到的两个生成器的损失函数进行分析，来解释为什么 GAN 会存在这些问题。</p>
+<h3 id="公式一"><a href="#公式一" class="headerlink" title="公式一"></a>公式一</h3><p><strong>一句话概括：判别器训练得越好，生成器梯度消失越严重。</strong></p>
+<p>在生成器固定参数的时候，最优的判别器是</p>
+<script type="math/tex; mode=display">
+D^*(x)=\frac{P_{data}(x)}{P_{data}(x)+P_g(x)}</script><p>判别器的评分等于一个样本 $x$ 来自真实分布和生成分布的可能性的相对比例，如果 $P<em>{data}(x) = 0$ 且 $P_g(x)\neq 0$，那就说明该样本来自生成器，这时判别器给出的评分就是0，反之如果 $P</em>{data}(x) \neq 0$ 且 $P_g(x)= 0$，那么判别器给出的评分就是1。</p>
+<p>然而 GAN 训练有一个 trick，就是不能把判别器训练得太好，否则在实验中生成器是学不动的（loss 降不下去），为了探究背后的原因，我们可以看看在极端情况下（判别器最优），生成器的损失函数变成什么。</p>
+<p>给公式一加上一项不依赖生成器的项，使之变成</p>
+<script type="math/tex; mode=display">
+E_{x\sim P_{data}}[log(D(x))]+E_{x\sim P_g}[log(1-D(x))]</script><p>当训练生成器的时候，判别器是固定的，假设判别器为最优判别器，那么生成器的目标函数即为：</p>
+<script type="math/tex; mode=display">
+E_{x\sim P_{data}}log\frac{P_{data}(x)}{\frac{1}{2}[P_{data}(x)+P_g(x)]}+E_{x\sim P_g}\frac{P_g(x)}{\frac{1}{2}[P_{data}(x)+P_g(x)]}-2log2</script><p>根据 JS 散度的定义，目标函数变成</p>
+<script type="math/tex; mode=display">
+2JS(P_{data}|P_g)-2log2</script><p>当这里，生成器的目标函数为两个分布之间的 JS 散度，训练生成器的目的是最小化该目标函数，即最小化两个分布之间的 JS 散度。判别器越接近最优判别器，生成器的目标函数就越能近似两个分布之间的 JS 散度。</p>
+<p>问题就出在这个 JS 散度上，我们会希望如果两个分布之间越接近它们的 JS 散度越小，我们通过优化 JS 散度就能将 $P<em>g(x)$ 拉向 $P</em>{data}(x)$，最终以假乱真。这个希望在两个分布有所重叠的时候是成立的，但是如果两个分布完全没有重叠的部分，或者重叠的部分可忽略，那么 JS 散度就不能衡量他们之间的距离了。</p>
+<p>根据 JS 散度和 KL 散度的定义</p>
+<script type="math/tex; mode=display">
+JS(P_1|P_2)=\frac{1}{2}KL(P_1|\frac{P_1+P_2}{2})+\frac{1}{2}KL(P_2|\frac{P_1+P_2}{2})</script><script type="math/tex; mode=display">
+KL(P_1|P_2)=E_{x\sim P_1}log\frac{P_1}{P_2}</script><p>对于任意一个 $x$，存在四种情况</p>
+<ul>
+<li>$P_1(x)=0$，$P_2(x)= 0$：无 JS 散度。</li>
+<li>$P_1(x)\neq 0$，$P_2(x)\neq 0$：由于重叠部分可以忽略，因此对 JS 散度的贡献也为 0。</li>
+<li>$P_1(x)=0$，$P_2(x)\neq 0$：JS 散度为 $log2$。</li>
+<li>$P_1(x)\neq 0$，$P_2(x)= 0$：JS 散度同为 $log2$。</li>
+</ul>
+<p>也就是说，无论 $P_{data}$ 和 $P_g$ 有多靠近，只要他们没有重叠，或者重叠部分可忽略，那么 JS 散度就是固定的常数 $log2$，那么对于生成器来说，目标函数的值应该不会变，这也就导致生成器接收不到任何的梯度信息。因此当判别器为最优判别器的时候，生成器接收不到梯度信息，即使判别器不是最优，生成器也极有可能面临梯度消失的问题。</p>
+<p>而在绝大多数情况下，$P_{data}$ 和 $P_g$ 是不会有重合的，原因为</p>
+<ul>
+<li>真实分布和生成分布都只是高维空间下的一个低维流体，就好比二维空间中的两条线，即使有重合，也只是某几个点，可以忽略。</li>
+<li>现实中我们只能得到真实分布的采样分布，如果没有足够多的样本，即使两个分布有重合，我们也很难得到真实重合部分。</li>
+</ul>
+<img src="/2019/08/19/Wasserstein-GAN/1.png" class="" width="500" height="500">
+<p>因此，原始 GAN 训练不稳定的原因就是：如果判别器训练得太好，生成器梯度消失，loss 降不下去；如果判别器训练得不好，那么生成器的梯度不准。只有判别器训练得不好不坏才行，这就无形中增加了 GAN 的训练难度。</p>
+<h3 id="公式二"><a href="#公式二" class="headerlink" title="公式二"></a>公式二</h3><p><strong>一句话概括：最小化第二种生成器 loss 函数，会等价于最小化一个不合理的距离衡量，导致两个问题，一是梯度不稳定，二是 collapse mode 即多样性不足。</strong></p>
+<p>我们已知</p>
+<script type="math/tex; mode=display">
+E_{x\sim P_{data}}[log(D^*(x))]+E_{x\sim P_g}[log(1-D^*(x))]=2JS(P_{data}|P_g)-2log2</script><p>把 KL 散度变成含有 $D^*(x)$ 的形式</p>
+<script type="math/tex; mode=display">
+KL(P_g|P_{data})=E_{x\sim P_g}[log\frac{P_g(x)}{P_{data}(x)}]=E_{x\sim P_g}[log\frac{P_g(x)/(P_{data}(x)+P_g(x))}{P_{data}(x)/(P_{data}(x)+P_g(x))}]</script><script type="math/tex; mode=display">
+=E_{x\sim P_g}[log\frac{1-D^*(x)}{D^*(x)}]=E_{x\sim P_g}log[1-D^*(x)]-E_{x\sim P_g}logD^*(x)</script><p>因此公式二的目标函数等价于</p>
+<script type="math/tex; mode=display">
+E_{x\sim P_g}[-logD^*(x)]=KL(P_g|P_{data})-2JS(P_{data}|P_g)+2log2+E_{x\sim P_{data}}logD^*(x)</script><p>注意上式最后两项不依赖于生成器 G，因此等价于最小化</p>
+<script type="math/tex; mode=display">
+KL(P_g|P_{data})-2JS(P_{data}|P_g)</script><p>这个等价最小化目标存在两个严重的问题。第一是它同时要最小化生成分布与真实分布的 KL 散度，却又要最大化两者的 JS 散度，一个要拉近，一个却要推远！这在直观上非常荒谬，在数值上则会导致梯度不稳定，这是后面那个 JS 散度项的毛病。</p>
+<p>第二，即便是前面那个正常的 KL 散度项也有毛病。因为 KL 散度不是一个对称的衡量，$KL(P<em>g|P</em>{data})$ 与 $KL(P_{data}|P_g)$ 是有差别的，以前者为例</p>
+<ul>
+<li>当 $P<em>g(x) \rightarrow 0$ 而 $P</em>{data}(x) \rightarrow 1$ 时，</li>
+</ul>
+<script type="math/tex; mode=display">
+KL(P_g|P_{data})=E_{x\sim P_g}log\frac{P_g(x)}{P_{data}(x)}=\int P_g(x)log\frac{P_g(x)}{P_{data}(x)}dx \rightarrow 0</script><ul>
+<li>当 $P<em>g(x) \rightarrow 1$ 而 $P</em>{data}(x) \rightarrow 0$ 时，</li>
+</ul>
+<script type="math/tex; mode=display">
+KL(P_g|P_{data})\rightarrow+\infty</script><p>换言之，$KL(P<em>g|P</em>{data})$ 对于上面两种错误的惩罚是不一样的，第一种错误对应的是生成分布还未能覆盖真实分布，惩罚微小；第二种错误对应的是“生成器生成了不真实的样本” ，惩罚巨大。第一种错误对应的是缺乏多样性，第二种错误对应的是缺乏准确性。<strong>这一放一打之下，生成器宁可多生成一些重复但是很“安全”的样本，也不愿意去生成多样性的样本，因为那样一不小心就会产生第二种错误，得不偿失。这种现象就是大家常说的 collapse mode。</strong></p>
+<p><em>In Conclusion</em></p>
+<p><strong>在原始 GAN 的（近似）最优判别器下，第一种生成器 loss 面临梯度消失问题，第二种生成器 loss 面临优化目标荒谬、梯度不稳定、对多样性与准确性惩罚不平衡导致 mode collapse 这几个问题。</strong></p>
+<p><br></p>
+<h2 id="Wasserstein-距离的优越性"><a href="#Wasserstein-距离的优越性" class="headerlink" title="Wasserstein 距离的优越性"></a>Wasserstein 距离的优越性</h2><p>Wasserstein 距离又叫 Earth-Mover 距离，定义如下</p>
+<script type="math/tex; mode=display">
+W(P_{data}, P_g)=inf_{\gamma\sim \Pi(P_{data},P_g)}E_{(x,y)\sim\gamma}||x-y||</script><p>$\Pi(P<em>{data},P_g)$ 是 $P</em>{data}$ 和 $P<em>g$ 组合起来的所有可能的联合分布的集合，反过来说，$\Pi(P</em>{data},P<em>g)$ 中每一个分布的边缘分布都是 $P</em>{data}$ 和 $P_g$ 。对于每一个可能的联合分布 $\gamma$ 而言，可以从中采样 $(x,y)\sim\gamma$ 得到一个真实样本 $x$ 和生成样本 $y$，并算出这对样本之间的距离，所以可以计算该联合分布 $\gamma$ 下对距离的期望值。在所有可能的联合分布中能够对这个期望值去到的下界，就定义为 Wasserstein 距离。</p>
+<p>直观上可以把这个期望值理解为在 $\gamma$ 这个“路径规划”下把 $P<em>g$ 这堆沙土挪到 $P</em>{data}$ 所需的平均消耗，而 Wasserstein 距离则是“最优路径规划”下的消耗，所有才叫 Earth-Mover（推土机）距离。</p>
+<p>Wasserstein 距离相比 KL 散度和 JS 散度的优越性在于，即便两个分布没有重叠，也能反映他们的远近。</p>
+<p><br></p>
+<h2 id="从-Wasserstein-距离到-WGAN"><a href="#从-Wasserstein-距离到-WGAN" class="headerlink" title="从 Wasserstein 距离到 WGAN"></a>从 Wasserstein 距离到 WGAN</h2><p>既然 Wasserstein 距离能够度量任意两个分布的距离，如果能够把它定义为生成器的 loss，不就可以产生有意义的梯度来更新生成器，使得生成分布被拉向真是分布了吗？</p>
+<p>Wasserstein 距离定义中的下界无法直接求解，WGAN 作者将其变换成以下形式</p>
+<script type="math/tex; mode=display">
+W(P_{data},P_g)=\frac{1}{K}sup_{||f||_L\le K}(E_{x\sim P_{data}}[f(x)]-E_{x\sim P_g}[f(x)])</script><p>首先需要介绍 Lipschitz 连续，它是加在连续函数 $f$ 下的一个约束，要求存在一个常数 $K\ge0$ 使得定义域内的任意两个数 $x_1$ 和 $x_2$ 都满足</p>
+<script type="math/tex; mode=display">
+|f(x_1)-f(x_2)|\le K|x_1-x_2|</script><p>此时称函数 $f$ 的 Lipschitz 常数为 K。Lipschitz 约束了连续函数的变化幅度，要求函数不能太急，要平缓。</p>
+<p>作者希望借助一个神经网络去拟合这样的一个函数 $f$，并且借助梯度上升的方法，取到该目标函数的最大值，至于 Lipschitz 约束，作者采取了一个简单的方法—— gradient clipping，限制神经网络的参数在某个范围。</p>
+<p>到此为止，我们可以构造一个参数为 $w$ 、最后一层不是非线性激活层的判别器 $f<em>w$，在限制 $w$ 不超过某个范围的条件下，使得 $L=E</em>{x\sim P<em>{data}}[f_w(x)]-E</em>{x\sim P_g}[f_w(x)]$ 尽可能大，此时 $L$ 就会近似真实分布和生成分布的 Wasserstein 距离。</p>
+<p>注意原始 GAN 的判别器是在做二分类问题，所以最后一层为 sigmoid，而 WGAN 的判别器做的是近似 Wasserstein 距离，所以最后一层不需要 sigmoid。</p>
+<p>WGAN 的完整算法如下</p>
+<img src="/2019/08/19/Wasserstein-GAN/2.png" class="" width="500" height="500">
+<p>对于判别器，目标函数如下，上面已经证明过，该目标函数的最大值即为两个分布之间的 Wasserstein 距离，通过梯度上升法更新判别器，使其能够近似 Wasserstein 距离。</p>
+<script type="math/tex; mode=display">
+E_{x\sim P_{data}}D(x)-E_{x\sim P_g}D(x)</script><p>对于生成器，目标函数如下，找到最优判别器后，下面的目标函数可以等价于 Wasserstein 距离，然后通过梯度下降法更新生成器，从而使得 Wasserstein 距离减少。</p>
+<script type="math/tex; mode=display">
+-E_{x\sim P_g}D(x)</script><p>对比原始 GAN，WGAN 只改了四点：</p>
+<ul>
+<li>判别器最后一层去掉 sigmoid</li>
+<li>生成器和判别器的 loss 不取 log</li>
+<li>判别器更新采用 gradient clipping</li>
+<li>不采用基于动量的优化算法，推荐 RMSProp，SGD</li>
+</ul>
+<p><br></p>
+<h2 id="Improved-WGAN-WGAN-GP"><a href="#Improved-WGAN-WGAN-GP" class="headerlink" title="Improved WGAN (WGAN-GP)"></a>Improved WGAN (WGAN-GP)</h2><p>作者们发现 WGAN 有时候也会伴随样本质量低、难以收敛等问题。WGAN 为了保证 Lipschitz 限制，采用了 weight clipping 的方法，然而这样的方式可能过于简单粗暴了，因此他们认为这是上述问题的罪魁祸首。</p>
+<p>他们提出的替代方案是给 Critic loss 加入 <strong>gradient penalty (GP)</strong>，这样，新的网络模型就叫 <strong>WGAN-GP</strong>。</p>
+<p>作者认为，当且仅当一个可微函数的梯度范数（gradient norm）在任意处都不超过 1 时，该函数满足 1-Lipschitz 条件。</p>
+<img src="/2019/08/19/Wasserstein-GAN/3.png" class="" width="500" height="500">
+<p>但是我们不可能让所有的 $x$ 的 gradient norm 都小于 1，因此作者将条件放缩为对于所有 $x\sim P<em>{penalty}$，而 $P</em>{penalty}$ 为生成样本和真实样本之间的线性插值。</p>
+<img src="/2019/08/19/Wasserstein-GAN/4.png" class="" width="500" height="500">
+<p>而在 WGAN-GP 论文中，判别器的目标函数为</p>
+<img src="/2019/08/19/Wasserstein-GAN/5.png" class="" width="500" height="500">
+<p>至于为什么限制 gradient norm 趋向 1（two-sided penalty）而不是小于 1（one-sided penalty），作者给出的解释是，从理论上最优的 gradient norm 应当处处接近 1，对 Lipschitz 条件的影响不大，同时从实验中发现 two-sided penalty 效果比 one-sided penalty 略好。</p>
+<img src="/2019/08/19/Wasserstein-GAN/6.png" class="" width="500" height="500">
+<p><br></p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1701.04862.pdf">Towards principled methods for training generative adversarial networks</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1701.07875.pdf">Wasserstein GAN</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1704.00028.pdf">Improved training of wasserstein gans</a></li>
+</ul>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/19/Introduction-to-Unsupervised-Conditional-GAN/" rel="next" title="Introduction to Unsupervised Conditional GAN">
+                <i class="fa fa-chevron-left"></i> Introduction to Unsupervised Conditional GAN
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/24/Introduction-to-Reinforcement-Learning/" rel="prev" title="Introduction to Reinforcement Learning">
+                Introduction to Reinforcement Learning <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Original-GAN-review"><span class="nav-number">1.</span> <span class="nav-text">Original GAN review</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GAN%E2%80%99s-problems"><span class="nav-number">2.</span> <span class="nav-text">GAN’s problems</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E5%BC%8F%E4%B8%80"><span class="nav-number">2.1.</span> <span class="nav-text">公式一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E5%BC%8F%E4%BA%8C"><span class="nav-number">2.2.</span> <span class="nav-text">公式二</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wasserstein-%E8%B7%9D%E7%A6%BB%E7%9A%84%E4%BC%98%E8%B6%8A%E6%80%A7"><span class="nav-number">3.</span> <span class="nav-text">Wasserstein 距离的优越性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E-Wasserstein-%E8%B7%9D%E7%A6%BB%E5%88%B0-WGAN"><span class="nav-number">4.</span> <span class="nav-text">从 Wasserstein 距离到 WGAN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Improved-WGAN-WGAN-GP"><span class="nav-number">5.</span> <span class="nav-text">Improved WGAN (WGAN-GP)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number">6.</span> <span class="nav-text">References</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,830 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Title：Densely Connected Convolutional NetworksAuthor：Gao Huang, Zhuang Liu, et al.Session：CVPR, 2017Abstract：作者发现 ResNet 的结构有些许冗余，因此提出要将网络中的每一层都相互相连，而不是像 ResNet 那样只是 block 之间连接。作者提出的这种 DenseNet 结构参数量">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文阅读】—— Densely Connected Convolutional Networks">
+<meta property="og:url" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Densely-Connected-Convolutional-Networks/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="Title：Densely Connected Convolutional NetworksAuthor：Gao Huang, Zhuang Liu, et al.Session：CVPR, 2017Abstract：作者发现 ResNet 的结构有些许冗余，因此提出要将网络中的每一层都相互相连，而不是像 ResNet 那样只是 block 之间连接。作者提出的这种 DenseNet 结构参数量">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Densely-Connected-Convolutional-Networks/2.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Densely-Connected-Convolutional-Networks/1.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Densely-Connected-Convolutional-Networks/3.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Densely-Connected-Convolutional-Networks/4.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Densely-Connected-Convolutional-Networks/5.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Densely-Connected-Convolutional-Networks/6.png">
+<meta property="article:published_time" content="2018-12-04T15:23:55.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.575Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Densely-Connected-Convolutional-Networks/2.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2018/12/04/【论文阅读】——-Densely-Connected-Convolutional-Networks/"/>
+
+
+
+
+
+  <title>【论文阅读】—— Densely Connected Convolutional Networks | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Densely-Connected-Convolutional-Networks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文阅读】—— Densely Connected Convolutional Networks</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-04T23:23:55+08:00">
+                2018-12-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Title：Densely Connected Convolutional Networks<br>Author：Gao Huang, Zhuang Liu, et al.<br>Session：CVPR, 2017<br>Abstract：作者发现 ResNet 的结构有些许冗余，因此提出要将网络中的每一层都相互相连，而不是像 ResNet 那样只是 block 之间连接。作者提出的这种 DenseNet 结构参数量比 ResNet 要少，网络层数也比 ResNet 要少，但是效果却比 ResNet 要好。</p>
+</blockquote>
+<span id="more"></span>
+<p><br></p>
+<p><em>preface</em></p>
+<p>作者黄高在 “Deep networks with stochastic depth” 论文中提出，ResNet 层数太多，大部分的残差块只能提高少量的信息，所以在 ResNet 基础上随机丢弃一些层，发现可以提高 ResNet 的泛化能力。 因此作者觉得网络中某一层的输入不仅仅只依赖于它上一层的输出，而依赖于更加上层的输出。由于随机丢弃某些层反而导致泛化能力变强，这意味着 ResNet 有明显的冗余，并不是每一层都需要，网络中的每一层只能提取很少量的特征。</p>
+<p>基于上面的推断，作者提出<strong>让网络中的每一层和前面的所有层相连</strong>，同时把每一层设计的比较窄（即 feature map比较小），从而使每一层学到的特征变少来降低冗余。虽然网络每一层都相互连接，但是整体上网络的参数并没有比 ResNet 要多，因为每一层网络变简单了。除了参数变少外，DenseNet 的结构使得信号的前向传播和梯度的反向传递更加容易。</p>
+<p><br></p>
+<h1 id="DenseNet"><a href="#DenseNet" class="headerlink" title="DenseNet"></a>DenseNet</h1><p>ResNet 中每一个 residual block 可以看成以下的式子，$H_l()$ 表示第 $l$ 个 block 的 residual function，按照 ResNet-v2，应该是 BN-ReLu-Conv。</p>
+<script type="math/tex; mode=display">x_l = H_l(x_{l-1}) + x_{l-1}</script><p>作者认为相加可能会阻碍信息的流动，因此作者提出的 DenseNet 不仅将前面层的输出作为后面层的输入，merge 方式也采取 concatenation 而不是 summation，因此 DenseNet 中某一层可以看成下面该式子</p>
+<script type="math/tex; mode=display">x_l = H_l([x_0, x_1, ..., x_{l-1}])</script><p>上面的式子成立的前提是：$x<em>0, x_1,…,x</em>{l-1}$ feature map 的大小相同，然后在 channel 维度上拼接，有点像 Inception 中的 split-transform-merge 的思想。为了能够 concatenation，作者将网络分为两个 component：transition layer 和 dense block，如下图。</p>
+<ul>
+<li>transition layer：由一个 $1\times 1$ 的卷积层和一个 $2\times2$ 的 avg-pooling 层组成，pooling 层的 stride 为 2。transition layer 的作用在于降维，每次将 feature map 的大小减半。</li>
+<li>dense block：由一系列的 BN-ReLu-Conv 层组成，每一个 Conv 的输出都是相同大小，前面提到 transition layer 的作用在于降维，因此在 dense block 中 feature map 的大小会维持不变，Conv 采用的是 SAME 卷积。</li>
+</ul>
+<img src="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Densely-Connected-Convolutional-Networks/2.png" class="">
+<p><strong>Growth rate</strong>：dense block 中每一层的卷积层输出不仅 feature map 大小一样，channel 大小也是一样，作者把 channel 大小称为 growth rate $k$，因此第 $l$ 层的输入的 channel 大小为 $k_0 + k \times(l-1)$，而输出的 channel 大小依旧为 k，下图表示的是一个 dense block，有五层，k = 4</p>
+<img src="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Densely-Connected-Convolutional-Networks/1.png" class="">
+<p>作者的实验表明，k 不用很大效果就很好了。因为每一层都可以访问前面所有层的 feature map，整个网络相当于有一个 global state，每个层都添加 k 个 feature map 到这个状态里面；而 k 约束了添加信息的多少；这个 global state可以从网络的任何地方访问得到，而不像传统的网络一样，每一层都需要 replicate 一下。</p>
+<p>作者实现了几个版本的 DenseNet</p>
+<ul>
+<li>DenseNet-A：dense block 的结构为 BN-ReLu-Conv(3 $\times$ 3)</li>
+<li>DenseNet-B：dense block 的第 m 层的结构变为 BN-ReLu-Conv((m-1)k, 1 $\times$ 1, 4k)-BN-ReLu-Conv(4k, 3 $\times$ 3, k)，添加了一个而 bottleneck layer，bottleneck 的输出大小为 4k</li>
+<li>DenseNet-C：transition layer 不仅可以将 feature map 的大小减半，还可以减少 channel 数量，作者把 $\theta$ 作为 compression factor，通过 transition layer 后，channel 的数量降为原来的 $\theta$，也就是说不断地减小 growth rate k，这种版本的 DenseNet 为 DenseNet-C。实验中 $\theta$ 取 0.5</li>
+<li>DenseNet-BC：结合 bottleneck layer 和 compression factor</li>
+</ul>
+<p>网络结构如下：</p>
+<img src="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Densely-Connected-Convolutional-Networks/3.png" class="">
+<p><br></p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><p>作者分别在 CIFAR-10，CIFAR-100，SVHN 和 ImageNet 上进行实验；前三个数据集分别做了有数据增强和无数据增强的对比，无数据增强的作者用 dropout 来防止过拟合。结果如下，+ 号表示有数据增强，* 号表示自己跑的实验，粗体表示超过所有其它算法，蓝色表示最好的。</p>
+<img src="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Densely-Connected-Convolutional-Networks/4.png" class="">
+<p>主要对比的算法均为 ResNet 和它的变体，如 WRN 和黄高的那篇 “Deep networks with stochastic depth” 论文中的方法。</p>
+<ul>
+<li>DenseNet 的结果要比其它算法普遍要好</li>
+<li>达到同等好的结果，参数少一点</li>
+</ul>
+<img src="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Densely-Connected-Convolutional-Networks/5.png" class="">
+<p>下面对比的是参数里量和错误率的关系，可以看出 DenseNet-BC 最为 parameter-efficient，而对比 DenseNet 和 ResNet，DenseNet 只需要三分之一的参数量即可达到 ResNet 的效果，尽管 ResNet 对比 VGG 和 AlexNet 已经有很大的提升。</p>
+<img src="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Densely-Connected-Convolutional-Networks/6.png" class="">
+<p><br></p>
+<p><em>In Conclusion</em></p>
+<p>DenseNet 在某种程度上和 stochastic depth 相似，因为 stochastic depth 是随机的丢弃某些 residual block 使得某一层能和上几层或者后几层相连，这是随机的；而 DenseNet 将这个随机变为确定，让所有的层互相连接。</p>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/03/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Aggregated-Residual-Transformations-for-Deep-Neural-Networks/" rel="next" title="【论文阅读】—— Aggregated Residual Transformations for Deep Neural Networks">
+                <i class="fa fa-chevron-left"></i> 【论文阅读】—— Aggregated Residual Transformations for Deep Neural Networks
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/" rel="prev" title="【论文阅读】—— MobileNets, Efficient Convolutional Neural Networks for Mobile Vision Applications">
+                【论文阅读】—— MobileNets, Efficient Convolutional Neural Networks for Mobile Vision Applications <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DenseNet"><span class="nav-number">1.</span> <span class="nav-text">DenseNet</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">2.</span> <span class="nav-text">实验结果</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

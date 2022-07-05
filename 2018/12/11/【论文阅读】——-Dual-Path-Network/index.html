@@ -1,37 +1,858 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Title：Dual Path NetworkAuthors：颜水成团队Session：NIPS, 2017Abstract：近几年，ResNet 和 DenseNet 都在视觉任务上取得了比较好的成绩，作者结合两者的优点，提出一种双通道的网络 (dual path network, DPN)，并取得了 ILSVRC-2017  目标定位的冠军。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文阅读】—— Dual Path Network">
+<meta property="og:url" content="http://vincentho.name/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="Title：Dual Path NetworkAuthors：颜水成团队Session：NIPS, 2017Abstract：近几年，ResNet 和 DenseNet 都在视觉任务上取得了比较好的成绩，作者结合两者的优点，提出一种双通道的网络 (dual path network, DPN)，并取得了 ILSVRC-2017  目标定位的冠军。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/1.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/2.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/4.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/3.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/7.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/5.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/6.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/8.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/9.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/10.png">
+<meta property="article:published_time" content="2018-12-11T07:11:02.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.595Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2018/12/11/【论文阅读】——-Dual-Path-Network/"/>
+
+
+
+
+
+  <title>【论文阅读】—— Dual Path Network | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文阅读】—— Dual Path Network</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-11T15:11:02+08:00">
+                2018-12-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Title：Dual Path Network<br>Authors：颜水成团队<br>Session：NIPS, 2017<br>Abstract：近几年，ResNet 和 DenseNet 都在视觉任务上取得了比较好的成绩，作者结合两者的优点，提出一种双通道的网络 (dual path network, DPN)，并取得了 ILSVRC-2017  目标定位的冠军。</p>
+</blockquote>
+<span id="more"></span>
+<p><br></p>
+<p><em>preface</em></p>
+<p>ResNe t和 DenseNet是近几年两种比较热门的网络结构，ResNet 把输入直接加到（element-wise adding）卷积的输出上，DenseNet则把每一层的输出都拼接（concatenate）到其后每一层的输入上。在这篇论文中作者用High Order RNN 结构（HORNN）把 DenseNet 和 ResNet 联系到了一起，证明了 DenseNet 能从靠前的层级中提取到新的特征，而 ResNet 本质上是对之前层级中已提取特征的复用。通过把这两种结构的优点结合到一起，提出了 Dual Path Networks（DPN）。</p>
+<p><br></p>
+<h1 id="Revisiting-ResNet-DenseNet-and-Higher-Order-RNN"><a href="#Revisiting-ResNet-DenseNet-and-Higher-Order-RNN" class="headerlink" title="Revisiting ResNet, DenseNet and Higher Order RNN"></a>Revisiting ResNet, DenseNet and Higher Order RNN</h1><h2 id="Higher-Order-RNN-HORNN"><a href="#Higher-Order-RNN-HORNN" class="headerlink" title="Higher Order RNN(HORNN)"></a>Higher Order RNN(HORNN)</h2><p>在普通的 RNN 结构中，一个时刻的输入会与上一时刻的状态共同决定这一时刻的状态，而高阶 RNN 中，一个时刻的状态不仅与上一个时刻的状态有关，还和前面所有时刻的状态都有关，每个时刻的计算公式如下，$h^k$ 表示第 $k$ 个时刻的状态，也是当前状态，$f^k<em>t(h^t)$ 表示计算从 $h^t$ 传到 $h^k$ 的信息，$\sum</em>{t=0}^{k-1}f_t^k(h^t)$ 表示前 $k-1$ 个状态传给第 $k$ 个状态的信息和，$g^k(\cdot)$ 将汇聚起来的信息进行处理得到第 $k$ 个时刻的状态。</p>
+<script type="math/tex; mode=display">h^k = g^k[\sum_{t=0}^{k-1}f_t^k(h^t)]</script><p>HORNN 一个重要的特点是，对于任意的 $k$ 和 $t$，都有：</p>
+<ul>
+<li>$g^k(\cdot) = g(\cdot)$，即每个时刻的状态计算函数是相同的，就像普通的 RNN 一样，不同时刻用同一个隐层。</li>
+<li>$f^k_t(\cdot) = f_t(\cdot)$，即每个状态对后面时刻状态传递的信息是一样的，不会随着不同时刻而改变。</li>
+</ul>
+<h2 id="用-HORNN-去解释-DenseNet"><a href="#用-HORNN-去解释-DenseNet" class="headerlink" title="用 HORNN 去解释 DenseNet"></a>用 HORNN 去解释 DenseNet</h2><p>DenseNet 每一层的输入是前面所有层输出 concate 的结果，concate 之后进入一个 bottleneck layer，即 $1 \times 1$ 的卷积层，然后经过一个 $3 \times 3$ 的卷积层，得到该层的输出。</p>
+<p>假设 DenseNet 的 growth rate 为 c，每一层输出的 feature map 大小为 $h \times w$，那么第 $k$ 层的输入大小为 $h \times w \times (k-1)c$，$f^k(\cdot)$ 为 $1 \times 1 \times (k-1)c$ 的卷积层，由于是一个 $1 \times 1$ 的卷积，就相当于 feature map 的每个像素点 $x$ (一个长度为 $(k-1)c$ 的向量) 和卷积核 $w$ 进行向量內积，$w$ 和 $x$ 都是一个 $(k-1)c$ 维的向量，我们不妨将这两个向量分成 $k-1$ 份，$x = [x<em>1, x_2, …, x</em>{k-1}]$，$w = [w<em>1, w_2, …, w</em>{k-1}]$，每一份单独做內积再相加等同于整体內积，即 $w^Tx = \sum w_i^T x_i$。</p>
+<p>由上面的推论，我们可以得知，concat 后作 $1 \times 1$ 的卷积，等同于前面 $k-1$ 个状态单独做一个 $1 \times 1$ 的卷积后相加，而 $f_t^k(\cdot)$ 等于 $f^k$ 对应的 $1 \times 1$ 的卷积核在 channel 上的第 $t$ 组，如 $f_1^k(\cdot)$ 就等于卷积核的 $[1,1, 0 : c]$ 这部分。</p>
+<img src="/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/1.png" class="">
+<p>从这可以看出，DenseNet 的形式完全符合 HORNN 的形式，$f_t^k(\cdot)$ 表示第 $k$ 层第 $t$ 组 channel，$g^k(\cdot)$ 表示 $3 \times 3$ 的卷积层。需要注意的是，DenseNet 不满足 HORNN 的一个条件，即  $f^k_t(\cdot) = f_t(\cdot)$ 和 $g^k(\cdot) = g(\cdot)$，因为 DenseNet 每一层的 $1 \times 1$ 卷积层和 $3 \times 3$ 卷积层都不同。</p>
+<img src="/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/2.png" class="">
+<p>下图从通道的角度去理解 DenseNet，左边表示 channel，即不同层 concat 的结果，或者不同时刻状态 concat 的结果，一个灰色的圆圈代表一个时刻的状态或一层的输出（虽然第一个圈和第二个圈对应的 channel 的宽度不成比例，但是我们将其理解为一个状态），我们把目光放到第二个时刻，这时候 channel 中有两层的输出，我们将其单独提取出来，每一个状态（每一层的输出）经过一个 $1 \times 1$ 的卷积层后进行相加，这里的 $1 \times 1$ 的卷积层就是 $f^k_t(\cdot)$，而一个灰圈代表 $h^t$。按照上面的图，相加后的结果应该直接经过 $g^k(\cdot)$ 函数，即 $3 \times 3$ 的卷积层，但是这里作者另外加了一个 $1 \times 1$ 的卷积层（带下划线），目的是为了和 ResNet 匹配过来，没有其他用途，$3 \times 3$ 卷积核的输出作为这一时刻的状态，concat 到左边的 channel 中，下一层从左边取出来的就是 3 个时刻的状态，即 3 个灰圈。</p>
+<img src="/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/4.png" class="">
+<h2 id="用-DenseNet-去解释-ResNet"><a href="#用-DenseNet-去解释-ResNet" class="headerlink" title="用 DenseNet 去解释 ResNet"></a>用 DenseNet 去解释 ResNet</h2><p>我们知道，DenseNet 可以写成 HORNN 的形式。</p>
+<script type="math/tex; mode=display">h^k = g^k[\sum_{t=0}^{k-1}f_t^k(h^t)]</script><p>将上式子进行一些变量替换，并且假设 $f^k_t(\cdot) = f_t(\cdot)$，令</p>
+<script type="math/tex; mode=display">r^k = \sum_{t=0}^{k-1}f_t^k(h^t) = \sum_{t=0}^{k-1}f^k(h^t) = r^{k-1} + f_{k-1}(h^{k-1})</script><p>而 $h^k = g^k(r^k)$，所以</p>
+<script type="math/tex; mode=display">r^k = r^{k-1} + f_{k-1}(g^{k-1}(h^{k-1})) = r^{k-1} + \phi^{k-1}(r^{k-1})</script><p>上式就是 ResNet 的结构，$\phi^{k-1}(\cdot) = f_{k-1}(g^{k-1}(\cdot))$ 为 residual function。由上面的推导可以得出，ResNet 是 DenseNet 在 $f^k_t(\cdot) = f_t(\cdot)$ 情况下的特殊表达式，下图上半部分是我们熟知的 ResNet 结构，一个 block 由一个 $3 \times 3$ 的卷积层和 $ 1\times 1$ 的卷积层组成，每个 block 的状态为 $r^k$，状态转移是 ResNet 的方式；下半部分是其等效图，一个 block 的组成成分变为 $1 \times 1$ 和 $3 \times 3$，每个 block 的状态为 $h^k$，状态的转移需要先将前面 $k-1$ 个状态经过一个 $f_t(\cdot)$ 函数然后相加后，经过 $g^k(\cdot)$ 得到该时刻的状态 $h^k$。</p>
+<img src="/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/3.png" class="">
+<p>上下两幅图对于 $g^k(\cdot)$ 有一点出入，下图是按照论文来的</p>
+<img src="/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/7.png" class="">
+<p>下图是 ResNet 的图，左边的矩形代表 channel，灰圈代表 $r^k$，$r^k$ 经过一系列卷积后和 $r^k$ 相加得到 $r^{k+1}$，这幅图并没有从 HORNN 的角度去解释 ResNet（即上图的下半部分）。</p>
+<img src="/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/5.png" class="">
+<p>上面我们证明了 ResNet 是 DenseNet 在 $f^k<em>t(\cdot) = f_t(\cdot)$ 下的特殊表达式，下图证明了这一点，(b) 中每一时刻的 $1 \times 1$ 卷积都不同，即绿色和橙色的箭头在每个时刻都不同。而 (c) 将 (b) 的形式 reformulate 了一下，将加法写成了一个独立的主分支，由于不同时刻的 $f_t(\cdot)$ 都一样。那么对于 k 时刻，$f_1(h^1) + … + f</em>{k-1}(h^{k-1})$，而对于 k+1 时刻，$f<em>1(h^1) + … + f</em>{k-1}(h^{k-1}) + f_k(h^k)$，因此只需要每次往右边的主干上加入 $f_k(h^k)$ 即可，这也就是下面的 (c) 图，$\underline{1 \times 1}$ 和 $3 \times 3$ 表示 $g^k(\cdot)$，经过 $g^k(\cdot)$ 得到 $h^k$，然后经过一个 $1\times1$ 的卷积得到 $f_k(h^k)$（橙色箭头）加入到右边。绿色和橙色的箭头只会出现在residual block中一次，也就意味着被加到了主分支之后，再也不会改变了。这也就是 with shared connections 的含义。  </p>
+<img src="/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/6.png" class="">
+<h2 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h2><p>从上面的分析可以看出，由于 ResNet 中 $f^k_t = f_t$，所以后面的层在复用前面层已经提取过的特征，除去这些直连的复用特征外，真正由卷积提取出来的特征“纯度”就比较高了，基本都是之前没有提取到过的全新特征，所以作者说 ResNet 提取的特征中冗余度比较低，且鼓励 feature reuse。而 DenseNet 每一层的 $f^k_t$ 都是不相同的，前面层提取出的特征不再是被后面层简单的复用，而是创造了全新的特征，这种结构后面层用卷积提取到的特征很有可能是前面层已提取过的，所以作者说 DenseNet 提取的特征冗余度高，但是鼓励探索新特征。</p>
+<p>ResNet 有高的特征复用率，但冗余度低，DenseNet 能创造新特征，但是冗余度高，作者提出把两种结构结合起来，提出 dual path network。</p>
+<p><br></p>
+<h1 id="Dual-Path-Network"><a href="#Dual-Path-Network" class="headerlink" title="Dual Path Network"></a>Dual Path Network</h1><p>DPN 顾名思义就是有两条通道的网络，而这两条通道分别是 DenSeNet 和 ResNet</p>
+<script type="math/tex; mode=display">x^k = \sum_{t=1}^{k-1}f_t^k(h^t)</script><script type="math/tex; mode=display">y^k = \sum_{t=1}^{k-1}v_t(h^t) = y^{k-1} + \phi^{k-1}(y^{k-1})</script><script type="math/tex; mode=display">r^k = x^k + y^k</script><script type="math/tex; mode=display">h^k = g^k(r^k)</script><p>下图是 DPN 的结构，(e) 图是将 (d) 图的两个主干合并的结果，卷积后的结果被切分成两部分，一部分加到 ResNet 的通道里面，一部分 concat 到 DenseNet 中。(d) 图和上面的公式有点不符，ResNet 通道出来的 $1 \times 1$ 卷积不知道怎样解释。</p>
+<img src="/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/8.png" class="">
+<p>整体的网络结构如下，DPN 和 DenseNet 和 ResNeXt 结构不同之处在于每个 block 的设计</p>
+<ul>
+<li>$3 \times 3$ 的卷积层采用的是 group convolution</li>
+<li>$1 \times 1 \times 256(+16)$ 中的 256 代表的是 ResNet 的通道数，16 代表的是 DenseNet 一层的输出通道数，将结果分成 256 和 16 两部分，256 的 element-wise 的加到 ResNet 通道，16 的 concat 到 DenseNet 通道，然后继续下一个 block，同样输出 256 + 16 个通道，重复操作。</li>
+<li>在 conv 之间过渡的时候，如 conv2 输出到 conv3 输入，需要经过一个下采样，即 feature map 大小减半，通道数翻倍，具体实现上是将上一个 conv 的输出经过一个 stride 为 2 的 $1 \times 1 $ 的卷积层，将通道数翻倍。而在 conv2 中 max-pooling 层过渡到 DPN block 的时候，也是用这种方式，经过一个 $1 \times 1$ 的卷积层，将通道数调整为 256 + 16$\times$2，然后将通道分成两份 256 和 16$\times$2，至于为什么 DenseNet 的通道数需要初始化为 2$\times$+k，作者没有说明。</li>
+<li>一点细节：每个 conv 中的 $3 \times 3$ 卷积层的输出 channel 数为 ResNet 在这一层的 channel 数，+k 则为该层 DenseNet 的 channel 数。</li>
+</ul>
+<p>具体实现的细节，可以参考：<a target="_blank" rel="noopener" href="https://github.com/cypw/DPNs/tree/master/settings">https://github.com/cypw/DPNs/tree/master/settings</a>。 </p>
+<img src="/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/9.png" class="">
+<p><br></p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><p>作者在 classification、object detection 和 semantic segmentation 三个任务中验证了 DPN 的有效性，这里只讲基于 ImageNet 的分类任务</p>
+<ul>
+<li>先看第一个 block，DPN-92 在 top-1 error 中最好，比 ResNeXt 要低 0.5%，且计算量要低。</li>
+<li>再看第二个 block，深一点的 DPN-98 还是要比 ResNeXt 要好，计算量也少了 25%。</li>
+<li>第三个 block，继续加深 DPN 到 131 层，效果依旧明显。</li>
+</ul>
+<img src="/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Dual-Path-Network/10.png" class="">
+<p><br></p>
+<p><em>In Conclusion</em></p>
+<p>作者从 HORNN 的角度去理解 ResNet 和 DenseNet，并发现 ResNet 是 feature reuse，而 DenseNet 是探索新特征，基于这两个 motivation，提出 DPN，实验结果也证明了其在多项任务上的有效性。</p>
+<p><br></p>
+<p><em>References</em></p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/42906045">https://zhuanlan.zhihu.com/p/42906045</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34993147">https://zhuanlan.zhihu.com/p/34993147</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/cypw/DPNs/tree/master/settings">https://github.com/cypw/DPNs/tree/master/settings</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c13a9900d643">https://www.jianshu.com/p/c13a9900d643</a></li>
+</ol>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-FractalNet-Ultra-deep-Neural-Networks-without-Residuals/" rel="next" title="【论文阅读】—— FractalNet, Ultra-deep Neural Networks without Residuals">
+                <i class="fa fa-chevron-left"></i> 【论文阅读】—— FractalNet, Ultra-deep Neural Networks without Residuals
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNetV2-Inverted-Residuals-and-Linear-Bottlenecks/" rel="prev" title="【论文阅读】—— MobileNetV2, Inverted Residuals and Linear Bottlenecks">
+                【论文阅读】—— MobileNetV2, Inverted Residuals and Linear Bottlenecks <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Revisiting-ResNet-DenseNet-and-Higher-Order-RNN"><span class="nav-number">1.</span> <span class="nav-text">Revisiting ResNet, DenseNet and Higher Order RNN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Higher-Order-RNN-HORNN"><span class="nav-number">1.1.</span> <span class="nav-text">Higher Order RNN(HORNN)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8-HORNN-%E5%8E%BB%E8%A7%A3%E9%87%8A-DenseNet"><span class="nav-number">1.2.</span> <span class="nav-text">用 HORNN 去解释 DenseNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8-DenseNet-%E5%8E%BB%E8%A7%A3%E9%87%8A-ResNet"><span class="nav-number">1.3.</span> <span class="nav-text">用 DenseNet 去解释 ResNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Motivation"><span class="nav-number">1.4.</span> <span class="nav-text">Motivation</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dual-Path-Network"><span class="nav-number">2.</span> <span class="nav-text">Dual Path Network</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">3.</span> <span class="nav-text">实验结果</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

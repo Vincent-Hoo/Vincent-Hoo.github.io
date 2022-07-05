@@ -1,37 +1,843 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Title：MobileNets: Efficient Convolutional Neural Networks for Mobile Vision ApplicationsAuthors：Google 团队Abstract：MobileNet 是为移动和嵌入式设备提出的高效模型。 使用了深度可分离卷积来构造的轻量级深度神经网络，计算量大幅度减小，且性能能媲美其它网络。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文阅读】—— MobileNets, Efficient Convolutional Neural Networks for Mobile Vision Applications">
+<meta property="og:url" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="Title：MobileNets: Efficient Convolutional Neural Networks for Mobile Vision ApplicationsAuthors：Google 团队Abstract：MobileNet 是为移动和嵌入式设备提出的高效模型。 使用了深度可分离卷积来构造的轻量级深度神经网络，计算量大幅度减小，且性能能媲美其它网络。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/1.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/2.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/3.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/4.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/5.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/6.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/7.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/8.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/9.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/10.png">
+<meta property="article:published_time" content="2018-12-04T15:24:47.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.648Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2018/12/04/【论文阅读】——-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/"/>
+
+
+
+
+
+  <title>【论文阅读】—— MobileNets, Efficient Convolutional Neural Networks for Mobile Vision Applications | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文阅读】—— MobileNets, Efficient Convolutional Neural Networks for Mobile Vision Applications</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-04T23:24:47+08:00">
+                2018-12-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Title：MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications<br>Authors：Google 团队<br>Abstract：MobileNet 是为移动和嵌入式设备提出的高效模型。 使用了<strong>深度可分离卷积</strong>来构造的轻量级深度神经网络，计算量大幅度减小，且性能能媲美其它网络。</p>
+</blockquote>
+<span id="more"></span>
+<p><br></p>
+<h1 id="Depthwise-Separable-Convolution"><a href="#Depthwise-Separable-Convolution" class="headerlink" title="Depthwise Separable Convolution"></a>Depthwise Separable Convolution</h1><p>假设卷积输入维度为 $D_F \times D_F \times M$，卷积核为 $D_K \times D_K \times M \times N$，采取的是 SAME 卷积，因此卷积输出为 $D_F \times D_F \times N$，这种标准的卷积层的计算量为</p>
+<script type="math/tex; mode=display">D_K \cdot D_K \cdot M \cdot N \cdot D_F \cdot D_F</script><p>而 Depthwise Separable Convolution 分为两部分：depthwise convolution 和 pointwise convolution。</p>
+<p>depthwise 卷积使用 M 个大小为 $D_K \times D_K \times 1$ 的卷积核分别对输入的 M 个 channel 进行卷积，即每个卷积核负责一个 channel，如果采取的是 stride 为 1 的 SAME 卷积，那么卷积出来的结果维度和输入一样 $D_F \times D_F \times M$，depthwise 卷积的计算量为</p>
+<script type="math/tex; mode=display">D_K \cdot D_K \cdot M  \cdot D_F \cdot D_F</script><p>pointwise 卷积是对 depthwise 卷积的结果再进行 channel 级别上的 interaction，用 N 个 $1\times 1 \times M$ 的卷积核去处理，得到结果大小为 $D_F \times D_F \times N$，pointwise 卷积的计算量为</p>
+<script type="math/tex; mode=display">1 \cdot 1 \cdot M \cdot N \cdot D_F \cdot D_F</script><p>总的 depthwise separable convolution 的计算量为</p>
+<script type="math/tex; mode=display">D_K \cdot D_K \cdot M  \cdot D_F \cdot D_F + M \cdot N \cdot D_F \cdot D_F</script><p>对比标准的卷积，如果用 $3 \times 3$ 的卷积核，大概能减少个 8 - 9 倍的计算量。</p>
+<script type="math/tex; mode=display">\frac{D_K \cdot D_K \cdot M  \cdot D_F \cdot D_F + M \cdot N \cdot D_F \cdot D_F}{D_K \cdot D_K \cdot M \cdot N \cdot D_F \cdot D_F} = \frac{1}{N} + \frac{1}{D_K^2}</script><p>下图是标准卷积核和深度可分离卷积核的对比</p>
+<ul>
+<li>standard conv 是既有 feature map 的 local 信息的挖掘，也有 channel 之间信息的挖掘，因为每一个卷积核的深度就等于输入 channel 的大小，但是这也是它计算量大的原因，尤其当输入 channel 比较大的时候，卷积核的 channel 也必须与输入的 channel 大小 match。</li>
+<li>depthwise conv 将输入图像的每一个 channel 单独用一个卷积核去过滤，相当于每一个 channel 先进行一个过滤操作，但是它并没有 channel 之间的 interaction。</li>
+<li>point-wise conv 就等于 standard conv，组合不同 channel 的信息，来构造新的特征。</li>
+</ul>
+<p>因此 depthwise conv &amp; pointwise conv 就能比较好地去代替 standard conv。</p>
+<img src="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/1.png" class="">
+<p><br></p>
+<h1 id="MobileNet"><a href="#MobileNet" class="headerlink" title="MobileNet"></a>MobileNet</h1><p>网络结构如下，MobileNet 去掉了用池化层去降维，而是用 stride 为 2 的卷积层，Conv dw / s1 表示 stride 为 1 的 depthwise conv，$3 \times 3 \times 32$ dw 表示有 32 个 $3 \times 3$ 的卷积核。</p>
+<img src="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/2.png" class="">
+<p>下图展示的是 MobileNet 不同 component 的计算量占比，可以看出 Conv $1 \times 1$ 计算量和参数占比都是最大，那是因为 pointwise conv 实际上就是一个 standard conv，连接全部 channel 来输出一个特征，所以计算量也大。而 depthwise conv 计算量就少很多。</p>
+<img src="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/3.png" class="">
+<p><br></p>
+<h1 id="Two-Multipliers"><a href="#Two-Multipliers" class="headerlink" title="Two Multipliers"></a>Two Multipliers</h1><p>我们把上面的 MobileNet 称为 baseline model。</p>
+<p><strong>Width Multiplier：Thinner Models</strong></p>
+<p>宽度乘子 $\alpha$ 的作用在于把每一层的 channel 数量进行统一的缩减，因此输入 channel 大小为 M 则变为 $\alpha M$，输出 channel 大小为 N 则变为 $\alpha N$。实验中 $\alpha$ 取值 1，0.75，0.5，0.25，$\alpha = 1$ 则为 baseline model，加上宽度乘子后的计算量为</p>
+<script type="math/tex; mode=display">D_K \cdot D_K \cdot \alpha M  \cdot D_F \cdot D_F + \alpha M \cdot \alpha N \cdot D_F \cdot D_F</script><p><strong>Resolution Multiplier：Reduced Representation</strong></p>
+<p>分辨率说的就是 feature map 的大小，分辨率乘子 $\rho$ 作用于 feature map 的宽和高，使得 feature map 的大小得到缩减，作者实验中取 feature map 大小为 224，192，160 和 128 来模拟不同的 $\rho$ 值，224 则为 $\rho = 1$ 的情况，加上分辨率乘子的计算量为</p>
+<script type="math/tex; mode=display">D_K \cdot D_K \cdot \alpha M  \cdot \rho D_F \cdot \rho D_F + \alpha M \cdot \alpha N \cdot \rho D_F \cdot \rho D_F</script><p>假设输入为 $14 \times 14 \times 512$，standard conv 的卷积核为 $3 \times 3 \times 512 \times 512$，计算量为 $14 \cdot 14 \cdot 512 \cdot 3 \cdot 3 \cdot 512 \approx 462M$，而 depthwise separable conv 的计算量降了接近十倍，加上乘子后进一步减少计算量。</p>
+<img src="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/4.png" class="">
+<p><br></p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><p><strong>depthwise separable conv vs full conv</strong></p>
+<p>depthwise 虽然准确率不如 full，但是参数量和计算量大幅度的减少</p>
+<img src="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/5.png" class="">
+<p><strong>thinner vs shallower</strong></p>
+<p>thinner 指用宽度乘子为 0.75，shallower 指将原网络结构的 5  层 feature map 大小为 $14 \times 14 \times 512$ 的卷积层去掉。两者的参数量和计算量都差不多，但是明显 thinner 要比 shallower 要好。</p>
+<img src="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/6.png" class="">
+<p><strong>乘子不同取值比较</strong></p>
+<p>当宽度乘子不断减小，channel 数量不断减小，准确率不断下降，计算量也大幅度下降，同理分辨率乘子。</p>
+<img src="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/7.png" class="">
+<p>宽度乘子和分辨率乘子各取 4 个值，共得到 16 个模型，作者比较这 16 个模型的计算量、参数量和准确率之间的关系，结果如下，毫无疑问，计算量越大或者参数越多，准确率越高，但是作者需要寻找的是他们两者之间的一个 tradeoff，找到一个既能保证准确率，计算量又不算太大的模型。</p>
+<img src="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/8.png" class="">
+<p>同时作者对比了 baseline mobileNet 和 GoogLeNet，VGG 在 ImageNet 上的性能，mobileNet 比 GoogLeNet 要好，比 VGG 稍微差一点，但是计算量和参数却是另外两个模型无法比拟的。</p>
+<img src="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/9.png" class="">
+<p>作者对比缩减版的 mobileNet 和其它模型，也是相同的结论。</p>
+<img src="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNets-Efficient-Convolutional-Neural-Networks-for-Mobile-Vision-Applications/10.png" class="">
+<p>作者还在其它的分类数据集上进行了实验，还在其它的视觉应用上进行了实验，如人脸识别，face attribute，用到了蒸馏技术。</p>
+<p><br></p>
+<p><em>In Conclusion</em></p>
+<p>mobileNet 提供给我们的是一种轻量级别的深层神经网络，更加值得我们思考的是，我们是否需要一味地追求准确率，还是需要在准确率和计算性能上进行平衡。</p>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/04/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Densely-Connected-Convolutional-Networks/" rel="next" title="【论文阅读】—— Densely Connected Convolutional Networks">
+                <i class="fa fa-chevron-left"></i> 【论文阅读】—— Densely Connected Convolutional Networks
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-ShuffleNet,%20An%20Extremely%20Efficient%20Convolutional%20Neural%20Network%20for%20Mobile/" rel="prev" title="【论文阅读】——— ShuffleNet, An Extremely Efficient Convolutional Neural Network for Mobile">
+                【论文阅读】——— ShuffleNet, An Extremely Efficient Convolutional Neural Network for Mobile <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Depthwise-Separable-Convolution"><span class="nav-number">1.</span> <span class="nav-text">Depthwise Separable Convolution</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MobileNet"><span class="nav-number">2.</span> <span class="nav-text">MobileNet</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Two-Multipliers"><span class="nav-number">3.</span> <span class="nav-text">Two Multipliers</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">实验结果</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

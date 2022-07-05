@@ -1,37 +1,826 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="NLP预训练模型概况">
+<meta property="og:url" content="http://vincentho.name/2021/12/07/NLP%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%86%B5/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/NLP%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%86%B5/titan.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/NLP%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%86%B5/elmo.jpeg">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/NLP%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%86%B5/gpt.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/NLP%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%86%B5/bert-1.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/NLP%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%86%B5/bert-2.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/07/NLP%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%86%B5/bert-3.png">
+<meta property="article:published_time" content="2021-12-07T11:34:57.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.377Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2021/12/07/NLP%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%86%B5/titan.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2021/12/07/NLP预训练模型概况/"/>
+
+
+
+
+
+  <title>NLP预训练模型概况 | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2021/12/07/NLP%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%86%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">NLP预训练模型概况</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-12-07T19:34:57+08:00">
+                2021-12-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <img src="/2021/12/07/NLP%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%86%B5/titan.png" class="" width="700" height="700">
+<span id="more"></span>
+<p><br><br><em>preview</em><br>预训练模型在 CV 任务里面是非常常见的，通常是用 ImageNet 数据集在一个网络上进行预训练，利用庞大 ImageNet 数据集让网络尽可能学习到更多的通用语义信息，然后下游任务直接用预训练模型进行微调即可，这是 CV 领域非常成熟的一套方法。</p>
+<p>但在 NLP 领域预训练模型迟迟没能面世的原因，可能在于 NLP 的任务多且杂，不同任务的网络设计差异比较大，因此无法做到很好的统一。但这只是我猜测的原因罢了，要说 NLP 的预训练模型，早年的词向量也算是一种预训练模型，把训练好的词向量直接用到下游任务上，但这种预训练模型的效果对比起 CV 领域的预训练模型，效果不太好罢了。直到 transformer 的出现，NLP 的预训练模型才大规模的发展，这篇文章总结一下各科技大公司所提出的 NLP 预训练模型。</p>
+<h3 id="ELMO"><a href="#ELMO" class="headerlink" title="ELMO"></a>ELMO</h3><p>讲 ELMO 前必须先讲下词向量，word2vec 等词向量有一个很严重的问题，就是无法区分多义词，比如 play 这个单词，十几种意思只能融合在一个词向量里面，这样的词向量无法应对所有的语境，虽然后面有一些方法解决多义词的问题，但是都没有很好地解决掉。</p>
+<p>ELMO 是 embedding from language model 的简称，来自《Deep contextualized word representation》论文，它的基本思想是，通过训练一个双向的 LSTM 语言模型，然后得到三种 embedding，分别是最下层的单词 embedding，第一层 LSTM 输出的 embedding，以及第二层 LSTM 输出的 embedding，利用这三种 embedding 就能很好地解决多义词的问题，因为最原始的 embedding 经过语言模型后，会根据不同语境得到不同的语义信息。</p>
+<p>ELMO 训练好后可以很容易的应用到下游任务，整体做法就和词向量作为预训练模型的方法一样，将句子输入到语言模型得到三个 embedding，然后再把这些 embedding 输入到下游任务里面。</p>
+<img src="/2021/12/07/NLP%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%86%B5/elmo.jpeg" class="" width="500" height="500">
+<p><br></p>
+<h3 id="GPT"><a href="#GPT" class="headerlink" title="GPT"></a>GPT</h3><p>generative pre-training model，是 OpenAI 2018年提出的模型，利用 transformer 解决各种 NLP 任务，GPT 预训练采用的是单向的语言模型，即根据上文预测下一个可能出现的词，因此 GPT 采用的 transformer 也是单向的 transformer，即将 Encoder 中的 Self-Attention 替换成了 Masked Self-Attention，对于某个 token，只计算与前面 token 的 attention。</p>
+<p>而训练的过程其实非常的简单，就是将句子 n 个词的词向量(第一个为 [start] )加上 Positional Encoding 后输入到 Transfromer 中，n 个输出分别预测该位置的下一个词([start] 预测句子中的第一个词，最后一个词的预测结果不用于语言模型的训练)。由于采用的是 masked self-attention，因此对于某个词的预测，他只能看到前面的词，这样保证了模型的合理性。</p>
+<img src="/2021/12/07/NLP%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%86%B5/gpt.png" class="" width="500" height="500">
+<p>训练好单向的语言模型后，就可以应用到下游任务了，运用少量的带标签数据对模型参数进行微调，上一步中最后一个词的输出我们没有用到，在这一步中就要使用这一个输出来作为下游监督学习的输入，将最后一个词的输出连接到一个 linear 层进行下游任务，不同下游任务的改造如下，因为 GPT 是一个单向的语言模型，整体的过程就好像我让它看完一整个句子，然后问它最后的结果，因此用的也是最后一个 token 的输出来连 linear 层。这一点在后面的 GPT 系列体现更加明显。</p>
+
+<p>一些题外话：由于 GPT 是一个单向的语言模型，因此它可以做生成任务，即随机给他一段句子，他能写出一段故事来，甚至是给一个新闻标题生成新闻，GPT 问世的时候曾生成过一篇 unicorn 的 fake news，因此现在都拿 unicorn 去表示 GPT。</p>
+<p><br></p>
+<h3 id="BERT"><a href="#BERT" class="headerlink" title="BERT"></a>BERT</h3><p>Bidirectional Encoder Representation from Transformer，是 Google 2018 年提出的模型，和 GPT 非常类似，将 GPT 的单向语言模型改成了双向的语言模型，即不用采用 masked self-attention，但在预训练的时候，不能再像 GPT 那样预测下一个词，这时候 BERT 采取的是一种 masked language model(MLM) 的预训练任务，本质上和 word2vec 的 cbow 方法一样，即一个句子随机 mask 一些词，然后利用上下文的词去预测出这个 masked 掉的词，因此有人就形象地这个任务称为完形填空。</p>
+<p>但是，直接将大量的词替换为 [MASK] 标签可能会造成一些问题，模型可能会认为只需要预测 [MASK] 相应的输出就行，其他位置的输出就无所谓。同时Fine-Tuning阶段的输入数据中并没有 [MASK] 标签，也有数据分布不同的问题。为了减轻这样训练带来的影响，BERT采用了如下的方式：</p>
+<ol>
+<li>输入数据中随机选择 15% 的词用于预测，这 15% 的词中，</li>
+<li>80% 的词向量输入时被替换为 [MASK] </li>
+<li>10% 的词的词向量在输入时被替换为其他词的词向量</li>
+<li>另外 10% 保持不动</li>
+</ol>
+<p>BERT 还提出了另外一种预训练方式 NSP(next sentence prediction)，即预测两个句子是否是连着的两句话，与 MLM 同时进行，组成多任务预训练。这种预训练的方式就是往 Transformer 中输入连续的两个句子，左边的句子前面加上一个 [CLS] 标签，两个句子之间使用 [SEP] 标签予以区分，[CLS] 的输出后连一个 linear 层，用来判断两个句子之间是否是连续上下文关系。而其他 masked 的 token 后面也接 linear 层来预测原来被 masked 掉的词。</p>
+<img src="/2021/12/07/NLP%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%86%B5/bert-1.png" class="" width="700">
+<p>为了区分两个句子的前后关系，BERT除了加入了Positional Encoding之外，还两外加入了一个在预训练时需要学习的 Segment Embedding 来区分两个句子。这样一来，BERT的输入就由词向量、位置向量、段向量三个部分相加组成。</p>
+<img src="/2021/12/07/NLP%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%86%B5/bert-2.png" class="" width="500" height="500">
+<p>BERT 的 Fine-Tuning 阶段和 GPT 没有太大区别。将分类预测用的输出向量从 GPT 的最后一个词的输出位置改为了句子开头 [CLS] 的位置了。不同的任务Fine-Tuning的示意图如下：</p>
+<img src="/2021/12/07/NLP%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%86%B5/bert-3.png" class="" width="700">
+<p>总结一下：BERT 借鉴了 ELMO、GPT、CBOW 等方法，本身没有太多的创新，更像是集大成者，但普适性是真的好，在各种任务上都达到了 SOTA 的水平，BERT 和 GPT 给整个 NLP 领域开了个好头，从此之后的预训练模型越做越大，训练的语料越来越多。</p>
+<p><br></p>
+<h3 id="GPT-2"><a href="#GPT-2" class="headerlink" title="GPT-2"></a>GPT-2</h3><p>GPT-2 沿用 GPT 的思路，依旧是单向的语言模型，即上文推断下文，但实现上完全抛弃 fine-tune 阶段，下游任务转为无监督的方式，要实现这个目标，GPT-2 用了一个更大更深的 transformer，堆叠了 48 层，且用了更大的且更高质量的语料库去预训练这个模型。下游任务无监督的方式是指不需要再用特定的任务数据集去微调，直接输入任务的描述以及问题，GPT-2 就会自动生成答案。举个例子，比如机器翻译任务，直接输入“请将下列中文翻译成英文，中文：我爱你，英文：”，然后 GPT-2 就会用它强大的语言模型，预测后面输出的字是 “ I Love You”，这种强大的能力得益于预训练模型的强大，以及语料库的丰富，这就好比如果一个人博览群书，自然就很轻松地就能完成翻译、问答、摘要等任务。</p>
+<p>GPT-2 就好比一个很通用的语言模型，他学习到的知识可能是非常通用的，这才使他能够实现 zero-shot learning（不经过微调直接进行无监督），从 ELMO 到 GPT，再到 BERT，再到 GPT-2、GPT-3，模型规模越发的恐怖，甚至都无法公开因为太大了，如今的发展趋势可能慢慢地从专用模型往通用模型去转变，从少量标签数据到大量高质量无标签数据转变。</p>
+<p><em>references</em></p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/IgzOTLsj691mGA5TibLfcQ">从Word Embedding到Bert模型——自然语言处理预训练技术发展史</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/69290203">Transformer结构及其应用详解—GPT、BERT、MT-DNN、GPT-2</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/graykode/nlp-tutorial/blob/master/5-2.BERT/BERT.py">bert代码</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Kb4y187G6?spm_id_from=333.999.0.0">bert代码解读</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Wv411h7kN?p=55">李宏毅2021机器学习课程</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/12/07/Transformer%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/" rel="next" title="Transformer简单介绍">
+                <i class="fa fa-chevron-left"></i> Transformer简单介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/" rel="prev" title="BERT的儿子们简介">
+                BERT的儿子们简介 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ELMO"><span class="nav-number">1.</span> <span class="nav-text">ELMO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GPT"><span class="nav-number">2.</span> <span class="nav-text">GPT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BERT"><span class="nav-number">3.</span> <span class="nav-text">BERT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GPT-2"><span class="nav-number">4.</span> <span class="nav-text">GPT-2</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

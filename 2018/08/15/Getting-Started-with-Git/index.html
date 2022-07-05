@@ -1,37 +1,956 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Git是一个分布式的版本控制软件，不需要服务器端软件，就可以运作版本控制，使得代码的发布和交流机器方便。Git的速度很快，这对于Linux内核的项目来说很重要，且Git拥有出色的合并追踪(merge tracking)能力，能够记录修改的代码。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Getting Started with Git">
+<meta property="og:url" content="http://vincentho.name/2018/08/15/Getting-Started-with-Git/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="Git是一个分布式的版本控制软件，不需要服务器端软件，就可以运作版本控制，使得代码的发布和交流机器方便。Git的速度很快，这对于Linux内核的项目来说很重要，且Git拥有出色的合并追踪(merge tracking)能力，能够记录修改的代码。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2018/08/15/Getting-Started-with-Git/header.jpg">
+<meta property="og:image" content="http://vincentho.name/2018/08/15/Getting-Started-with-Git/git_workflow.png">
+<meta property="og:image" content="http://vincentho.name/2018/08/15/Getting-Started-with-Git/git_four_states.png">
+<meta property="og:image" content="http://vincentho.name/2018/08/15/Getting-Started-with-Git/git_reset.png">
+<meta property="og:image" content="http://vincentho.name/2018/08/15/Getting-Started-with-Git/push.png">
+<meta property="og:image" content="http://vincentho.name/2018/08/15/Getting-Started-with-Git/pull.png">
+<meta property="og:image" content="http://vincentho.name/2018/08/15/Getting-Started-with-Git/branch.png">
+<meta property="og:image" content="http://vincentho.name/2018/08/15/Getting-Started-with-Git/ff_merge.png">
+<meta property="og:image" content="http://vincentho.name/2018/08/15/Getting-Started-with-Git/stash.png">
+<meta property="og:image" content="http://vincentho.name/2018/08/15/Getting-Started-with-Git/pr.jpg">
+<meta property="article:published_time" content="2018-08-15T06:50:13.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.320Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2018/08/15/Getting-Started-with-Git/header.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2018/08/15/Getting-Started-with-Git/"/>
+
+
+
+
+
+  <title>Getting Started with Git | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2018/08/15/Getting-Started-with-Git/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Getting Started with Git</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-15T14:50:13+08:00">
+                2018-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Git/" itemprop="url" rel="index">
+                    <span itemprop="name">Git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <img src="/2018/08/15/Getting-Started-with-Git/header.jpg" class="" width="500" height="250">
+<blockquote>
+<p>Git是一个分布式的版本控制软件，不需要服务器端软件，就可以运作版本控制，使得代码的发布和交流机器方便。Git的速度很快，这对于Linux内核的项目来说很重要，且Git拥有出色的合并追踪(merge tracking)能力，能够记录修改的代码。</p>
+</blockquote>
+<span id="more"></span>
+<p><br></p>
+<h1 id="1-安装配置Git"><a href="#1-安装配置Git" class="headerlink" title="1. 安装配置Git"></a>1. 安装配置Git</h1><p>Linux下安装Git非常的简单，只需要简单的一条命令。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install git</span><br></pre></td></tr></table></figure><br>配置本地Git的用户名和邮箱与Github的一致<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name <span class="string">&quot;Your Name&quot;</span></span><br><span class="line">$ git config --global user.email <span class="string">&quot;email@example.com&quot;</span></span><br></pre></td></tr></table></figure><br><br></p>
+<h1 id="2-Git基本概念"><a href="#2-Git基本概念" class="headerlink" title="2. Git基本概念"></a>2. Git基本概念</h1><h2 id="2-1-What-is-git"><a href="#2-1-What-is-git" class="headerlink" title="2.1 What is git?"></a>2.1 What is git?</h2><p>git是一个管理代码的版本控制系统(Version Control System, VCS)，它能跟踪每一个文件的变化，如果你修改了某个文件，VCS能够记录并且保存这些变化，这使得你可以撤销任何的修改，回溯到任何一个历史版本。<br><strong>注意</strong><br>所有的版本控制系统都只能跟踪文本文件的改动，如TXT文件、网页文件、程序代码等；而对于图片、视频这种二进制文件，虽然也能由版本控制系统管理，但没法跟踪文件的变化，只能把二进制文件每次改动串起来，也就是只能知道图片从100KB改成120KB，但是到底改了什么，无法知道。不幸的是，Microsoft的Word文件也是二进制格式的，因此Git也没法跟踪Word文件的改动。</p>
+<h2 id="2-2-Git-workflow"><a href="#2-2-Git-workflow" class="headerlink" title="2.2 Git workflow"></a>2.2 Git workflow</h2><p>在一个Git项目里面，由三个主要的组成元素：</p>
+<ul>
+<li>版本库(repository)：简称repo，它记录了你项目的所有变化和修改，保存了所有的commit，commit是指在某个时间点，项目所有文件的一个snapshot，可以理解为一次提交，将最新的版本提交到版本库，交由版本库进行保存。</li>
+<li>暂存区(index or staging area)：它是工作区和版本库之间的一个bridge，可以理解为一个中转站。暂存区的文件能够被commit，index is where commits are prepared。</li>
+<li>工作区(working tree)：就是我们本地工作的目录，我们能够修改文件、增添删除文件的目录。</li>
+</ul>
+<p>三者可以理解为一个层级关系，版本库是在层级最高的位置，工作区最低，我们在工作区工作，进行文件修改，我们每完成一次修改，我们希望保存到版本库，并且告诉版本库这次修改了什么，好让版本库能够记录下来。<br>下面就是Git的基本工作流程：</p>
+<ol>
+<li>在工作区修改文件。</li>
+<li>将工作区所有修改过的文件add(stage)到暂存区，准备commit。</li>
+<li>commit到版本库。</li>
+</ol>
+<img src="/2018/08/15/Getting-Started-with-Git/git_workflow.png" class="" width="600" height="300">
+<p>一个文件的四个状态，可以通过git status命令看得到这些词。</p>
+<ul>
+<li>Untracked: 当一个文件新创建，在版本库里面没有它，所以无法追踪。</li>
+<li>Modified：一个文件在工作区被修改了，但是还没到暂存区。</li>
+<li>Staged：修改的文件被stage到暂存区。</li>
+<li>Committed：修改的文件在暂存区commit到版本库。</li>
+</ul>
+<img src="/2018/08/15/Getting-Started-with-Git/git_four_states.png" class="" width="600" height="300">
+<p>Git项目的三个组成元素，各自代表一个版本，我们可以查看两两之间的差别：</p>
+<ul>
+<li>git diff: 查看工作区和暂存区的差别。</li>
+<li>git diff —cached: 查看暂存区和版本库的差别。</li>
+<li>git diff HEAD: 查看工作区和版本库的差别。</li>
+</ul>
+<h2 id="2-3-版本回退"><a href="#2-3-版本回退" class="headerlink" title="2.3 版本回退"></a>2.3 版本回退</h2><h3 id="2-3-1-仓库版本回退"><a href="#2-3-1-仓库版本回退" class="headerlink" title="2.3.1 仓库版本回退"></a>2.3.1 仓库版本回退</h3><p>Git既然能够跟踪文件的修改，自然就可以回溯，<code>.git</code>文件有保留每一次commit的信息，每一次commit都有一个唯一的commit id对应，它是经过SHA1计算出来的一个数字，用16进制表示，我们可以通过命令回退命令，回退到想要版本。<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git reset &lt;mode&gt; &lt;你想回退到的版本的commit id的前几位&gt;</span><br></pre></td></tr></table></figure></p>
+<p>在Git管理版本的时候，会有一个HEAD指针，指向最近的一次commit，每次的commit会练成一条链，回退的过程实际是将HEAD指针指向之前的节点<br><img src="/2018/08/15/Getting-Started-with-Git/git_reset.png" class="" width="400" height="200"></p>
+<p>reset有三种mode：soft, mixed(默认), hard，可以看到无论是哪个模式，HEAD的位置都肯定是会改变的，所以reset的另外一个作用就是撤销commit。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">mode</th>
+<th style="text-align:center">HEAD指针的位置</th>
+<th style="text-align:center">暂存区</th>
+<th style="text-align:center">工作区</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">soft</td>
+<td style="text-align:center">改变</td>
+<td style="text-align:center">不变</td>
+<td style="text-align:center">不变</td>
+</tr>
+<tr>
+<td style="text-align:center">mixed</td>
+<td style="text-align:center">改变</td>
+<td style="text-align:center">改变</td>
+<td style="text-align:center">不变</td>
+</tr>
+<tr>
+<td style="text-align:center">hard</td>
+<td style="text-align:center">改变</td>
+<td style="text-align:center">改变</td>
+<td style="text-align:center">改变</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>一种更加简单的方式替换commit id的是用HEAD指针，上一个版本就是<code>HEAD^</code>，上上个版本就是<code>HEAD^^</code>，依次往后可以写成<code>HEAD~n</code>。</p>
+<h3 id="2-3-2-工作区修改撤销"><a href="#2-3-2-工作区修改撤销" class="headerlink" title="2.3.2 工作区修改撤销"></a>2.3.2 工作区修改撤销</h3><p>当你在工作区乱改一通，也忘了自己改了什么地方，那么你可以用本地版本库的内容直接替换工作区，丢弃工作区的所有改变，用以下的命令可以使得file回到最近一次commit或者stage时的状态(注意，stage也是可以的，有些人可能提交到暂存区后，又乱改一通，这条命令将暂存区的版本替换工作区)<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout -- &lt;file&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-3-3-暂存区版本回退"><a href="#2-3-3-暂存区版本回退" class="headerlink" title="2.3.3 暂存区版本回退"></a>2.3.3 暂存区版本回退</h3><p>当我们在commit之前发现文件有问题，不能commit，但是修改的文件已经添加到了暂存区了，可以用以下的命令将暂存区的修改撤销(unstage)，重新放回工作区。<code>git reset</code>命令既可以回退版本，也可以把暂存区的修改回退到工作区，用HEAD的时候，表示最新的版本。<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git reset HEAD &lt;file&gt;</span><br></pre></td></tr></table></figure></p>
+<p>总结一下：</p>
+<ol>
+<li>撤销工作区修改，可以直接用本地版本库来替换</li>
+<li>不小心stage到暂存区，可以用reset命令撤销，撤销后暂存区该文件恢复原状，但是工作区依旧时修改了的。但是我个人觉得，既然工作区你瞎改了一些东西，并且add到暂存区，那么只需要把修改的内容改回去，再重新add到暂存区，就能恢复原状了。</li>
+<li>不小心还commit到版本库了，也可以用reset命令，结合hard mode，将工作区、暂存区全部恢复之前的版本。</li>
+</ol>
+<h2 id="2-4-创建版本库"><a href="#2-4-创建版本库" class="headerlink" title="2.4 创建版本库"></a>2.4 创建版本库</h2><p>首先，版本库有两种类型：</p>
+<ul>
+<li>本地版本库(local)，寄托在本地的机器，一般是个人电脑，为个人所用。</li>
+<li>远端版本库(remote)，托管在远端的一个服务器上，被多个用户所使用。Github就是全球最大的托管Git版本库的服务器，从名字就可以知道。</li>
+</ul>
+<p>本地版本库的创建有两种方法：</p>
+<ul>
+<li>git init, 在本地初始化一个版本库。</li>
+<li>git clone, 从远端克隆一个仓库到本地。</li>
+</ul>
+<p>当我们创建完一个本地版本库后，在本地的目录下就会多一个<code>.git</code>的文件夹，它就是版本库，里面就是管理整个目录的内容。</p>
+<h2 id="2-5-版本库的同步"><a href="#2-5-版本库的同步" class="headerlink" title="2.5 版本库的同步"></a>2.5 版本库的同步</h2><p>远端仓库的创建非常简单，只需要在Github上创建即可，但是远端仓库创建之后，仓库内是空的，它只能通过本地版本库的同步来实现初始化。<br>远端仓库使得我们可以和其它用户一起合作，只需要保证远端的版本库永远是最新的版本即可，因此，本地和远端版本库之间就需要频繁地进行同步，主要通过三个动作来完成：push, pull, merge。<br>同步之前，我们需要绑定本地版本库到远端仓库，才能进行以后的同步操作。远端仓库默认叫做origin，当然也可以叫其它名字。<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add origin &lt;remote repo addr&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-5-1-Git-push"><a href="#2-5-1-Git-push" class="headerlink" title="2.5.1 Git push"></a>2.5.1 Git push</h3><p>当我们想将本地版本库更新到远端仓库的时候，我们可以将其push到远端的仓库，这样就能使得远端仓库跟本地保持同步。<br><img src="/2018/08/15/Getting-Started-with-Git/push.png" class="" width="600" height="300"></p>
+<h3 id="2-5-2-Git-pull"><a href="#2-5-2-Git-pull" class="headerlink" title="2.5.2 Git pull"></a>2.5.2 Git pull</h3><p>当你的队友将他的本地仓库push到你们共同的远端仓库，你需要对自己本地的仓库进行更新，跟你队友的仓库保持一致，这时候我们就需要将远端仓库pull到自己的本地仓库。<br><img src="/2018/08/15/Getting-Started-with-Git/pull.png" class="" width="600" height="300"></p>
+<h3 id="2-5-3-Git-merge"><a href="#2-5-3-Git-merge" class="headerlink" title="2.5.3 Git merge"></a>2.5.3 Git merge</h3><p>无论是上传到远端仓库还是从远端仓库下载，远端仓库永远是最新版本，拥有最高优先级的。当我们想push我们的本地仓库到远程仓库的时候，不幸你的本地库的版本不是最新版本(即你在修改自己的本地版本的同时，有人更新了远程仓库)，这时候push会被拒绝，因为远程仓库的有些更新并不在你的本地仓库。这时候我们需要将远端仓库先pull下来，并和本地仓库进行合并(merge)。<br>merge就是指两个仓库(或者一个仓库的两个分支)进行合并的过程，在合并的过程，Git会自动地将另外一个仓库(分支)的改变更新到当前的仓库(分支)。<br>但是，合并的两个仓库(分支)在某些文件可能都共同地修改了同个地方，这时候就出现了所谓的conflit，Git并不会自动地帮你选择一个版本，而是将这个选择的权利交给了我们，Git会帮我们将conflit的地方标记出来，我们需要手动地进行修改，才能最后完成合并过程。</p>
+<p>下面对比一下pull和fetch</p>
+<ul>
+<li>fetch：fetch是将远程仓库的某条分支的内容拉到本地，但是fetch后是看不到变化，而是在本地新开了一个分支，该分支的指针是<code>FETCH_HEAD</code>，checkout到该分支后可以查看远程分支的最新内容。然后切换到master分支，执行merge，选中<code>FETCH_HEAD</code>，合并后如果出现冲突则解决冲突，最后commit。</li>
+<li>pull：pull相当于fetch和merge，自动将远程仓库更新到本地仓库<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch origin master(将远程仓库的master分支拉到本地当前分支)</span><br><span class="line">$ git merge FETCH_HEAD</span><br></pre></td></tr></table></figure>
+<br><h1 id="3-分支管理和协作"><a href="#3-分支管理和协作" class="headerlink" title="3. 分支管理和协作"></a>3. 分支管理和协作</h1>分支使得Git变得更加的强大，使得团队协作更加的方便。任何一个Git仓库，都会默认有一个master的分支，无论是本地仓库还是远程仓库，这个分支是在创建Git仓库的时候就会默认创建的。之前提到HEAD指针是指向最近一次commit的，但严格来讲，HEAD指针是指向master指针，master指针才是指向最近一次commit，所以可以理解为HEAD指针是指向当前的分支。<br>如果这样来看的话，一条分支就好比链表，每一次commit就往链表尾部插入新的仓库snapshot。一个仓库可以有好几条分支，当新开一条分支的时候，原有的链表尾部就会开始分叉，同时会有另外一个新的指针指向新的分叉，当我们切换分支的时候，HEAD指针就会指向对应分支的指针。<img src="/2018/08/15/Getting-Started-with-Git/branch.png" class="" width="500" height="250">
+</li>
+</ul>
+<h2 id="3-1-创建、切换分支"><a href="#3-1-创建、切换分支" class="headerlink" title="3.1 创建、切换分支"></a>3.1 创建、切换分支</h2><p>Git创建分支和切换分支都很快，因为无非就是创建一个指针，和改变HEAD指针的指向而已。<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">创建branch：git branch &lt;branch_name&gt;</span><br><span class="line">切换branch：git checkout &lt;branch_name&gt;</span><br><span class="line">创建并切换branch：git checkout -b &lt;branch_name&gt;</span><br><span class="line">查看branch list：git branch</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-2-分支合并"><a href="#3-2-分支合并" class="headerlink" title="3.2 分支合并"></a>3.2 分支合并</h2><p>在多人协作的时候，基本上都是每个人都在自己的分支上工作，完成自己的工作之后再把自己的代码合并到master分支上。<br>之前提到，两条分支的merge可能会导致conflit，冲突的原因是两个<strong>已经提交的分支</strong>的相同文件相同位置的不同操作进行了合并。</p>
+<p><strong>注意</strong><br>要避免冲突，就是最好每次修改文件之前，先merge别的分支(或者pull远程仓库)，这样就能保证自己是在别人最新版本的基础上修改的，自己修改完后去合并到别人分支(push到远程仓库)都不会产生冲突。<br>这种情况就好比下图，第三个节点是最新版本，然后在dev分支上修改，修改完成后commit，再切换回master分支，然后跟dev分支进行merge，这时候这种merge叫做fast forward，因为是直接将master的指针指向了第四个节点，相当于直接覆盖。<br><img src="/2018/08/15/Getting-Started-with-Git/ff_merge.png" class="" width="500" height="250"></p>
+<p>以下的情况会导致冲突，假如我在dev分支修改了a文件的第二行代码，并且提交了。然后我切换到master分支，假如我不知道dev分支改了什么，我在master分支也改了a文件的第二行代码，并且提交了。然后我在这个时候想把dev分支的修改一起merge到master分支上，冲突发生了，因为两个版本都修改了同一行代码，Git会将冲突的位置，用以下的方式告知我们，并要求我们人工进行修改。如果不解决冲突时没法提交或者切换分支的。<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD(Current Change)</span><br><span class="line">other code</span><br><span class="line">========</span><br><span class="line">your code</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; your branch name(Incoming Change)</span><br></pre></td></tr></table></figure></p>
+<p>但是假如我在master分支改的时a文件的第三行代码，并且提交了，这时候再去将dev分支merge进来，不会有冲突，而是会自动合并，即使我在修改第三行代码前并没有先将dev的修改merge进来。但是还是建议先merge再做修改。</p>
+<h2 id="3-3-与远端仓库的同步"><a href="#3-3-与远端仓库的同步" class="headerlink" title="3.3 与远端仓库的同步"></a>3.3 与远端仓库的同步</h2><p>像之前所说，无论是本地仓库还是远端的仓库，都可以存在不同的分支，还是那句话，在修改代码前，先将远端仓库pull下来，方便以后push的时候，避免产生冲突。并且需要注意，本地仓库是从哪条分支pull下来的，最好就push回哪条分支，不然push不上去。<br>如果本地仓库和远端仓库都只有一条分支，那么情况就简单很多，因为不需要明确地指明哪条分支到哪条分支。</p>
+<ul>
+<li>pull：如果本地和远端都只有一条分支，直接git pull就好，如果想pull到当前分支，那么本地分支名可以省略。  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git pull [远程仓库名字，一般默认origin] [远端分支名]:[本地分支名]</span><br><span class="line">eg: git pull origin master:master</span><br></pre></td></tr></table></figure></li>
+<li>fetch：fetch不需要写本地分支名，因为它还没有merge，只是把远端分支拉到本地并保存到<code>FETCH_HEAD</code>而已。  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch [远程仓库名字] [远端分支名]</span><br></pre></td></tr></table></figure></li>
+<li>push：建议写全。<ul>
+<li>最常见到的是<code>git push origin master</code>，远程分支被省略，它表示将本地分支推送到与其存在追踪关系的远程分支(通常两者同名)，因为远端仓库肯定存在master分支，因此省略也没有问题。如果该远程分支不存在，则会被新建。</li>
+<li>其它形式如<code>git push origin</code>，表示将当前分支push到远端与当前分支存在追踪关系的分支。</li>
+<li><code>git push</code>，如果本地和远端都只有一条分支，那么全都可以省略。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push [远程仓库名字] [本地分支名]:[远端分支名]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-4-Stash"><a href="#3-4-Stash" class="headerlink" title="3.4 Stash"></a>3.4 Stash</h2><p>Stash是一个工作状态保存栈，用于保存/恢复工作区的临时状态。<br><img src="/2018/08/15/Getting-Started-with-Git/stash.png" class="" width="500" height="250"></p>
+<p>那么什么时候才需要将工作区的状态暂时保存起来呢？说到暂时，那么肯定就是修改只进行了一半，还没到commit或者stage的地步。比如我在master上进行了一些修改，但是还没有commit(加到暂存区也不行)，现在我需要切换到dev分支进行其它的修改。Git会reject你的分支切换(另一种reject分支切换的情况是出现conflit，conflit没解决之前，不允许切换分支)，并且告诉你要不将修改commit，要不将它放到stash里面，才可以切换分支。这就是stash出现的目的，暂时存储工作区的状态。<br>将工作区临时保存起来可以用<code>git stash</code>命令，实际保存的是工作区的一个snapshot，将工作区stash之后，工作区变回干净状态(从git status可以看出)。因此可以多次stash，相当于将不同的几个snapshot保存起来，stash的地方是一个栈，遵循后进先出。<br><code>git stash list</code>可以查看栈里面的snapshot。如果要恢复工作区可以有两种方法：</p>
+<ul>
+<li><code>git stash pop</code>：将栈顶元素pop出来，恢复工作区的同时把stash的内容删掉。</li>
+<li><code>git stash apply stash@&#123;n&#125;</code> &amp; <code>git stash drop stash@&#123;n&#125;</code>：从stash list选出需要恢复的snapshot，snapshot的命名就是<code>stash@&#123;n&#125;</code>。</li>
+</ul>
+<p><br></p>
+<h1 id="4-GitHub之pull-request"><a href="#4-GitHub之pull-request" class="headerlink" title="4. GitHub之pull request"></a>4. GitHub之pull request</h1><p>当我们在进行团队任务的时候，每个人都会在本地拥有自己的一条分支，同理，在远端也会有一条与之对应的分支，如feature分支、bug fix分支等，当我们在本地完成自己的任务，然后push到远端自己分支之后，我们准备将它merge到master分支(master分支永远是最新的版本)，首先我们不可能直接将自己本地的分支push到远端的master，因为万一出错了就会很麻烦，因此我们只会push到自己的分支，那么怎样能够更新远端的master分支呢？<br>这就是pull request要做的事了，字面上理解pull request是指请求合并代码，或者请求对方pull一下自己的代码。pull request可以发生在一个仓库的不同分支，也可以发生在两个不同的仓库，但是这两个不同的仓库必须存在fork的关系，fork是指将别人的仓库copy到自己的仓库。</p>
+<p>假设你想为一些开源项目做一下贡献</p>
+<ol>
+<li>将这个项目fork到自己的GitHub，并将它clone到本地(注意是自己GitHub上的那个仓库)</li>
+<li>创建新分支，进行代码修改</li>
+<li>push到自己GitHub上对应的分支</li>
+<li>发起pull request，pull request里有base和compare，base就是别人的代码，compare是指自己修改后的代码，在这里base要选择开源项目仓库的master分支，compare选自己仓库的那条分支。</li>
+<li>对方进行代码审核，如果通过了，就会进行代码合并。<br><br><img src="/2018/08/15/Getting-Started-with-Git/pr.jpg" class="" width="500" height="250">
+</li>
+</ol>
+<p><br></p>
+<h1 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h1><p>Git可以说是每一个开发者必备的工具，而Github更是全世界最活跃的网站之一，无论你是将Github看成是一个项目代码的仓库，还是在公司跟同事合作，掌握Git都会让你受益匪浅，个人推荐用Git Bash，不要依赖Github Desktop，虽然方便，但是沉下心来理解Git的基本概念和操作，也是每个开发者值得做和应该做的一件事。</p>
+<p><br></p>
+<h1 id="6-参考资料"><a href="#6-参考资料" class="headerlink" title="6. 参考资料"></a>6. 参考资料</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">廖雪峰Git教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://backlog.com/git-tutorial/">backlog git tutorial</a></li>
+<li><a target="_blank" rel="noopener" href="https://git-scm.com/docs/">Git官网</a>，但是太难懂了，我暂时也没看懂&gt;_&lt;</li>
+</ol>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/14/%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/" rel="next" title="用hexo搭建个人网站">
+                <i class="fa fa-chevron-left"></i> 用hexo搭建个人网站
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/18/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="prev" title="Git常用命令">
+                Git常用命令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEGit"><span class="nav-number">1.</span> <span class="nav-text">1. 安装配置Git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Git%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text">2. Git基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-What-is-git"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 What is git?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Git-workflow"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Git workflow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%80"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 版本回退</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-1-%E4%BB%93%E5%BA%93%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%80"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.3.1 仓库版本回退</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-%E5%B7%A5%E4%BD%9C%E5%8C%BA%E4%BF%AE%E6%94%B9%E6%92%A4%E9%94%80"><span class="nav-number">2.3.2.</span> <span class="nav-text">2.3.2 工作区修改撤销</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-3-%E6%9A%82%E5%AD%98%E5%8C%BA%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%80"><span class="nav-number">2.3.3.</span> <span class="nav-text">2.3.3 暂存区版本回退</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E5%88%9B%E5%BB%BA%E7%89%88%E6%9C%AC%E5%BA%93"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 创建版本库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-%E7%89%88%E6%9C%AC%E5%BA%93%E7%9A%84%E5%90%8C%E6%AD%A5"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 版本库的同步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-1-Git-push"><span class="nav-number">2.5.1.</span> <span class="nav-text">2.5.1 Git push</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-2-Git-pull"><span class="nav-number">2.5.2.</span> <span class="nav-text">2.5.2 Git pull</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-3-Git-merge"><span class="nav-number">2.5.3.</span> <span class="nav-text">2.5.3 Git merge</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E5%92%8C%E5%8D%8F%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">3. 分支管理和协作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%88%9B%E5%BB%BA%E3%80%81%E5%88%87%E6%8D%A2%E5%88%86%E6%94%AF"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 创建、切换分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E5%88%86%E6%94%AF%E5%90%88%E5%B9%B6"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 分支合并</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E4%B8%8E%E8%BF%9C%E7%AB%AF%E4%BB%93%E5%BA%93%E7%9A%84%E5%90%8C%E6%AD%A5"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 与远端仓库的同步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-Stash"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 Stash</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-GitHub%E4%B9%8Bpull-request"><span class="nav-number">4.</span> <span class="nav-text">4. GitHub之pull request</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">5. 总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text">6. 参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,832 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Title：Convolutional Networks with Adaptive Computation GraphsAuthors：Andreas Veit, Serge BelongieAbstract：作者提出了 Adanet，是一种自适应的计算图，在 ResNet 的基础上，加入了门结构来决定是否需要执行某个 block，引入这种门结构并没有带来额外太多的计算量，反而能加快训练过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文阅读】—— Convolutional Networks with Adaptive Computation Graphs">
+<meta property="og:url" content="http://vincentho.name/2018/12/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Convolutional-Networks-with-Adaptive-Computation-Graphs/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="Title：Convolutional Networks with Adaptive Computation GraphsAuthors：Andreas Veit, Serge BelongieAbstract：作者提出了 Adanet，是一种自适应的计算图，在 ResNet 的基础上，加入了门结构来决定是否需要执行某个 block，引入这种门结构并没有带来额外太多的计算量，反而能加快训练过程。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2018/12/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Convolutional-Networks-with-Adaptive-Computation-Graphs/1.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Convolutional-Networks-with-Adaptive-Computation-Graphs/2.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Convolutional-Networks-with-Adaptive-Computation-Graphs/3.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Convolutional-Networks-with-Adaptive-Computation-Graphs/4.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Convolutional-Networks-with-Adaptive-Computation-Graphs/5.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Convolutional-Networks-with-Adaptive-Computation-Graphs/6.png">
+<meta property="article:published_time" content="2018-12-16T09:14:12.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.551Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2018/12/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Convolutional-Networks-with-Adaptive-Computation-Graphs/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2018/12/16/【论文阅读】——-Convolutional-Networks-with-Adaptive-Computation-Graphs/"/>
+
+
+
+
+
+  <title>【论文阅读】—— Convolutional Networks with Adaptive Computation Graphs | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2018/12/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Convolutional-Networks-with-Adaptive-Computation-Graphs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文阅读】—— Convolutional Networks with Adaptive Computation Graphs</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-16T17:14:12+08:00">
+                2018-12-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Title：Convolutional Networks with Adaptive Computation Graphs<br>Authors：Andreas Veit, Serge Belongie<br>Abstract：作者提出了 Adanet，是一种自适应的计算图，在 ResNet 的基础上，加入了门结构来决定是否需要执行某个 block，引入这种门结构并没有带来额外太多的计算量，反而能加快训练过程。</p>
+</blockquote>
+<span id="more"></span>
+<p><br></p>
+<p><em>preface</em></p>
+<p>深度学习领域在网络深度和网络结构上都进行了很多的研究，尽管这些网络在结构细节上会有不同，但是他们有一点是相同的：他们都是一个固定的模型，网络结构与输入图像没有任何关系。</p>
+<p>《Residual networks behave like ensembles of relatively shallow networks》论文中提到去掉  ResNet 的某几层并不会影响性能，这也表明没有任何一个独立的层是对性能起到关键性作用的，网络层存在着冗余，很多计算量是没有必要的。因此作者就提出了网络结构并不需要固定不变，对于不同的输入，可以组装不同的网络去进行预测。</p>
+<p>作者提出的 AdaNet 是基于 ResNet 进行的改进，在每一个 residual block 中加入一个 gating function 来决定是否需要执行这个 block 的操作。</p>
+<img src="/2018/12/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Convolutional-Networks-with-Adaptive-Computation-Graphs/1.png" class="">
+<p>作者的这个工作和 regularization with stochastic noise 有关，stochastic path 随机的丢弃 ResNet 的某些层，而 AdaNet 根据输入来决定跳过哪些层。</p>
+<p>AdaNet 也可以看成是 attention 机制的一个例子，选择重要的层去执行；而 SENet 是根据卷积输出中 channel 的重要性进行 rescale。</p>
+<p><br></p>
+<h1 id="AdaNet"><a href="#AdaNet" class="headerlink" title="AdaNet"></a>AdaNet</h1><p>ResNet 可以定义如下，它的提出使得上千层的网络得以诞生，但是研究也表明，尽管这些层是一起训练的，去掉任何一层也不会影响最后的性能。</p>
+<script type="math/tex; mode=display">x_l = x_{l-1} + F_l(x_{l-1})</script><h2 id="Adaptive-Computation-Graph"><a href="#Adaptive-Computation-Graph" class="headerlink" title="Adaptive Computation Graph"></a>Adaptive Computation Graph</h2><p>作者受到《Residual networks behave like ensembles of relatively shallow networks》这篇论文结果的启发，思考卷积网络是否需要一个固定的结构，由于固定的结构会带来很多冗余的计算，因此作者想自适应地选择或组装 (assemble) 网络，自适应的网络会根据输入来决定通过哪些必要的层，而跳过不必要的层，因此提出了门结构的 residual block。$z(x_{l-1})$ 是 gating function，根据每一层的输入来决定是否执行。</p>
+<script type="math/tex; mode=display">x_l = x_{l-1} + z(x_{l-1}) \cdot F_l(x_{l-1}), z(x_{l-1}) \in \{0,1 \}</script><p>作者把上面的方式和 highway network 进行了对比，highway network 中每一层的输出为：$x<em>l = (1-z(x</em>{l-1})) \cdot x<em>{l-1} + z(x</em>{l-1}) \cdot F<em>l(x</em>{l-1})$，两个式子有点类似，但是 highway network 的式子更像是一种 soft 注意力机制，关注某些层和不关注其他层。而 AdaNet 是直接跳过不执行某一层。</p>
+<h2 id="Gating-Unit"><a href="#Gating-Unit" class="headerlink" title="Gating Unit"></a>Gating Unit</h2><p>$z<em>(x</em>{l-1})$ 分为两个阶段</p>
+<ol>
+<li>根据输入，评估需要执行 residual block 的概率。</li>
+<li>根据概率值，抽样出一个离散的样本。</li>
+</ol>
+<img src="/2018/12/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Convolutional-Networks-with-Adaptive-Computation-Graphs/2.png" class="">
+<p>考虑到 AdaNet 的主要目的是为了减少不必要的计算量，因此引入的门结构必须比较轻量，不然整体的计算量无法减少。首先作者采用 global avg-pooling 进行 channel 级别的特征提取。</p>
+<script type="math/tex; mode=display">z_c = \frac{1}{H\times W}\sum \sum x_{i,j,c}</script><p>通过 global pooling 得到一个 $1 \times 1 \times C$ 的 channel descriptor，然后再用两层全连接网络去捕获 channel 之间的关系。</p>
+<script type="math/tex; mode=display">\beta = W_2\sigma(W_1z)</script><p>$W_1 \in R^{\frac{C}{d}\times C}$，$W_2 \in R^{2\times \frac{C}{d}}$，$d$ 为 reduction ratio。输出的 $\beta$ 是一个两个元素的一维向量，表征着执行和跳过该 block 的概率。</p>
+<p>假设 $X$ 是一个随机变量，$X = 0$ 表示跳过该 block，$X = 1$ 表示执行该 block，那么 $P(X = 0) = \beta_0$，$P(X = 1) = \beta_1$，我们现在想得到一个服从该离散变量分布的一个值 $x$，即 0 或 1，一个最简单的做法是根据概率去采样，但是采样出来的只有 $x$ 的值，并没有生成 $x$ 的式子，即采样这个操作不可微，本来 $x$ 的值是和 $\beta_0$、$\beta_1$ 有关的，但是采样这个操作，我们得到的 $x$ 无法对 $\beta$ 进行求导，这就使得神经网络里面的梯度无法回传。</p>
+<p>我们能否给出一个以 $\beta$ 为输入的函数，输出的结果为随机变量 $X$ 的采样值 $x$ 呢？答案是肯定的，作者采用了 Gumbel-Max trick 进行再参数化，如下，$z$ 是一个 onehot 向量，$g_i$ 是 Gumbel 分布 G 的采样，$G = -log(-log(U))$，$U \sim Uniform(0,1)$</p>
+<script type="math/tex; mode=display">z = arg\ max(log\beta_i + g_i)</script><p>即</p>
+<script type="math/tex; mode=display">P(x|Pa_x)=\begin{cases}  1, & i=argmax_j(log(\beta_j) + g_j) \\  0, & otherwise  \end{cases}</script><p>因此得到的 $z$ 是一个两个元素的一维向量，元素值为 0 或 1，按照上图的流程，若 $z_1 = 1$，则执行该 block。</p>
+<p>上面的 Gumbel-Max trick 实现了从 $\beta$ 向量到 $z$ 向量的转变，但是上面的流程中，argmax 操作是不可导的，作者提出用可导的 softmax 函数去代替 argmax，因此得到的 $z$ 向量为</p>
+<script type="math/tex; mode=display">z_i = softmax((log(\beta_i) + g_i) / \tau)</script><p>$\tau$ 是温度系数，当 $\tau \rightarrow 0$ 的时候，类别之间的距离被拉得很远，softmax 的结果就会趋于一个 onehot，softmax 就能逼近 argmax；而 $\tau \rightarrow \infty$，不同类别的概率趋于一致，softmax 的结果趋于一个均匀分布。</p>
+<p>因此作者提出，训练中前向传播，严格用 argmax 得到离散值，反向传播用 softmax 来求梯度。</p>
+<p><strong>损失函数</strong></p>
+<p>除了 multi-class logistics loss $L_{MC}$ 外，作者还想将计算量写入损失函数。定义一个 batch 的样本应该通过某一层的比率为 t (target rate)，$\overline{z}_l$ 代表实际中一个 batch 样本通过的样本比例，定义另外一个 loss 为，$N$ 为 batch size。</p>
+<script type="math/tex; mode=display">L_{target} = \sum_1^N (\overline{z}_l - t)^2</script><script type="math/tex; mode=display">L_{Adanet} = L_{MC} + L_{target}</script><p>其中 $t = 0.6$，$\lambda = 2$</p>
+<p><br></p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><p>作者先在 CIFAR-10 上做了实验，AdaNet 有一定的提升，且计算量减少了一点。</p>
+<img src="/2018/12/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Convolutional-Networks-with-Adaptive-Computation-Graphs/3.png" class="">
+<p>下图是不同层的通过率，downsampling layer 都有极高的通过率，Wide AdaNet 在后面的层，不同类别之间的通过率有明显的不同。</p>
+<img src="/2018/12/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Convolutional-Networks-with-Adaptive-Computation-Graphs/4.png" class="">
+<p>下面是 ImageNet 的结果，并没有变得很好，但是计算量少了不少。</p>
+<img src="/2018/12/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Convolutional-Networks-with-Adaptive-Computation-Graphs/5.png" class="">
+<p>下图表示前 30 个 epoch，通过率的变化，通过率初始化为 0.85，可以看出后面的层和 downsampling 层都比较快的达到通过率 100%，而其它层的通过率则不断下跌。</p>
+<img src="/2018/12/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Convolutional-Networks-with-Adaptive-Computation-Graphs/6.png" class="">
+<p>最后，作者还表示 AdaNet 可以防御对抗样本的攻击。</p>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/" rel="next" title="【论文阅读】—— GaterNet, Dynamic Filter Selection in Convolutional Neural Network via a Dedicated Global Gating Network">
+                <i class="fa fa-chevron-left"></i> 【论文阅读】—— GaterNet, Dynamic Filter Selection in Convolutional Neural Network via a Dedicated Global Gating Network
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/14/%E8%87%B4%E9%80%9D%E5%8E%BB%E7%9A%84%E5%9B%9B%E5%B9%B4%E5%A4%A7%E5%AD%A6%E6%97%B6%E5%85%89/" rel="prev" title="致逝去的四年大学时光">
+                致逝去的四年大学时光 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AdaNet"><span class="nav-number">1.</span> <span class="nav-text">AdaNet</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Adaptive-Computation-Graph"><span class="nav-number">1.1.</span> <span class="nav-text">Adaptive Computation Graph</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gating-Unit"><span class="nav-number">1.2.</span> <span class="nav-text">Gating Unit</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">2.</span> <span class="nav-text">实验结果</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

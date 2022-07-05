@@ -1,37 +1,848 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="该文章总结了一些三维人体姿态估计和重构的文章，分别为：  HMR：End-to-end Recovery of Human Shape and Pose SPIN：Learning to Reconstruct 3D Human Pose and Shape via Model-fitting in the Loop VIBE：Video Inference for Human Body Pose">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3D Human Pose and Shape Reconstruction Review">
+<meta property="og:url" content="http://vincentho.name/2020/09/09/3D-Human-Pose-and-Shape-Reconstruction-Review/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="该文章总结了一些三维人体姿态估计和重构的文章，分别为：  HMR：End-to-end Recovery of Human Shape and Pose SPIN：Learning to Reconstruct 3D Human Pose and Shape via Model-fitting in the Loop VIBE：Video Inference for Human Body Pose">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2020/09/09/3D-Human-Pose-and-Shape-Reconstruction-Review/1.png">
+<meta property="og:image" content="http://vincentho.name/2020/09/09/3D-Human-Pose-and-Shape-Reconstruction-Review/2.png">
+<meta property="og:image" content="http://vincentho.name/2020/09/09/3D-Human-Pose-and-Shape-Reconstruction-Review/3.png">
+<meta property="og:image" content="http://vincentho.name/2020/09/09/3D-Human-Pose-and-Shape-Reconstruction-Review/4.png">
+<meta property="article:published_time" content="2020-09-09T07:04:27.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.246Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2020/09/09/3D-Human-Pose-and-Shape-Reconstruction-Review/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2020/09/09/3D-Human-Pose-and-Shape-Reconstruction-Review/"/>
+
+
+
+
+
+  <title>3D Human Pose and Shape Reconstruction Review | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2020/09/09/3D-Human-Pose-and-Shape-Reconstruction-Review/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">3D Human Pose and Shape Reconstruction Review</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-09-09T15:04:27+08:00">
+                2020-09-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>该文章总结了一些三维人体姿态估计和重构的文章，分别为：</p>
+<ul>
+<li>HMR：End-to-end Recovery of Human Shape and Pose</li>
+<li>SPIN：Learning to Reconstruct 3D Human Pose and Shape via Model-fitting in the Loop</li>
+<li>VIBE：Video Inference for Human Body Pose and Shape Estimation</li>
+</ul>
+<span id="more"></span>
+<h2 id="End-to-end-Recovery-of-Human-Shape-and-Pose"><a href="#End-to-end-Recovery-of-Human-Shape-and-Pose" class="headerlink" title="End-to-end Recovery of Human Shape and Pose"></a>End-to-end Recovery of Human Shape and Pose</h2><blockquote>
+<p>Authors: Angjoo Kanazawa<br>Conference: CVPR 2018</p>
+</blockquote>
+<p>该模型的输入为一张图片，或者说是一个 bounding box，bbox 中心为人，输出是重构的三维人体。图片首先经过一个 encoder 提取特征，encoder 用的是在分类任务上预训练好的 ResNet50，特征输入到 regressor 里面经过几轮的迭代最后预测一系列参数，包括 SMPL 模型的参数 $\theta$ 、$\beta$ 以及 weak-perspective camera model 的参数 scale、rotation、translation。</p>
+<p>输入的图片均有二维关节点的 annotation，从 regressor 得到的参数中生成三维人体 mesh（$M(\theta,\beta)\in R^{3\times N}$，N=6890），然后从 mesh 中通过线性回归得到三维关节点 $X(\theta, \beta)\in R^{3 \times P}$，P 为关节点个数，相机参数 $s\in R, t\in R^2$，从 3 维关节点经过投影生成 2 维的关节点，R 为 global orient，$\Pi$ 为 orthographic projection。</p>
+<script type="math/tex; mode=display">
+\hat{x}=s \Pi(RX(\theta, \beta))+t</script><p>由于每张图片都有 2 维关节点，通过这种方式，约束生成的 3 维关节点经过投影后与 2 维关节点相似，从而训练网络。由于 SMPL 的关节点和 2 维不同数据集的关节点数有一些不同，这里作者做的是将不同数据集融合，保证 SMPL 的点在 2 维关节点的 annotation 中有。</p>
+<script type="math/tex; mode=display">
+L_{reproj}=\sum_i ||v_i(x_i-\hat{x}_i)||_1</script><p>除了每张图片都有 2D supervision 外，有一些图片会有 3D 的 annotation，一般 3D 的 annotation 会以 3D keypoint 的形式给出，用 MoSh 工具可以从 3D keypoint 中得到 SMPL 的参数 $\theta$ 和 $\beta$，3D supervision 的 loss 如下，joint loss 加上参数 loss</p>
+<script type="math/tex; mode=display">
+L_{3D} = ||X_i-\hat{X}_i||_2^2 + ||[\beta_i, \theta_i] - [\hat{\beta}_i, \hat{\theta}_i]||_2^2</script><p>除了一般的 reprojection loss 外，以前的文章都会加入一些人为 的先验，来约束 SMPL 的 $\theta$ 参数来避免一些不自然的动作或者关节点扭动，这里作者采取一种 data-driven 的先验方式，通过训练一个判别器，让网络自己去判断回归出来的 SMPL 参数是否像正常人，首先需要一个 3D 人体的数据库（每个人体的 SMPL 参数都有），然后判别器的网络结构方面，采取的是公用前面的 feature extraction，后面每个关节点逐一判别。</p>
+<p>训练网络总的 loss 如下</p>
+<script type="math/tex; mode=display">
+L=\lambda(L_{reproj}+1L_{3D})+L_{adv}</script><img src="/2020/09/09/3D-Human-Pose-and-Shape-Reconstruction-Review/1.png" class="">
+<p>训练用到的 2D 数据集有：LSP、LSP-extended、MPII、MS COCO，3D 数据集有：Human3.6M、MPI-INF-3DHP。由于 SMPL 的 23 个关节点和用到的数据集不是很 match，因此用一个 regressor 从生成的 mesh 中回归出 Human3.6M 的14 个点，同样的方法加上 MS COCO 脸上的 5 个点，共 19 个点用于 reprojection loss。</p>
+<p><br></p>
+<h2 id="Learning-to-Reconstruct-3D-Human-Pose-and-Shape-via-Model-fitting-in-the-Loop"><a href="#Learning-to-Reconstruct-3D-Human-Pose-and-Shape-via-Model-fitting-in-the-Loop" class="headerlink" title="Learning to Reconstruct 3D Human Pose and Shape via Model-fitting in the Loop"></a>Learning to Reconstruct 3D Human Pose and Shape via Model-fitting in the Loop</h2><blockquote>
+<p>Authors: Nikos Kolotouros<br>Conference: ICCV 2019</p>
+</blockquote>
+<p>作者结合了 regression-based 和 optimization-based 两种方法，整体的思路就是先用 HMR 的网络回归出来一个初步的人体模型（下图右），然后再用这个人体去初始化 smplify 模块对人体模型进行优化，并用优化后的人体模型作为 GT 去监督回归网络的训练。</p>
+<img src="/2020/09/09/3D-Human-Pose-and-Shape-Reconstruction-Review/2.png" class="">
+<p>回归网络和 HMR 几乎一样，唯一不同是 HMR 用欧拉角来表征每个关节点的旋转，而 SPIN 用一个 6 维的向量来表征三维旋转。得到的初步三维人体模型再用 smplify 进一步优化。</p>
+<blockquote>
+<p>SMPLify tries to fit the SMPL model to a set of 2D keypoints using an optimization-based approach.</p>
+</blockquote>
+<p>优化的目标函数包含 reprojection loss 还有一些 pose 和 shape 的 prior，比如惩罚肘部和膝盖不自然的旋转，实现上 smplify 分为两步，第一步是固定 initial pose 和 shape，优化 camera translation 和 body orientation，简单说就是调整人体的整体转向；第二步是优化 pose 和 shape。通过 iterative fitting，得到优化后的人体模型 </p>
+<p>SPIN 和上一篇 HMR 不同的点在于，它没有直接用 reprojection loss 来训练回归网络，而是用优化后的人体模型参数来作为回归网络输出的 GT，smplify 后的 SMPL 参数为 $\Theta<em>{opt}={\theta</em>{opt}, \beta<em>{opt} }$，回归网络输出的 SMPL 参数为 $\Theta</em>{reg}={\theta<em>{reg}, \beta</em>{reg} }$；同理 smplify 后的 mesh 为 $M_{opt}$，损失函数包括</p>
+<script type="math/tex; mode=display">
+L_{3D}=||\Theta_{reg}-\Theta_{opt}||</script><script type="math/tex; mode=display">
+L_M=||M_{reg} - M_{opt}||</script><p>SPIN 的一大特点在于 self-improving，A good initial network estimate $\Theta<em>{reg}$ will lead the optimization to a better fit $\Theta</em>{opt}$, while a good fit from the iterative routine will provide even better supervision to the network. 对比上一篇的 HMR，SPIN 完全不需要用到 3D 的数据进行训练，并且对比 HMR 训练判别器告诉回归网络生成的 pose 是否正常，SPIN explicitly 用 smplify 提供更加有效的 pose 信息作为 supervision。</p>
+<p>训练集有用到 Human3.6M、MPI-INF-3DHP、LSP 并且混合了其他 2D 数据集如 MPII 和 COCO，2D annotation 方面混合所有数据集的关节点，总数为 24 个点，对于某一张图片上没有标注的点，标记 visibility 为 0，表示不可见。</p>
+<p><br></p>
+<h2 id="VIBE-Video-Inference-for-Human-Body-Pose-and-Shape-Estimation"><a href="#VIBE-Video-Inference-for-Human-Body-Pose-and-Shape-Estimation" class="headerlink" title="VIBE: Video Inference for Human Body Pose and Shape Estimation"></a>VIBE: Video Inference for Human Body Pose and Shape Estimation</h2><blockquote>
+<p>Authors: Muhammed Kocabas<br>Conference: CVPR 2020</p>
+</blockquote>
+<p>整体流程如下，给定一个 T 帧的视频 $V={I<em>t }</em>{t=1}^T$，temporal generator 对输入的每一帧图片进行 CNN 提取信息，GRU 处理时序信息，最后 regressor 回归出 SMPL 的参数，对于 $\beta$ 参数，取 T 帧的平均值作为整体的 shape，generator 最后的输出 $\hat\Theta = [(\hat\theta<em>1,…,\hat\theta_T), \hat\beta]$，与 AMASS（一个 3D 人体模型的库）的真实人体 $\Theta</em>{real}$ 输出到判别器进行动作的判定。</p>
+<img src="/2020/09/09/3D-Human-Pose-and-Shape-Reconstruction-Review/3.png" class="">
+<p><strong>Temporal Generator</strong></p>
+<p>整体的网络结构和 SPIN 基本一样，只是在 CNN 和 Regressor 之间插入了一个 GRU 的模块，SPIN 是单帧处理的，这里加入了 temporal 的信息，因为前面帧的信息对后面帧的处理有帮助，同样用的 6D 旋转表示，生成器的损失项如下，看不同的数据有哪些 annotation 来决定有哪些损失项，2D 损失项是必定有的，reprojected 2D keypoint 和之前的方法一样</p>
+<script type="math/tex; mode=display">
+L_G=L_{3D} + L_{2D} + L_{SMPL} + L_{adv}</script><script type="math/tex; mode=display">
+L_{3D} = \sum_{i=1}^T||X_t - \hat{X}_t||_2</script><script type="math/tex; mode=display">
+L_{2D} = \sum_{i=1}^T||x_t - \hat{x}_t||_2</script><script type="math/tex; mode=display">
+L_{SMPL} = \sum_{i=1}^T||\theta_t - \hat{\theta}_t||_2 + ||\beta-\hat\beta||_2</script><p><strong>Motion Discriminator</strong></p>
+<p>这里的判别器和 HMR 不同，同样加入了时序的信息，而不是一个单帧动作的判别器，而是一个序列动作的判别器，如下图所示，generator 生成的序列的 SMPL 参数会经过 GRU，然后再经过一个 self-attention 模块最后输入到一个线性层判定动作是否 valid</p>
+<img src="/2020/09/09/3D-Human-Pose-and-Shape-Reconstruction-Review/4.png" class="">
+<p>训练数据和前两个论文的不同，由于 VIBE 不是单帧处理，而是处理视频数据，因此 2D 数据上用到的是 PoseTrack 和 PennAction，对于 3D keypoint 数据，用到的还是 MPI-INF-3DHP 和 Human3.6M，而 3DPW 和 Human3.6M 提供的 SMPL annotation 也同样用来训练，AMASS 用来训练判别器。</p>
+<p><em>In Conclusion</em></p>
+<p>三篇文章都是用回归的方式去学习 SMPL 的参数，也有加入对抗学习来作为先验，VIBE 考虑到了 temporal 的信息，但依旧有很多值得改进的地方。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_cvpr_2018/papers/Kanazawa_End-to-End_Recovery_of_CVPR_2018_paper.pdf">HMR paper</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1909.12828.pdf">SPIN paper</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/nkolot/SPIN">SPIN Github</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1912.05656">VIBE paper</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/mkocabas/VIBE">VIBE Github</a></li>
+</ul>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94MotioNet-3D-Human-Motion-Reconstruction-from-Monocular-Video-with-Skeleton-Consistency/" rel="next" title="【论文阅读】——MotioNet, 3D Human Motion Reconstruction from Monocular Video with Skeleton Consistency">
+                <i class="fa fa-chevron-left"></i> 【论文阅读】——MotioNet, 3D Human Motion Reconstruction from Monocular Video with Skeleton Consistency
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/09/15/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Distribution-Aware-Coordinate-Representation-for-Human-Pose-Estimation/" rel="prev" title="【论文阅读】—— Distribution-Aware Coordinate Representation for Human Pose Estimation">
+                【论文阅读】—— Distribution-Aware Coordinate Representation for Human Pose Estimation <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#End-to-end-Recovery-of-Human-Shape-and-Pose"><span class="nav-number">1.</span> <span class="nav-text">End-to-end Recovery of Human Shape and Pose</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Learning-to-Reconstruct-3D-Human-Pose-and-Shape-via-Model-fitting-in-the-Loop"><span class="nav-number">2.</span> <span class="nav-text">Learning to Reconstruct 3D Human Pose and Shape via Model-fitting in the Loop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VIBE-Video-Inference-for-Human-Body-Pose-and-Shape-Estimation"><span class="nav-number">3.</span> <span class="nav-text">VIBE: Video Inference for Human Body Pose and Shape Estimation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

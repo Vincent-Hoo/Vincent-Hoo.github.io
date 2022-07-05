@@ -1,37 +1,872 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="课程来源：李宏毅2018生成对抗网络课程课程主页：http:&#x2F;&#x2F;speech.ee.ntu.edu.tw&#x2F;~tlkagk&#x2F;courses_MLDS18.html论文：Generative Adversarial Nets.pdf文章梗概：该文章讲述 Ian Goodfellow 在 2014 年提出 GAN 时候的理论基础。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GAN theory">
+<meta property="og:url" content="http://vincentho.name/2018/11/21/GAN-theory/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="课程来源：李宏毅2018生成对抗网络课程课程主页：http:&#x2F;&#x2F;speech.ee.ntu.edu.tw&#x2F;~tlkagk&#x2F;courses_MLDS18.html论文：Generative Adversarial Nets.pdf文章梗概：该文章讲述 Ian Goodfellow 在 2014 年提出 GAN 时候的理论基础。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2018/11/21/GAN-theory/1.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/21/GAN-theory/2.JPG">
+<meta property="og:image" content="http://vincentho.name/2018/11/21/GAN-theory/3.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/21/GAN-theory/4.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/21/GAN-theory/5.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/21/GAN-theory/6.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/21/GAN-theory/7.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/21/GAN-theory/9.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/21/GAN-theory/10.png">
+<meta property="article:published_time" content="2018-11-21T10:56:23.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.309Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2018/11/21/GAN-theory/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2018/11/21/GAN-theory/"/>
+
+
+
+
+
+  <title>GAN theory | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2018/11/21/GAN-theory/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">GAN theory</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-21T18:56:23+08:00">
+                2018-11-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>课程来源：李宏毅2018生成对抗网络课程<br>课程主页：<a target="_blank" rel="noopener" href="http://speech.ee.ntu.edu.tw/~tlkagk/courses_MLDS18.html">http://speech.ee.ntu.edu.tw/~tlkagk/courses_MLDS18.html</a><br>论文：<a href="/2018/11/21/GAN-theory/Generative%20Adversarial%20Nets.pdf" title="Generative Adversarial Nets.pdf">Generative Adversarial Nets.pdf</a><br>文章梗概：该文章讲述 Ian Goodfellow 在 2014 年提出 GAN 时候的理论基础。</p>
+</blockquote>
+<span id="more"></span>
+<p><br></p>
+<p><em>preface</em></p>
+<p>GAN所做的事情就是生成，学习真实数据的分布，所谓数据的分布，可以看下面这张图，假如数据是二次元图像，图像的维度是 $10 \times 10$，因此整个Image Space就是 $10 \times 10$ 的空间，$x$ 就是这个空间中的一个样本，即一张图片，显然这个空间囊括了所有 $10 \times 10$ 的图片，而假如真正的二次元图像在这个空间里面服从某一个分布 $P<em>{data}(x)$，我们可以暂且把Image Space看成是离散的点所构成，因此 $P</em>{data}(x)$ 就是空间中某个点 $x$ 属于二次元图像的概率，下图中区域内的点属于二次元图像的概率较高，而区域外的点概率较低。</p>
+<img src="/2018/11/21/GAN-theory/1.png" class="" width="500" height="500">
+<p><br></p>
+<h2 id="maximum-likelihood-estimation"><a href="#maximum-likelihood-estimation" class="headerlink" title="maximum likelihood estimation"></a>maximum likelihood estimation</h2><p>在GAN之前，是通过最大似然的方法是估计真实数据的分布，从而去做一个generator的，假设我们用一个类型已知的分布 $P<em>G(x; \theta)$ 去逼近真实的分布 $P</em>{data}(x)$，这个已知的分布可能是高斯分布，则 $\theta$ 就代表均值和方差，根据极大似然估计的方法，流程如下</p>
+<ol>
+<li>从真实的数据分布 $P_{data}(x)$ 中，抽样 $m$ 个样本 {$x^1, x^2, …, x^m$} </li>
+<li>计算每个样本点在 $P_G(x;\theta)$ 分布下的概率 $P_G(x^i; \theta)$</li>
+<li>似然函数 $L = \prod_{i=1}^m P_G(x^i; \theta)$，代表的就是 $P_G(x;\theta)$ 生成该 $m$ 个样本点的概率</li>
+<li>找出 $\theta^*$ 使得该概率最大化</li>
+</ol>
+<p>两个概率分布的 KL-divergence 的公式如下，当两个概率分布越接近，KL-divergence 越小，当两个分布完全相同时，divergence 为 0.</p>
+<script type="math/tex; mode=display">D_{KL}(P || Q) = \int p(x)log(\frac{p(x)}{q(x)})</script><p>而实际上最大化概率可以转换为最小化两个概率分布的 KL-divergence，推导如下</p>
+<script type="math/tex; mode=display">\theta^* = {arg\max} \prod_{i=1}^m P_G(x^i;\theta) = arg\max \sum logP_G(x^i;\theta)</script><p>上式近似等于</p>
+<script type="math/tex; mode=display">\approx arg \max E_{x \sim P_{data}} [logP_G(x; \theta)] = arg\max \int_x P_{data}(x)logP_G(x;\theta)dx</script><p>由于待求的参数是 $\theta$，加上一项与 $\theta$ 无关的项，对结果没有影响</p>
+<script type="math/tex; mode=display">= arg\max (\int_x P_{data}(x)logP_G(x;\theta)dx - \int_x P_{data}(x)logP_{data}(x)dx)</script><script type="math/tex; mode=display">=argmax(\int_xP_{data(x)}log(\frac{P_G(x;\theta)}{P_{data}(x)})) = arg \min D_{KL}(P_{data}||P_G)</script><p>因此，最大似然的方法去求解生成数据的概率分布，实际上就是在最小化两个分布的 KL-divergence。</p>
+<p><br></p>
+<h2 id="generator-objective-function"><a href="#generator-objective-function" class="headerlink" title="generator objective function"></a>generator objective function</h2><p>上面的推导是基于 $P_G(x;\theta)$ 分布类型已知的情况，如高斯分布，用高斯分布去拟合高维的数据，有时候是很难实现的，无论怎样调节均值和方差。因此我们需要一个更加普通的概率分布，但是这样我们就无法计算概率值，因此上面的方法就变得不适用了。</p>
+<p>GAN就是用一个generator就实现一个普遍的概率分布 $P<em>G(x)$，generator的作用就是将一个普通的概率分布，如正态分布，转变成一个高维空间的概率分布。而generator的目标是使得生成图片的概率分布 $P_G(x)$ 和 $P</em>{data}(x)$ 尽可能地接近，即两个概率分布的divergence尽可能小。</p>
+<img src="/2018/11/21/GAN-theory/2.JPG" class="" width="500" height="500">
+<p>我们不知道 $P<em>G(x)$ 和 $P</em>{data}(x)$ 的概率分布，因而也无法计算它们之间的divergence，无法求divergence的最小值。虽然概率分布和分布类型是未知的，但是我们可以进行抽样，样本的概率分布与总体的概率分布是一致的，因此我们需要从两个概率分布的样本值去计算这两个概率分布的divergence。<strong>GAN神奇的地方在于可以透过discriminator计算两个概率分布的divergence</strong>，</p>
+<p><br></p>
+<h2 id="discriminator-与-divergence的联系"><a href="#discriminator-与-divergence的联系" class="headerlink" title="discriminator 与 divergence的联系"></a>discriminator 与 divergence的联系</h2><p>discriminator的objective function如下，G是固定的，discriminator的目标是最大化objective function，即求解 $D^* = arg \ max \ V(G,D)$ </p>
+<script type="math/tex; mode=display">V(G,D) = E_{x\sim P_{data}}[logD(x)] + E_{x \sim P_G}[log(1-D(x))]</script><p>discriminator实际上就是一个二分类器，最大化上面的objective function实际上就是最小化cross entropy，而当我们把discriminator训练好的时候，<strong>目标函数 $V(G,D)$ 的最大值就是我们想要的两个概率分布的divergence</strong>，一个直观的感受如下，当两个概率分布的divergence较小的时候，discriminator比较难区分它们，因此objective function value也比较难拉高；而当两个概率分布差别很大时，objective function value就会容易取到比较大的值。即：$max(V(D,G))$ 越小，divergence越小。</p>
+<img src="/2018/11/21/GAN-theory/3.png" class="" width="500" height="500">
+<p><br></p>
+<p><strong>数学证明 $max(V(G,D))$ 和 divergence的关系如下</strong></p>
+<p>$V(G,D) = E<em>{x\sim P</em>{data}}[logD(x)] + E_{x \sim P_G}[log(1-D(x))]$</p>
+<p>​                 <script type="math/tex">= \int_x P_{data}(x)logD(x)dx + \int_x P_G(x)log(1-D(x))dx</script></p>
+<p>​                 <script type="math/tex">=\int_x [P_{data}(x)logD(x) + P_G(x)log(1-D(x))]dx</script> </p>
+<p>这里我们假设 $D(x)$ 可以是任意的函数，即我们假设discriminator的网络可以有无穷多的神经元，给定任意的x，可以输出任意的值。如果这样的话，我们可以把积分看成是求和，然后把被积部分的每个x单独拿出来，求出取得最大值时候的 $D(x)$ 的值，所以 $D(x)$ 就是我们构造出来的一个函数，如下</p>
+<script type="math/tex; mode=display">D^*(x) = arg\ max\ P_{data}(x)logD(x) + P_G(x)log(1-D(x))</script><p>接下来就是求出这个 $D^*(x)$</p>
+<img src="/2018/11/21/GAN-theory/4.png" class="" width="500" height="500">
+<p>求到 $D^*(x)$ 之后，我们可以算出 $max(V(G,D))$ </p>
+<p>$max(V(G,D)) = V(G, D^*) = E<em>{x\sim P</em>{data}}[log\ \frac{P<em>{data}(x)}{P</em>{data}(x) + P<em>G(x)}] + E</em>{x\sim P<em>G}[log\ \frac{P</em>{G}(x)}{P_{data}(x) + P_G(x)}]$</p>
+<p>$=\int<em>x P</em>{data}(x)log[ \frac{P<em>{data}(x)}{P</em>{data}(x) + P<em>G(x)}]dx + \int_x P_G(x) log[\frac{P</em>{G}(x)}{P_{data}(x) + P_G(x)}]dx$   </p>
+<p>进行一些简单的变换，分子分母同除2</p>
+<p>$=\int<em>x P</em>{data}(x)log[ \frac{0.5P<em>{data}(x)}{0.5（P</em>{data}(x) + P<em>G(x)）}]dx + \int_x P_G(x) log[\frac{0.5P</em>{G}(x)}{0.5(P_{data}(x) + P_G(x))}]dx$   </p>
+<p>$=\int<em>xP</em>{data}(x)log(0.5)dx + \int<em>xP_G(x)log(0.5)dx + \int_x P</em>{data}(x)log[ \frac{P<em>{data}(x)}{0.5（P</em>{data}(x) + P<em>G(x)）}]dx + \int_x P_G(x) log[\frac{P</em>{G}(x)}{0.5(P_{data}(x) + P_G(x))}]dx$</p>
+<p>$=2log(0.5) + D<em>{KL}(P</em>{data} || \frac{P<em>{data} + P_G}{2}) + D</em>{KL}(P<em>{G} || \frac{P</em>{data} + P_G}{2})$</p>
+<p>$=2log(0.5) + 2D<em>{JSD}(P</em>{data} || P_G)$ </p>
+<p>可以看出，$max(V(G,D))$ 实际上就是两个概率分布的JS-divergence和一个常数的和，两个分布divergence越小，$max(V(G,D))$ 越小，因为两种数据分布接近，难以区分，所以 $V(G,D)$ 能取到的最大值也越小。</p>
+<p><br></p>
+<h2 id="回到最原始的objective-function"><a href="#回到最原始的objective-function" class="headerlink" title="回到最原始的objective function"></a>回到最原始的objective function</h2><p>最原始的objective function是想找到一个generator，使得generator生成图片的概率分布 $P<em>G$ 和 真实数据 $P</em>{data}$ 的divergence最小，即 $G^* = arg \ min \ Div(P<em>G, P</em>{data})$ </p>
+<p>然后我们通过上面的证明可以知道，$max(V(G,D))$ 就是两个概率分布的divergence，所以原始的目标函数可以变为 $G^* = arg \ min_G \ max_D V(G,D)$ </p>
+<p>下面这张图描述了如何解决 $minmax$ 这种优化问题，我们假设就只有三个 $G$，固定一个 $G$，可以得到选择不同 $D$ 下的 $V(G,D)$，然后比较不同 $G$ 下的 $max \  V(G,D)$，选择最小的，即 $G<em>3$。可以看出 $V(G,D)$ 的最大值就是 $P_G$ 和 $P</em>{data}$ 之间的divergence</p>
+<img src="/2018/11/21/GAN-theory/5.png" class="" width="500" height="500">
+<p><br></p>
+<h2 id="Algorithm-for-minmax-problem"><a href="#Algorithm-for-minmax-problem" class="headerlink" title="Algorithm for minmax problem"></a>Algorithm for minmax problem</h2><p>objective function：$G^* = arg \ min_G \ max_D V(G,D)$</p>
+<p>令 $L(G) = max_D \ V(G,D)$ </p>
+<p>因此问题变成找 $L(G)$ 的最小值，自然可以用梯度下降去解决 $\theta_G  = \theta_G - \alpha \frac{\partial L(G)}{\partial \theta_G}$ </p>
+<p>$L(G) = max_D V(G,D) = max(L_1(G), L_2(G), L_3(G), …)$ </p>
+<p>$L(G)$ 函数的意思是，给定一个 $G$，我就搜索一个 $D$ 使得 $V(G,D)$ 最大，我们可以将它看成是无数个函数 $L_i(G)$ 求最大值，一个 $L_i(G)$ 对应一个 $D$，好比下面的图中，有三条曲线，相当于只有 3 个 $D$，而实际上应该是有无穷多个 $D$，当给定一个 $G_0$ 的时候，就会从众多条曲线 $L_i(G)$ 中，选择一条使得 $L(G_0)$ 取最大值的曲线，然后把这条曲线记作是 $L^*(G)$，就可以求梯度了 $\frac{\partial L^{\ast}(G)}{\partial \theta_G}$</p>
+<img src="/2018/11/21/GAN-theory/6.png" class="" width="500" height="500">
+<p>上面提到从众多条曲线 $L_i(G)$ 中，选择一条使得 $L(G_0)$ 取最大值的曲线 $L^*(G)$，实际上 $L^{\ast}(G) = V(G, D^{\ast})$，$D^{\ast} = arg \ max \ V(G_0, D)$，所以解决这个minmax problem的算法如下</p>
+<ol>
+<li>给定一个初始的 $G_0$</li>
+<li>找到 $D^*$ 使得 $V(G_0, D)$ 取最大值，即找出那条曲线 $L^{\ast}(G)$</li>
+<li>得到 $G_1 = G_0 - \frac{\partial V(G, D^{\ast})}{\partial G}$</li>
+<li>重复2、3步</li>
+</ol>
+<p>下面是实际上的algorithm，我们用均值来代替期望，一点需要注意的是discriminator需要重复多次，尽可能找到更好的D，能够使得 $V(G,D)$ 较大，实际上我们只能找到 $V(G,D)$ 的下界，因为理论上我们假设的D可以是任意的函数，但是实际上D的神经元并不可能无穷多。所以我们只能尽可能地找到一个使得 $V(G,D)$ 大一点的D，来衡量 $P_{data}$ 和 $P_G$ 的divergence。</p>
+<p>固定D，我们需要求解 $V(G,D)$ 的最小值，来降低divergence，由于 $V(G,D)$ 的第一项和G没有关系，所以可以去掉。注意的是G一次只需要更新一次。</p>
+<img src="/2018/11/21/GAN-theory/7.png" class="" width="500" height="500">
+<p>这里解释一下为什么只能更新一次G，我们在更新G的参数的时候，是固定D的，这个D是我们找到的 $D^{\ast}$，它能够使得 $V(G<em>0, D^{\ast})$ 取到最大值，也意味着这个 $D^{\ast}$ 是用来衡量 $P</em>{G<em>0}$ 和 $P</em>{data}$ 之间的divergence，然后我们用梯度下降，想减小这个divergence，更新 $G<em>0$ 成 $G_1$，这时候我们的D还是固定不变的，那么 $V(G_1, D^{\ast})$ 是否同样取到最大值，是否能够表示 $P</em>{G<em>1}$ 和 $P</em>{data}$ 的divergence呢？答案是不肯定的，假如下面的情况出现，更新后的 $G_1$ 所对应的 $V(G_1,D)$ 曲线发生了较大的变化，导致取到最大值的点并不是原来的 $D_0^{\ast}$，而是 $D_1^{\ast}$，这时候如果再用原来的 $D_0^{\ast}$ 去计算 $V(G,D)$ 就不能表达两个数据之间的divergence了。所以G不能更新太多，或者一次不能更新太多，使得下面的情况出现，我们只能更新一点点，并且假设 $D_1^{\ast} \approx D_0^{\ast}$，两条曲线没有太大变化，这样才能保证算法的正确性。</p>
+<img src="/2018/11/21/GAN-theory/9.png" class="" width="500" height="500">
+<p><br></p>
+<h2 id="minmax-GAN-vs-non-saturating-GAN"><a href="#minmax-GAN-vs-non-saturating-GAN" class="headerlink" title="minmax GAN vs non-saturating GAN"></a>minmax GAN vs non-saturating GAN</h2><p>在更新generator的时候，minmax GAN是更新一个和discriminator相同的objective function，这会导致gradient vanishing的问题，Ian Goodfellow在2016年的GAN tutorial里面提到</p>
+<blockquote>
+<p>In the minimax game, the discriminator minimizes a cross-entropy, but the generator maximizes the same cross-entropy. This is unfortunate for the generator, because when the discriminator successfully rejects generator samples with high confidence, the generator’s gradient vanishes. </p>
+</blockquote>
+<p>而non-saturating GAN则是把generator的objective function改为</p>
+<script type="math/tex; mode=display">J^G = -\frac{1}{2}E[logD(G(z))]</script><p>non-saturating GAN另外一个好处是，在训练的一开始，$D(G(z))$ 一般都很小，minmax GAN的话，梯度很小，更新很慢；而non-saturating GAN一开始的梯度都比较大，因此收敛快一点。</p>
+<img src="/2018/11/21/GAN-theory/10.png" class="" width="200" height="500">
+<p><br></p>
+<p><em>In Conclusion</em></p>
+<p>这是Ian Goodfellow在2014年提出GAN的时候的理论，但是理论总是在发展，discriminator是否真的在描述两个概率分布的divergence也不好说，最后discriminator是否真的会坏掉，还得继续考察。</p>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/21/Introduction-to-Generative-Adversarial-Network/" rel="next" title="Introduction to Generative Adversarial Network">
+                <i class="fa fa-chevron-left"></i> Introduction to Generative Adversarial Network
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Explaining-and-Harnessing-Adversarial-Examples/" rel="prev" title="【论文阅读】—— Explaining and Harnessing Adversarial Examples">
+                【论文阅读】—— Explaining and Harnessing Adversarial Examples <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#maximum-likelihood-estimation"><span class="nav-number">1.</span> <span class="nav-text">maximum likelihood estimation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#generator-objective-function"><span class="nav-number">2.</span> <span class="nav-text">generator objective function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#discriminator-%E4%B8%8E-divergence%E7%9A%84%E8%81%94%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text">discriminator 与 divergence的联系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E5%88%B0%E6%9C%80%E5%8E%9F%E5%A7%8B%E7%9A%84objective-function"><span class="nav-number">4.</span> <span class="nav-text">回到最原始的objective function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Algorithm-for-minmax-problem"><span class="nav-number">5.</span> <span class="nav-text">Algorithm for minmax problem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#minmax-GAN-vs-non-saturating-GAN"><span class="nav-number">6.</span> <span class="nav-text">minmax GAN vs non-saturating GAN</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

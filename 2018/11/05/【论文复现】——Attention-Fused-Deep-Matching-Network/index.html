@@ -1,37 +1,822 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="title: Attention-Fused Deep Matching Network for Natural Language Inferenceconference: 2018, IJCAIauthors: Chaoqun Duan, Lei Cui, etc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文复现】——Attention-Fused Deep Matching Network">
+<meta property="og:url" content="http://vincentho.name/2018/11/05/%E3%80%90%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0%E3%80%91%E2%80%94%E2%80%94Attention-Fused-Deep-Matching-Network/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="title: Attention-Fused Deep Matching Network for Natural Language Inferenceconference: 2018, IJCAIauthors: Chaoqun Duan, Lei Cui, etc">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2018/11/05/%E3%80%90%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0%E3%80%91%E2%80%94%E2%80%94Attention-Fused-Deep-Matching-Network/afdmn.JPG">
+<meta property="article:published_time" content="2018-11-05T13:15:55.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.530Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2018/11/05/%E3%80%90%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0%E3%80%91%E2%80%94%E2%80%94Attention-Fused-Deep-Matching-Network/afdmn.JPG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2018/11/05/【论文复现】——Attention-Fused-Deep-Matching-Network/"/>
+
+
+
+
+
+  <title>【论文复现】——Attention-Fused Deep Matching Network | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2018/11/05/%E3%80%90%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0%E3%80%91%E2%80%94%E2%80%94Attention-Fused-Deep-Matching-Network/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文复现】——Attention-Fused Deep Matching Network</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-05T21:15:55+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>title: Attention-Fused Deep Matching Network for Natural Language Inference<br>conference: 2018, IJCAI<br>authors: Chaoqun Duan, Lei Cui, etc</p>
+</blockquote>
+<span id="more"></span>
+<p><br></p>
+<h1 id="Natural-Language-Inference"><a href="#Natural-Language-Inference" class="headerlink" title="Natural Language Inference"></a>Natural Language Inference</h1><p>NLI是NLP中一个比较核心的任务，主要用来判断两个句子是否有一定的关联，两个句子分为称为premise sentence和hopothesis sentence，NLI通常被看为是一个分类任务，经典的数据集包括SNLI、MultiNLI和Quora，这个分类任务的标签为entailment、contradiction和neural，一般基于神经网络的NLI模型包含三个层：encoder层、matching层、prediction层。</p>
+<ul>
+<li>encoder层：给定两个句子 $p = (p<em>1, …, p_m)$，$q = (q_1, …, q_n)$，经过embedding之后为 $p = (e</em>{p<em>1}, …, e</em>{p<em>m})$，$q = (e</em>{q<em>1}, …, e</em>{q<em>n})$，encoder层就是将两个句子分别通过一个Bi-LSTM进行压缩，得到 $H_p = (h</em>{p<em>1}, …, h</em>{p<em>m})$，$H_q = (h</em>{q<em>1}, …, h</em>{q_n})$，$H_p$ 和 $H_q$ 作为句子 $p$ 和 $q$ 的encoded representation。</li>
+<li>matching层：匹配层将两个句子联系起来，$g()$ 是一个匹配函数，$V_p = g(H_p, H_q)$，$V_q = g(H_q, H_p)$，得到新的representation</li>
+<li>prediction层：这一层将两个句子 $V_p$ 和 $V_q$ 各自的重要信息提取出来，提取方法采用pooling的方法，分别用GlobalMaxPooling和AveragedPooling进行提取，提取后的信息进行拼接后接入全连接网络进行预测。 </li>
+</ul>
+<p><br></p>
+<h1 id="Attention-Fused-Deep-Matching-Network-AFDMN"><a href="#Attention-Fused-Deep-Matching-Network-AFDMN" class="headerlink" title="Attention-Fused Deep Matching Network(AFDMN)"></a>Attention-Fused Deep Matching Network(AFDMN)</h1><p>作者提出了一个基于注意力机制的匹配网络，来得到更好的interaction效果，注意力机制可以计算一个词与另一个句子的相关性，即attention weight。作者提出的网络结构大致如下，作者提出的matching层分为四个部分：cross attention层，fusion层，self attention层，fusion层，一个matching layer成为一个computational block，整个matching layer可以有多个blocks。</p>
+<img src="/2018/11/05/%E3%80%90%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0%E3%80%91%E2%80%94%E2%80%94Attention-Fused-Deep-Matching-Network/afdmn.JPG" class="" width="600" height="300">
+<ol>
+<li><p>cross attention<br>给定两个句子来自上一个block的representation，$H<em>p^{t-1} = (h</em>{p<em>1}^{t-1}, …, h</em>{p<em>m}^{t-1})$ 和 $H_q^{t-1} = (h</em>{q<em>1}^{t-1}, …, h</em>{q<em>n}^{t-1})$，首先计算一个相关性矩阵 $A$，$A</em>{i,j}$ 表示 句子 $p$ 的第 $i$ 个词和句子 $q$ 的第 $j$ 个词的相关性，$<a, b>$ 表示内积。</p>
+<script type="math/tex; mode=display">A_{i,j}^t = h_{p_i}^{t-1} W h_{q_j}^{t-1} + <U_l^t, h_{p_i}^{t-1}> + <U_r^t, h_{q_j}^{t-1}></script><p>$A$ 矩阵的第 $i$ 行做softmax就可以得到句子 $p$ 的第 $i$ 个词对于句子 $q$ 的attention weight，<br>$A$ 矩阵的第 $j$ 列做softmax就可以得到句子 $q$ 的第 $j$ 个词对于句子 $p$ 的attention weight。</p>
+<script type="math/tex; mode=display">a_{p_i}^t = softmax(A_{i:}^t)，a_{q_j}^t = softmax(A_{:j}^t)</script><p>然后句子 $p$ 可以用句子 $q$ 和attention weight来表示，同理句子 $q$。</p>
+<script type="math/tex; mode=display">\tilde{h}_{p_i}^t = H_q^{t-1} \cdot a_{p_i}^t，\tilde{h}_{q_j}^t = H_p^{t-1} \cdot a_{q_j}^t</script></li>
+<li><p>fusion for cross attention<br>对于句子 $p$，我们有两个representation，一个是原始的表示，一个是经过cross attention用句子 $q$ 表示的句子 $p$；同理句子 $q$；fusion层将这两种表示拼接，再经过Bi-LSTM</p>
+<script type="math/tex; mode=display">\bar{f}_{p_i}^t = [h_{p_i}^t;\tilde{h}_{p_i}^t;h_{p_i}^t - \tilde{h}_{p_i}^t;h_{p_i}^t \odot \tilde{h}_{p_i}^t]</script><script type="math/tex; mode=display">\tilde{f}_{p_i}^t = Relu(W_f^t \bar{f}_{p_i}^t) + b_f^t</script><script type="math/tex; mode=display">f_{p_i}^t = BiLSTM(\tilde{f}_p^t)</script></li>
+<li><p>self attention<br>cross attention是计算两个句子的词的相关性，self attention同理，但是是计算一个句子内部句子之间的相关性，同样计算完attention weight后，可以通过weight算出一个新的representation，跟cross attention唯一不同的是，weight的计算直接采取内积的方式</p>
+</li>
+<li><p>fusion for self attention<br>跟上面的fusion一样</p>
+</li>
+</ol>
+<p><br></p>
+<h1 id="PyTorch实现"><a href="#PyTorch实现" class="headerlink" title="PyTorch实现"></a>PyTorch实现</h1><h2 id="cross-attention"><a href="#cross-attention" class="headerlink" title="cross attention"></a>cross attention</h2><p>实现的时候需要注意的是：</p>
+<ol>
+<li>weight的前半部分实际上是一个简单的神经网络，后半部分的 $U$ 是一个向量，是一个参数，因此要用 <code>nn.Parameter()</code></li>
+<li>能量的后半部分计算比较复杂，下面提供了两个版本，分别是vectorized的和non-vectorized。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CrossAttn_Layer</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, hidden_size</span>):</span><br><span class="line">        <span class="built_in">super</span>(CrossAttn_Layer, self).__init__()</span><br><span class="line">        self.hidden_size = hidden_size</span><br><span class="line">        self.W = nn.Linear(<span class="number">2</span>*hidden_size, <span class="number">2</span>*hidden_size)</span><br><span class="line">        self.Ul = nn.Parameter(torch.FloatTensor(<span class="number">0.02</span>*(np.random.rand(<span class="number">2</span>*hidden_size)-<span class="number">0.5</span>)))</span><br><span class="line">        self.Ur = nn.Parameter(torch.FloatTensor(<span class="number">0.02</span>*(np.random.rand(<span class="number">2</span>*hidden_size)-<span class="number">0.5</span>)))</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, hp, hq</span>):</span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            hp: representation of the 1st sentence from the previous block</span></span><br><span class="line"><span class="string">                dim: [batch_size, max_length_1, 2*hidden_size]</span></span><br><span class="line"><span class="string">            hq: representation of the 2nd sentence from the previous block</span></span><br><span class="line"><span class="string">                dim: dim: [batch_size, max_length_2, 2*hidden_size]</span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">            output_after_crossAttn_1: [batch_size, max_length_1, 2*hidden_size]</span></span><br><span class="line"><span class="string">            output_after_crossAttn_2: [batch_size, max_length_2, 2*hidden_size]</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span></span><br><span class="line">        </span><br><span class="line">        batch_size = hp.size()[<span class="number">0</span>]</span><br><span class="line">        sentence_length1 = hp.size()[<span class="number">1</span>]</span><br><span class="line">        sentence_length2 = hq.size()[<span class="number">1</span>]</span><br><span class="line">        </span><br><span class="line">        attn_energy = hp.bmm(self.W(hq).transpose(<span class="number">1</span>,<span class="number">2</span>))    </span><br><span class="line">        energy1 = torch.mm(hp.contiguous().view(-<span class="number">1</span>, <span class="number">2</span>*self.hidden_size), self.Ul.unsqueeze(<span class="number">1</span>)).view(batch_size,sentence_length1, <span class="number">1</span>).expand(batch_size,sentence_length1, sentence_length2)       </span><br><span class="line">        energy2 = torch.mm(hq.contiguous().view(-<span class="number">1</span>, <span class="number">2</span>*self.hidden_size), self.Ur.unsqueeze(<span class="number">1</span>)).view(batch_size, <span class="number">1</span>, sentence_length2).expand(batch_size,sentence_length1, sentence_length2) </span><br><span class="line">        attn_energy = attn_energy + energy1 + energy2</span><br><span class="line"></span><br><span class="line">        </span><br><span class="line"><span class="comment"># =============================================================================</span></span><br><span class="line"><span class="comment">#         for b in range(batch_size):</span></span><br><span class="line"><span class="comment">#             for m in range(sentence_length1):</span></span><br><span class="line"><span class="comment">#                 for n in range(sentence_length2):</span></span><br><span class="line"><span class="comment">#                     attn_energy[b, m, n] += self.Ul.dot(hp[b, m, :]) + self.Ur.dot(hq[b, n, :])</span></span><br><span class="line"><span class="comment">#         </span></span><br><span class="line"><span class="comment"># =============================================================================        </span></span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">assert</span>(attn_energy.size() == (batch_size, sentence_length1, sentence_length2))</span><br><span class="line">        </span><br><span class="line">        attn_weights_p = F.softmax(attn_energy, dim=<span class="number">2</span>)</span><br><span class="line">        attn_weights_q = F.softmax(attn_energy, dim=<span class="number">1</span>)</span><br><span class="line">        output_after_crossAttn_1 = attn_weights_p.bmm(hq)</span><br><span class="line">        output_after_crossAttn_2 = attn_weights_q.transpose(<span class="number">1</span>,<span class="number">2</span>).bmm(hp)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">assert</span>(hp.size() == output_after_crossAttn_1.size())</span><br><span class="line">        <span class="keyword">assert</span>(hq.size() == output_after_crossAttn_2.size())</span><br><span class="line">         </span><br><span class="line">        <span class="keyword">return</span> output_after_crossAttn_1, output_after_crossAttn_2</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="self-attention"><a href="#self-attention" class="headerlink" title="self attention"></a>self attention</h2><p>实现细节：</p>
+<ol>
+<li>attention weight matrix不需要用for循环，直接用矩阵乘法实现内积</li>
+<li>softmax的维度需要注意</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">SelfAttn_Layer</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>(SelfAttn_Layer, self).__init__()</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, output_after_fusion</span>):</span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            output_after_fusion: [batch_size, max_length, 2*hidden_size]</span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">            output_after_selfAttn: [batch_size, max_length, 2*hidden_size]</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span></span><br><span class="line">        </span><br><span class="line">        similarity_matrix = output_after_fusion.bmm(output_after_fusion.transpose(<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line">        attn_weight = F.softmax(similarity_matrix, dim=<span class="number">2</span>)</span><br><span class="line">        output_after_selfAttn = attn_weight.bmm(output_after_fusion)</span><br><span class="line">        <span class="keyword">assert</span>(output_after_fusion.size() == output_after_selfAttn.size())</span><br><span class="line">        <span class="keyword">return</span> output_after_selfAttn</span><br></pre></td></tr></table></figure>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/05/Get-Started-With-PyTorch/" rel="next" title="Get Started With PyTorch">
+                <i class="fa fa-chevron-left"></i> Get Started With PyTorch
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/09/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E5%92%8C%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1/" rel="prev" title="【概率论和数理统计】——参数估计">
+                【概率论和数理统计】——参数估计 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Natural-Language-Inference"><span class="nav-number">1.</span> <span class="nav-text">Natural Language Inference</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Attention-Fused-Deep-Matching-Network-AFDMN"><span class="nav-number">2.</span> <span class="nav-text">Attention-Fused Deep Matching Network(AFDMN)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PyTorch%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">PyTorch实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cross-attention"><span class="nav-number">3.1.</span> <span class="nav-text">cross attention</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#self-attention"><span class="nav-number">3.2.</span> <span class="nav-text">self attention</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

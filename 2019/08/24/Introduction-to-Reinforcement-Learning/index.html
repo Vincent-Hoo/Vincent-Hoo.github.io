@@ -1,37 +1,858 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="课程来源：李宏毅2017机器学习课程课程主页：http:&#x2F;&#x2F;speech.ee.ntu.edu.tw&#x2F;~tlkagk&#x2F;courses_ML17.html课程梗概：简要介绍强化学习的基本概念，以及强化学习两种基本的训练方法：policy-based approach 和 value-based approach。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Introduction to Reinforcement Learning">
+<meta property="og:url" content="http://vincentho.name/2019/08/24/Introduction-to-Reinforcement-Learning/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="课程来源：李宏毅2017机器学习课程课程主页：http:&#x2F;&#x2F;speech.ee.ntu.edu.tw&#x2F;~tlkagk&#x2F;courses_ML17.html课程梗概：简要介绍强化学习的基本概念，以及强化学习两种基本的训练方法：policy-based approach 和 value-based approach。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2019/08/24/Introduction-to-Reinforcement-Learning/1.png">
+<meta property="og:image" content="http://vincentho.name/2019/08/24/Introduction-to-Reinforcement-Learning/2.png">
+<meta property="og:image" content="http://vincentho.name/2019/08/24/Introduction-to-Reinforcement-Learning/3.png">
+<meta property="og:image" content="http://vincentho.name/2019/08/24/Introduction-to-Reinforcement-Learning/4.png">
+<meta property="og:image" content="http://vincentho.name/2019/08/24/Introduction-to-Reinforcement-Learning/5.png">
+<meta property="og:image" content="http://vincentho.name/2019/08/24/Introduction-to-Reinforcement-Learning/6.png">
+<meta property="og:image" content="http://vincentho.name/2019/08/24/Introduction-to-Reinforcement-Learning/7.png">
+<meta property="og:image" content="http://vincentho.name/2019/08/24/Introduction-to-Reinforcement-Learning/8.png">
+<meta property="article:published_time" content="2019-08-24T08:22:19.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.363Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2019/08/24/Introduction-to-Reinforcement-Learning/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2019/08/24/Introduction-to-Reinforcement-Learning/"/>
+
+
+
+
+
+  <title>Introduction to Reinforcement Learning | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2019/08/24/Introduction-to-Reinforcement-Learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Introduction to Reinforcement Learning</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-24T16:22:19+08:00">
+                2019-08-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>课程来源：李宏毅2017机器学习课程<br>课程主页：<a target="_blank" rel="noopener" href="http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML17.html">http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML17.html</a><br>课程梗概：简要介绍强化学习的基本概念，以及强化学习两种基本的训练方法：policy-based approach 和 value-based approach。</p>
+</blockquote>
+<span id="more"></span>
+<p><em>preface</em></p>
+<p>AlphaGo 的成功使得强化学习进入了研究者的视野，强化学习是不同于监督学习和无监督学习之外的另外一种学习方式，它通过不断地探索，从经验中得到知识，从而使得模型的性能逐步提升。</p>
+<p><br></p>
+<h2 id="Basic-Idea-of-Reinforcement-Learning"><a href="#Basic-Idea-of-Reinforcement-Learning" class="headerlink" title="Basic Idea of Reinforcement Learning"></a>Basic Idea of Reinforcement Learning</h2><p>强化学习有几个重要的组成部分：</p>
+<ul>
+<li>Agent</li>
+<li>Observation(state)</li>
+<li>Action</li>
+<li>Environment</li>
+<li>Reward</li>
+</ul>
+<p>Agent 可以理解为整个模型，agent 看到 environment 中的一个 state，可以当作是一次 observation，之后做出反应，此为 action，该反应反馈到 environment 后，agent 会得到回馈 reward；接着 agent 又得到新的 observation，依次类推，直到终止条件。</p>
+<p>举个简单的例子，agent 观察到一杯水，于是将其打翻，得到负面的反馈；下一个迭代，agent 观察到打翻掉的水，于是将其收拾好，此时就会得到正面的反馈。依次下去，agent 就会学到不可以打翻水。</p>
+<img src="/2019/08/24/Introduction-to-Reinforcement-Learning/1.png" class="" width="500" height="500">
+<img src="/2019/08/24/Introduction-to-Reinforcement-Learning/2.png" class="" width="500" height="500">
+<p><strong>监督学习和强化学习的不同</strong></p>
+<ul>
+<li>监督学习可以理解为学生向老师学习，老师代表的是 label，是永远的正确答案，拿围棋举例，监督学习告诉学生，当棋盘为 A 这样的时候，应该走这一步；当棋盘为 B 这样的时候，应该走那一步，但对于围棋以及电玩这种应用，显然不可能枚举所有的情况，也不可能有唯一的一个正确选项，这就催生了强化学习。</li>
+<li>强化学习可以理解为从经验中学习，学生通过自己的探索，得出获胜的方法，而这其中有另外一个老师的角色，而这个老师只告诉学生，这样做好不好，即 reward。因此学生探索得越多（训练越多），经验越丰富，模型也就越好。</li>
+</ul>
+<p><strong>强化学习的目标函数</strong></p>
+<p>下面是 space invader 的游戏，黄色的为 alien，下面绿色的为太空船，左上角的为分数，游戏的目的是杀死所有的 alien。</p>
+<p>先介绍一个概念 episode，它是 agent 完整的一次游戏（探索）过程，包括多个观察 s 以及动作 a。强化学习的目标函数是要最大化一次 episode 的累积 reward，而不是每一个 action 的 reward，假如目标函数是优化每一个 action 后的 reward，那么 agent 就会学到只射击外星人，而不会学到向左向右移动，因为只有射击才有 reward。</p>
+<img src="/2019/08/24/Introduction-to-Reinforcement-Learning/3.png" class="" width="600" height="600">
+<p><br></p>
+<h2 id="强化学习训练方法"><a href="#强化学习训练方法" class="headerlink" title="强化学习训练方法"></a>强化学习训练方法</h2><p>主要分为两种方法：</p>
+<ul>
+<li>policy-based approach，学习一个 actor，即直接学习 agent</li>
+<li>value-based approach，学习一个 critic，评判 agent 的好坏</li>
+</ul>
+<p>当然也有两者结合的方法。</p>
+<h3 id="Policy-based-Approach——Learning-an-Actor"><a href="#Policy-based-Approach——Learning-an-Actor" class="headerlink" title="Policy-based Approach——Learning an Actor"></a>Policy-based Approach——Learning an Actor</h3><p>actor 的输入为 observation，输出为可能 action 的概率，actor 记为 $\pi_{\theta}(s)$</p>
+<img src="/2019/08/24/Introduction-to-Reinforcement-Learning/4.png" class="" width="600" height="600">
+<p>上面说到强化学习的目标函数为一次 episode 的总 reward，但是由于随机性，即使是同样的 actor，同样的输入，得到的 episode 也会不一样，因此定义总 reward 的期望作为目标函数。</p>
+<img src="/2019/08/24/Introduction-to-Reinforcement-Learning/5.png" class="" width="600" height="600">
+<p>一次 episode 可以看成是一次 trajectory $\tau={s<em>1,a_1,r_1,s_2,a_2,r_2,…,s_T,a_T,r_T}$，trajectory 的总 reward 记为 $R(\tau)=\sum</em>{t=1}^Tr<em>t$，固定 actor $\pi</em>{\theta}(s)$，得到某一次 trajectory 的概率为 $P(\tau|\theta)$，$\bar{R_{\theta}}$ 可以近似为 N 次 trajectory reward 的平均。</p>
+<img src="/2019/08/24/Introduction-to-Reinforcement-Learning/6.png" class="" width="500" height="500">
+<p>我们的目的是要最大化 $\bar{R<em>{\theta}}$，因此只要对 $\bar{R</em>{\theta}}$ 求梯度，再进行梯度上升更新 $\pi_{\theta}(\cdot)$ 即可，下面看一下梯度的计算过程。</p>
+<script type="math/tex; mode=display">
+\nabla \bar{R_{\theta}}=\sum_{\tau}R(\tau)\nabla P(\tau|\theta)=\sum_{\tau}R(\tau)P(\tau|\theta)\frac{\nabla P(\tau|\theta)}{P(\tau|\theta)}</script><script type="math/tex; mode=display">
+=\sum_\tau R(\tau)P(\tau|\theta) \nabla logP(\tau|\theta)</script><script type="math/tex; mode=display">
+\approx \frac{1}{N}\sum_{n=1}^{N} R(\tau^n)\nabla logP(\tau^n|\theta)</script><p>假设 $\tau={s_1,a_1,r_1,s_2,a_2,r_2,…,s_T,a_T,r_T}$，那么 $\nabla logP(\tau|\theta)$ 是多少呢？</p>
+<script type="math/tex; mode=display">
+P(\tau|\theta)=p(s_1)p(a_1|s_1,\theta)p(r_1,s_2|s_1,a_1)p(a_2|s_2,\theta)p(r_2,s_3|s_2,a_2)...</script><script type="math/tex; mode=display">
+=p(s_1)\prod_{t=1}^{T}p(a_t|s_t,\theta)p(r_t,s_{t+1}|s_t,a_t)</script><script type="math/tex; mode=display">
+\approx \prod_{t=1}^Tp(a_t|s_t,\theta)</script><p>因此</p>
+<script type="math/tex; mode=display">
+\nabla logP(\tau|\theta)=\sum_{t=1}^T\nabla logp(a_t|s_t,\theta)</script><p>所以，一次迭代的总梯度为</p>
+<script type="math/tex; mode=display">
+\nabla \bar{R_{\theta}} \approx \frac{1}{N}\sum_{n=1}^NR(\tau^n)\nabla logP(t^n|\theta)=\frac{1}{N}\sum_{n=1}^NR(\tau^n)\sum_{t=1}^{T_n}\nabla logp(a_t^n|s_t^n,\theta)</script><script type="math/tex; mode=display">
+=\frac{1}{N}\sum_{n=1}^N\sum_{t=1}^{T_n}R(\tau^n)\nabla logp(a_t^n|s_t^n,\theta)</script><p>前面提到，我们目标函数考虑的是累计的 reward，而不是某个 action 后的瞬间 reward，我们假设在 $\tau^n$ 中，机器看到某个状态 $s_t^n$ 后采取了 $a_t^n$，假如整体的 $R(\tau^n)$ 为正，那么模型就会调整 $\theta$ 从而使得 $p(a_t^n|s_t^n,\theta)$ 增大，反之亦然。</p>
+<p>我们将强化学习的梯度和普通分类问题的梯度进行对比</p>
+<ul>
+<li>强化学习：$\frac{1}{N}\sum<em>{n=1}^N\sum</em>{t=1}^{T_n}R(\tau^n)\nabla logp(a_t^n|s_t^n,\theta)$</li>
+<li>分类问题：$\frac{1}{N}\sum<em>{n=1}^N\sum</em>{t=1}^{T_n}yi\nabla logp(a_t^n|s_t^n,\theta)$</li>
+</ul>
+<p>其实对于 actor 来说，它就是一个分类器，给定一个 state，输出各个 action 的概率，而强化学习的目标函数只是在各个概率前，用 $R(\tau^n)$ 作为其权重而已。</p>
+<h3 id="Value-based-Approach——Learning-a-Critic"><a href="#Value-based-Approach——Learning-a-Critic" class="headerlink" title="Value-based Approach——Learning a Critic"></a>Value-based Approach——Learning a Critic</h3><p>Critic 不会用来决定一个 action，但是给定一个 actor，它可以判断它的好坏，因此 actor 可以从 critic 中找出来，经典的算法就是 Q-learning。</p>
+<p>State value function $V^\pi(s)$，输入一个 state，输出 cumulated reward，该函数取决于 actor $\pi$，当 actor 较强，输入一个 state，得到的 reward 可能比较大；反之 actor 较弱，reward 则较小。</p>
+<h4 id="How-to-estimate-V-pi-s"><a href="#How-to-estimate-V-pi-s" class="headerlink" title="How to estimate $V^\pi(s)$"></a>How to estimate $V^\pi(s)$</h4><p><strong>Monte-Carlo based approach</strong></p>
+<p>critic 让 actor 自己玩游戏，当输入状态 s 后，观察 actor 能得到多少 reward。</p>
+<img src="/2019/08/24/Introduction-to-Reinforcement-Learning/7.png" class="" width="500" height="500">
+<p><strong>Temporal-difference approach</strong></p>
+<p>有些应用的 episode 很长，或者甚至不会停止，那么我们只能用中间的一小部分来进行训练，假设只有一长串 episode 的一部分 ${…,s<em>t,a_t,r_t,s</em>{t+1},…}$，易证得：$V^\pi(s<em>t)-r_t=V^\pi(s</em>{t+1})$，</p>
+<img src="/2019/08/24/Introduction-to-Reinforcement-Learning/8.png" class="" width="500" height="500">
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/19/Wasserstein-GAN/" rel="next" title="Wasserstein GAN">
+                <i class="fa fa-chevron-left"></i> Wasserstein GAN
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/28/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94Distilling-Knowledge-From-a-Deep-Pose-Regressor-Network/" rel="prev" title="【论文阅读】——Distilling Knowledge From a Deep Pose Regressor Network">
+                【论文阅读】——Distilling Knowledge From a Deep Pose Regressor Network <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-Idea-of-Reinforcement-Learning"><span class="nav-number">1.</span> <span class="nav-text">Basic Idea of Reinforcement Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E8%AE%AD%E7%BB%83%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">强化学习训练方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Policy-based-Approach%E2%80%94%E2%80%94Learning-an-Actor"><span class="nav-number">2.1.</span> <span class="nav-text">Policy-based Approach——Learning an Actor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Value-based-Approach%E2%80%94%E2%80%94Learning-a-Critic"><span class="nav-number">2.2.</span> <span class="nav-text">Value-based Approach——Learning a Critic</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#How-to-estimate-V-pi-s"><span class="nav-number">2.2.1.</span> <span class="nav-text">How to estimate $V^\pi(s)$</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

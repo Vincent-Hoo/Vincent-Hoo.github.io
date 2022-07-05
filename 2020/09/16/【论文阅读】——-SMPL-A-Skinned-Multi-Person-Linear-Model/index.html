@@ -1,37 +1,873 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Title：SMPL: A Skinned Multi-Person Linear ModelAuthors：Matthew Loper, et alConferences：ToG 2015Abstract：作者提出了一个参数化的人体蒙皮模型，通过 23 个关节点的旋转以及 10 个 shape 参数就可以生成人体蒙皮。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文阅读】—— SMPL, A Skinned Multi-Person Linear Model">
+<meta property="og:url" content="http://vincentho.name/2020/09/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-SMPL-A-Skinned-Multi-Person-Linear-Model/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="Title：SMPL: A Skinned Multi-Person Linear ModelAuthors：Matthew Loper, et alConferences：ToG 2015Abstract：作者提出了一个参数化的人体蒙皮模型，通过 23 个关节点的旋转以及 10 个 shape 参数就可以生成人体蒙皮。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2020/09/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-SMPL-A-Skinned-Multi-Person-Linear-Model/1.png">
+<meta property="og:image" content="http://vincentho.name/2020/09/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-SMPL-A-Skinned-Multi-Person-Linear-Model/2.png">
+<meta property="og:image" content="http://vincentho.name/2020/09/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-SMPL-A-Skinned-Multi-Person-Linear-Model/3.png">
+<meta property="og:image" content="http://vincentho.name/2020/09/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-SMPL-A-Skinned-Multi-Person-Linear-Model/4.png">
+<meta property="og:image" content="http://vincentho.name/2020/09/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-SMPL-A-Skinned-Multi-Person-Linear-Model/5.png">
+<meta property="og:image" content="http://vincentho.name/2020/09/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-SMPL-A-Skinned-Multi-Person-Linear-Model/6.png">
+<meta property="article:published_time" content="2020-09-16T15:04:34.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.674Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2020/09/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-SMPL-A-Skinned-Multi-Person-Linear-Model/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2020/09/16/【论文阅读】——-SMPL-A-Skinned-Multi-Person-Linear-Model/"/>
+
+
+
+
+
+  <title>【论文阅读】—— SMPL, A Skinned Multi-Person Linear Model | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2020/09/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-SMPL-A-Skinned-Multi-Person-Linear-Model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文阅读】—— SMPL, A Skinned Multi-Person Linear Model</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-09-16T23:04:34+08:00">
+                2020-09-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Title：SMPL: A Skinned Multi-Person Linear Model<br>Authors：Matthew Loper, et al<br>Conferences：ToG 2015<br>Abstract：作者提出了一个参数化的人体蒙皮模型，通过 23 个关节点的旋转以及 10 个 shape 参数就可以生成人体蒙皮。</p>
+</blockquote>
+<span id="more"></span>
+<p><em>prefix</em></p>
+<p>2D 数据的表示非常单一，一般就用 image 来表示；而3D 数据的表示有多种，比如 multi-view image、point cloud、mesh、voxel，这里我们用到的数据为 mesh 数据，一个 mesh 由多个 vertices 组成，每个 vertices 是一个三维坐标 (x,y,z)，除了有 vertices 外，生成 mesh 的时候还需要有一个 triangle list，一个 3D object 外观上有多个 triangle 拼接而成，而 list 里面存储的就是每个 triangle 所用到 vertices index。这里我们关注的是 3D 人体模型，同样的人体由多个 vertices 组成，而 joint 是一些特殊的 vertices，用来表征人体的一些特殊关节点，如肘、肩等，实质上就是一个 vertice，但这些 joint 有可能在人体 mesh 的 vertice 里面，也可能不在。</p>
+<p>Linear Blending Skinning (LBS) 指的是通过操纵骨骼来使得 mesh 发生形变，LBS 定义骨骼点（joint）和 mesh 的 vertices 之间的关系是线性关系，一个 vertice 的位置会受到其他 joint 共同的加权影响，具体操作是会先计算 joint 的位置，然后根据 joint 的位置，求其他 vertices 的位置，所以可以通过操纵骨骼来改变整个 mesh。</p>
+<p><br></p>
+<h3 id="Model-Formulation"><a href="#Model-Formulation" class="headerlink" title="Model Formulation"></a>Model Formulation</h3><p>SMPL 模型的 mesh 由 $N=6890$ 个 vertices 和 $K = 23$ 个 joints 组成，参数为 $\theta$ 和 $\beta$，分别表示 23 个关节点的旋转以及人体 shape 的参数，后者是一个 10 维的向量，前者向量大小取决于旋转用什么方式来表征，比如旋转向量、旋转矩阵等。</p>
+<p><strong>Notation</strong></p>
+<ul>
+<li>mean template $\bar{T}\in \mathbb{R}^{3N}$，可以理解为初始的一个 mesh，rest pose</li>
+<li>zero pose $\theta^\ast$，初始 mesh 下各个关节点的旋转角度，这里的旋转角度实际上是相对于每个点的父节点的旋转角度，比如肘部的父节点是肩部，所以肘部的旋转值是相对于肩部来确定的</li>
+<li>blend weight $\mathcal{W} \in \mathbb{R}^{N\times K}$，表示的是一个关节点 k 的旋转对于所有 N 个 vertices 的影响</li>
+<li>blend shape function $B_S(\beta) : \mathbb{R}^{|\beta|} \rightarrow \mathbb{R}^{3N}$，输入 shape 参数，输出 vertices offset</li>
+<li>joint prediction function $J(\beta) : \mathbb{R}^{|\beta|} \rightarrow \mathbb{R}^{3K}$，输入 shape 参数，输出 joint 的位置</li>
+<li>pose-dependent blend shape function $B_P(\theta) : \mathbb{R}^{|\theta|} \rightarrow \mathbb{R}^{3N}$，输入 $\theta$，输出 vertices offset</li>
+<li>linear blend skinning function $W(\cdot)$ is applied to rotate the vertices around the estimated joint</li>
+<li>SMPL model $M(\beta,\theta;\Phi):\mathbb{R}^{|\theta| \times |\beta|} \rightarrow \mathbb{R}^{3N}$</li>
+</ul>
+<p><strong>Blend Skinning</strong></p>
+<p>骨骼蒙皮通过骨骼来控制整个 mesh 的变化，$\theta$ 由 K 个关节点的旋转向量组成 $\theta = [w_0, …, w_K]^T$，$w_k \in \mathbb{R}^3$ denotes the axis-angle representation of the relative rotation of part k with respect to its parent in the kinematic tree. $|\theta| = 3 \times 23 + 3 = 72$ 个参数，每个关节点 3 个参数外加整体的 root orientation，首先旋转向量会通过 Rodrigues formula 转换成 $3\times3$ 的旋转矩阵 $exp(w_k)$，标准的 LBS 为以下的函数</p>
+<script type="math/tex; mode=display">
+W(\bar{T}, J,\theta, \mathcal{W}):\mathbb{R}^{3N\times 3K \times |\theta| \times |\mathcal{W}|} \rightarrow \mathbb{R}^{3N}</script><p>函数会输入 rest pose $\bar{T}$，rest pose 下的 joint location $J$，pose $\theta$，blend weight $\mathcal{W}$，最后输出 posed vertices，对于每一个 vertices 的 transformation 如下，实际做的就是对 rest pose 下的每一个 joint 计算变换，然后再将计算出来的变换应用到每一个 vertice 上。</p>
+<img src="/2020/09/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-SMPL-A-Skinned-Multi-Person-Linear-Model/1.png" class="">
+<p>$G<em>k(\theta,J)$ 表示第 k 个关节点的 world transformation，这里的 world 是指世界坐标，所以用到的是齐次坐标系，$\bar{t}_i$ 和 $\bar{t}_i^\prime$ 分别表示 T-pose 下和变换后的第 i 个vertice，也都是齐次坐标系，4 维向量。$A(k)$ 表示的是第 k 个关节点的所有父节点，比如手腕的父节点分别有手肘、肩部等，因此在计算第 k 个关节点的变换的时候，依次乘以父节点的旋转矩阵，最后得到 $G_k(\theta, J)$，$G_k(\theta^\ast,J)$ 表示的是得到 rest pose 所需要的关节点的旋转变换，因此 $G^\prime_k(\theta,J)$ 是减去得到 rest pose 的变换，相当于得到一个相对的变换矩阵，然后变换矩阵乘以 rest pose 下的第 i 个 vertices 就可以得到变换后的第 i 个 vertice，然后乘上 $w</em>{k,i}$ 分量，表征第 k 个关节点对第 i 个 vertice 的影响。</p>
+<p>SMPL 模型对 LBS 进行了修改，具体的流程可以看下图，首先会根据 $\beta$ 调整 T-pose，然后再根据 $\theta$ 调整（看臀部的位置，这是为后面的抬腿动作做准备），最后一步就是 LBS。</p>
+<script type="math/tex; mode=display">
+M(\beta,\theta) = W(T_P(\beta,\theta), J(\beta), \theta, \mathcal{W})</script><script type="math/tex; mode=display">
+T_P(\beta, \theta) = \bar{T} + B_S(\beta) + B_P(\theta)</script><img src="/2020/09/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-SMPL-A-Skinned-Multi-Person-Linear-Model/2.png" class="">
+<p><strong>Shape blend shapes</strong></p>
+<p>$S = [S<em>1, …, S</em>{|\beta|}] \in \mathbb{R}^{3N\times |\beta|}$，表示 shape 每个参数对 vertices 的影响，S 是通过数据学习出来的</p>
+<script type="math/tex; mode=display">
+B_S(\beta; S) = \sum_{n=1}^{|\beta|} \beta_n S_n</script><p><strong>Pose blend shapes</strong></p>
+<p>每个 pose 参数都用旋转矩阵表示，所以是 9K，同样的 $P\in \mathbb{R}^{3N \times 9K}$ 矩阵通过数据学习出来</p>
+<script type="math/tex; mode=display">
+B_P(\theta; P) = \sum_{n=1}^{9K}(R_n(\theta) - R_n(\theta^\ast))P_n</script><p><strong>Joint locations</strong></p>
+<p>这里谈到的 joint 和上面用到的 $J$ 也都是在 rest pose 下的 joint 的 3D location，SMPL 在计算 joint 的时候引入了 $\beta$，更加精确，$\mathcal{J}$ is a matrix that transforms rest vertices into rest joints，同样通过数据学习出来。</p>
+<script type="math/tex; mode=display">
+J(\beta; \mathcal{J}, \bar{T}, S) = \mathcal{J}(\bar{T} + B_S(\beta;S))</script><p>上面提到需要学习的参数有 $\Phi = {\bar{T}, \mathcal{W}, S, \mathcal{J}, P }$，也都是一些 regressor，或者说是矩阵，这里不介绍模型的训练过程，有兴趣的可以仔细看原论文。</p>
+<p><br></p>
+<h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><p>作者共提供了三个预训练模型，分别是 male、female 和 neutral，下面以 <code>SMPL_NEUTRAL.pkl</code> 为例子，讲一下模型里面的参数，pkl 文件里面是一个字典，关键的 key 如下</p>
+<ul>
+<li><code>J_regressor</code>: (24, 6890)，从 rest pose 中回归出 joint，上面的 $\mathcal{J}$ 矩阵</li>
+<li><code>f</code>: (13776, 3)，faces，上面我们说到 mesh 除了有 vertices 组成，还有一个 triangle list，这里就是这个 list，可以看出人体共有 13776 个 triangle，每个 triangle 由三个 vertices index 组成，所以 faces 最大的数字就是 6889，因为共 6890 个点。</li>
+<li><code>kintree_table</code>: (2, 24)，一般取第一行，这就是上面提到的每个点的父节点</li>
+<li><code>weights</code>: (6890, 24)，blend weight，上面的 $\mathcal{W}$ 矩阵</li>
+<li><code>posedirs</code>: (6890, 3, 207)，上面的 $P$ 矩阵</li>
+<li><code>shapedirs</code>: (6890, 3, 10)，上面的 $S$ 矩阵</li>
+<li><code>v_template</code>: (6890, 3)，上面的 $\bar{T}$</li>
+</ul>
+<p>smplx 的库文件里面包含三个模型，分别是 SMPL、SMPLH 和 SMPLX，这里只分析最基础的 SMPL 的代码里面的 lbs 函数</p>
+<img src="/2020/09/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-SMPL-A-Skinned-Multi-Person-Linear-Model/3.png" class="">
+<ol>
+<li>计算 shape blend shape offset</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">blend_shapes</span>(<span class="params">betas, shape_disps</span>):</span><br><span class="line">    blend_shape = torch.einsum(<span class="string">&#x27;bl,mkl-&gt;bmk&#x27;</span>, [betas, shape_disps])</span><br><span class="line">    <span class="keyword">return</span> blend_shape</span><br><span class="line"></span><br><span class="line">v_shaped = v_template + blend_shapes(betas, shapedirs)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>计算 rest pose 下的 joint</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">vertices2joints</span>(<span class="params">J_regressor, vertices</span>):</span><br><span class="line">    <span class="keyword">return</span> torch.einsum(<span class="string">&#x27;bik,ji-&gt;bjk&#x27;</span>, [vertices, J_regressor])</span><br><span class="line"></span><br><span class="line">J = vertices2joints(J_regressor, v_shaped)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>计算 pose blend shape offset，如果输入的 pose 是旋转向量，那先需要转成旋转矩阵，去掉第一个点，因为是 root，至于为什么旋转矩阵要再减去一个 identity matrix，暂时不清楚</li>
+</ol>
+<img src="/2020/09/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-SMPL-A-Skinned-Multi-Person-Linear-Model/4.png" class="">
+<ol>
+<li>计算旋转后的关节点，输入有旋转矩阵，rest pose 下的 joint，每个 joint 的parent<ul>
+<li>rel_joints: relative joints，指的是每个关节点其父节点指向自己的向量，维度是 (b, 24, 3)</li>
+<li>transforms_mat：变换矩阵，上面提到的未连乘起来的 $G$，旋转矩阵的维度是 (b, 24, 3, 3)，和 relative joint 一起拼成 (b, 24, 4, 4) 的齐次变换矩阵</li>
+<li>transform_chain：这里实现的应该是每个节点只有一个 parent 节点，所以 transform_chain 实际就是将 transform_mat 中的每个关节点的变换矩阵乘上其父节点的变换矩阵</li>
+<li>posed_joints：不是很懂为什么 transform_mat 相乘后会将 rel_joints 直接也进行变换，但可能就是会得到变换后的点吧</li>
+<li>rel_transform：不是很懂</li>
+</ul>
+</li>
+</ol>
+<img src="/2020/09/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-SMPL-A-Skinned-Multi-Person-Linear-Model/5.png" class="">
+<img src="/2020/09/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-SMPL-A-Skinned-Multi-Person-Linear-Model/6.png" class="">
+<ol>
+<li>最后一步就是 skinning，<ul>
+<li>首先将 blend weight 扩展成维度 (b, 6890, 24)</li>
+<li>A 矩阵就是上面函数得到的 rel_transform 变换矩阵，blend weight 乘以变换矩阵得到 T</li>
+<li>vposed_homo 就是将 vertices 转成齐次坐标，然后和 T 矩阵相乘得到最后变换后的 vertices，取前三个回到正常坐标。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># W is N x V x (J + 1)</span></span><br><span class="line">W = lbs_weights.unsqueeze(dim=<span class="number">0</span>).expand([batch_size, -<span class="number">1</span>, -<span class="number">1</span>])</span><br><span class="line"><span class="comment"># (N x V x (J + 1)) x (N x (J + 1) x 16)</span></span><br><span class="line">num_joints = J_regressor.shape[<span class="number">0</span>]</span><br><span class="line">T = torch.matmul(W, A.view(batch_size, num_joints, <span class="number">16</span>)) .view(batch_size, -<span class="number">1</span>, <span class="number">4</span>, <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">homogen_coord = torch.ones([batch_size, v_posed.shape[<span class="number">1</span>], <span class="number">1</span>], dtype=dtype, device=device)</span><br><span class="line">v_posed_homo = torch.cat([v_posed, homogen_coord], dim=<span class="number">2</span>)</span><br><span class="line">v_homo = torch.matmul(T, torch.unsqueeze(v_posed_homo, dim=-<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">verts = v_homo[:, :, :<span class="number">3</span>, <span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/15/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Distribution-Aware-Coordinate-Representation-for-Human-Pose-Estimation/" rel="next" title="【论文阅读】—— Distribution-Aware Coordinate Representation for Human Pose Estimation">
+                <i class="fa fa-chevron-left"></i> 【论文阅读】—— Distribution-Aware Coordinate Representation for Human Pose Estimation
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/12/07/Transformer%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/" rel="prev" title="Transformer简单介绍">
+                Transformer简单介绍 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Model-Formulation"><span class="nav-number">1.</span> <span class="nav-text">Model Formulation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text">代码分析</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

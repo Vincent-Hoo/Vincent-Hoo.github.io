@@ -1,37 +1,888 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="本文将介绍增量学习 (incremental learning) 和知识蒸馏相结合的文章  Large Scale Incremental Learning End-to-End Incremental Learning iCaRL: Incremental Classiﬁer and Representation Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Incremental Learning with Knowledge Distillation">
+<meta property="og:url" content="http://vincentho.name/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="本文将介绍增量学习 (incremental learning) 和知识蒸馏相结合的文章  Large Scale Incremental Learning End-to-End Incremental Learning iCaRL: Incremental Classiﬁer and Representation Learning">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/1.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/2.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/3.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/4.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/5.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/6.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/12.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/13.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/7.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/8.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/9.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/10.png">
+<meta property="og:image" content="http://vincentho.name/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/11.png">
+<meta property="article:published_time" content="2019-11-30T04:20:39.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.327Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/"/>
+
+
+
+
+
+  <title>Incremental Learning with Knowledge Distillation | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Incremental Learning with Knowledge Distillation</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-30T12:20:39+08:00">
+                2019-11-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文将介绍增量学习 (incremental learning) 和知识蒸馏相结合的文章</p>
+<ul>
+<li>Large Scale Incremental Learning</li>
+<li>End-to-End Incremental Learning</li>
+<li>iCaRL: Incremental Classiﬁer and Representation Learning</li>
+</ul>
+<span id="more"></span>
+<p><em>preview</em></p>
+<p>增量学习：传统的学习策略是，给定一堆数据集，然后训练一个模型，数据集限定了模型需要学习的东西；但人类的学习策略是渐进的，我们可能会先从一批数据中学习出一些知识，然后再从另外一批数据中学习另外的知识并且不会忘记之前的知识。但是到了深度学习模型，假如我们先让模型学习一个数据集 A，再让模型学习数据集 B（这时候数据集 A 已经不可获取），这时候模型就会彻底忘记数据集 A 中学到的知识，这个称为灾难性遗忘 (catastrophic forgetting)，是增量学习中所要解决的问题。增量学习是一种渐进式的学习策略，后面学习的时候，前面学习用到的数据集不可获取，这是增量学习的基本背景，如何能够在新数据集下引入旧数据集，或者如何能够保存旧数据集下学习到的知识，成为关键。</p>
+<p>增量学习又分为数据增量、特征增量和类别增量。数据增量比较好理解，就是增加了额外的数据继续训练；特征增量指在特征数量增多；类别增量指类别数量增多，比如初代模型 $M_0$ 学习到 10 个类别，第二批数据为另外的 10 个类，我们要求第二代模型 $M_1$ 要学习到 20 个类别，既要记住之前学习的 10 个类别，也要学会新的 10 个类别。</p>
+<p>我们重点关注的是类别增量，因为标准数据集 CIFAR-100 和 ImageNet 天然就是一个类别增量的数据集，我们可以 10 类一个单位的增加。类增量的算法围绕如何在新数据集学习下引入旧数据的信息，其主要有三类：</p>
+<ul>
+<li>不采用旧数据</li>
+<li>用合成数据，训练一个生成模型去生成一些旧数据，然后混合新数据一起训练。</li>
+<li>用少量的旧数据作为 exemplar，从旧数据中挑选出一些代表数据 exemplar，然后混合新数据一起训练。</li>
+</ul>
+<p>在研究一个增量学习算法时，我们要时刻关注这四个方面：旧数据，新数据，旧模型，新模型。旧数据如何引入到新模型？旧模型的参数如何辅助新模型训练？旧模型和新模型之间是否存在共用参数？</p>
+<p>下面我们看看这 3 篇论文如何解决上面提到的这些问题。</p>
+<p><br></p>
+<h1 id="Large-Scale-Incremental-Learning"><a href="#Large-Scale-Incremental-Learning" class="headerlink" title="Large Scale Incremental Learning"></a>Large Scale Incremental Learning</h1><blockquote>
+<p>Conference: CVPR2019<br>Authors: Yue Wu, Yinpeng Chen, et al</p>
+</blockquote>
+<h2 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h2><p>整体的流程如下，首先我们先看数据方面，可以看出该方法属于上面提到的第三类方法，即保存少部分的旧数据作为 exemplar，然后混合新数据一起训练，数据集分为训练集和验证集，训练的过程作者分为两个阶段，第一阶段新旧数据一起训练，第二阶段为 bias correction，用验证集去训练。</p>
+<img src="/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/1.png" class="" width="500" height="500">
+<h3 id="Stage-I-baseline-method"><a href="#Stage-I-baseline-method" class="headerlink" title="Stage I: baseline method"></a>Stage I: baseline method</h3><p>我们先看下第一阶段的训练过程，如下图，可以看出新模型和旧模型并不是共享某些层的，新模型需要重新训练，但他们的结构基本相同，除了最后的 FC 层的类别数量，旧模型输出为 n 类的概率值，新模型输出的是 n+m 类的概率值</p>
+<img src="/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/2.png" class="" width="500" height="500">
+<p>回答上面提到的问题，旧模型和旧数据如何利用？</p>
+<ul>
+<li>新数据为 $X^m={(x_i, y_i), 1\le i\le M, y_i \in [n+1, …,n+m]}$</li>
+<li>旧数据 exemplar 为 $\hat{X}^n={(\hat{x}_j, \hat{y}_j), 1\le j\le N_s, \hat{y}_j \in [1, …,n]}$</li>
+<li>新模型的输出 $o^{n+m}(x)=[o<em>1(x), …,x_n(x), o</em>{n+1}(x),…,o_{n+m}(x)]$</li>
+<li>旧模型的输出 $\hat{o}^n(x)=[\hat{o}_1(x), …,\hat{o}_n(x)]$\</li>
+</ul>
+<p>我们把旧模型作为 teacher 模型，进行知识蒸馏，注意这里蒸馏的时候只在前面 n 个类别上进行，并且用到的是全部数据，即新数据和旧数据，有人可能会问为什么新数据也要进行蒸馏，旧模型是在旧类别上训练的，但是将新数据输入到旧模型里面，我们依旧能得到新数据在就类别上的预测概率值，可以知道新图片在旧类别上的概率分布，这对于新模型 FC 层前 n 个神经元的训练还是有所帮助的。</p>
+<p>利用蒸馏，我们可以一定程度上缓解灾难性遗忘，把旧数据在旧模型输出的 logit 迁移到新模型 FC 层的前 n 个神经元上</p>
+<img src="/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/3.png" class="" width="500" height="500">
+<p>除了蒸馏损失，分类损失也是必须的，因为我们现在有新数据还有旧数据的 exemplar，所以直接将它在新模型上训练，这里训练的是 FC 层的所有神经元。</p>
+<img src="/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/4.png" class="" width="500" height="500">
+<p>我们看一下新模型 FC 层的 n+m 个神经元分别受到哪些监督信息</p>
+<ul>
+<li>前 n 个神经元：新旧数据在旧模型输出 logit 的知识蒸馏，旧数据 exemplar 的 ground-true 信息</li>
+<li>后 m 个神经元：新数据的 ground-true 信息</li>
+</ul>
+<p>增量学习需要解决的就是如何使得新模型的前 n 个神经元能够保存旧类的分类能力，这里采取的是蒸馏的方法。</p>
+<p>上面的方法是把蒸馏用到增量学习的 baseline 方法，但由于新旧类数据量不均衡，新类的数据要远多于旧类的 exemplar，这会导致 FC 层会更多的偏向于后面 m 个神经元，因为后面 m 个神经元受到的监督信息更多，虽然前面 n 个神经元我们已经尽力去补充监督信息，但依旧无法缓解 bias 的问题，从下图可以看出，当在做最后一次增量学习的时候（100 类别，每次增加 20 类），预测的类别多数都在 81-100 类。</p>
+<img src="/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/5.png" class="" width="300" height="300">
+<p>作者猜测这是由于数据不均衡所导致的，因此做了个小实验，先用上面的这个 baseline 方法训练一个新模型（这个模型 FC 层存在 bias 问题），然后再用全部的新旧数据（该数据不存在类别不均衡问题）去 fine-tune 最后的 FC 层，发现 bias 问题被解决，分类准确率也提升了。但是现实情况，我们肯定是不可能获取得到全部的旧数据的，因此作者提出一种 bias correction (biC) 的方法去调整 FC 层。</p>
+<img src="/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/6.png" class="" width="300" height="300">
+<h3 id="Stage-II-bias-correction"><a href="#Stage-II-bias-correction" class="headerlink" title="Stage II: bias correction"></a>Stage II: bias correction</h3><p>首先需要把数据集划分为训练集和验证集，注意验证集新旧类别必须均衡，可以看上面的总流程图，由于验证集很小，新旧类别的数据都很少，所以作者在 FC 层后加了一个线性模型来矫正 bias，对于 FC 层前 n 个输出，保持原值，对于后 m 个输出，进行矫正</p>
+<img src="/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/12.png" class="" width="400" height="400">
+<p> 当进行 bias correction 的时候，前面的特征提取层和 FC 层都是固定的，只训练线性模型，loss 函数如下</p>
+<img src="/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/13.png" class="" width="400" height="400">
+<p><br></p>
+<h2 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h2><p>实验设置基本和 EEIL 和 iCaRL 一样（下面讨论这两篇文章），作者分别在大数据集 ImageNet 和小数据集 CIFAR-100 上测试了结果，实验表明 bias correction 这种方法都比 EEIL 和 iCaRL 要好，但是在大数据集上的提升会更加明显</p>
+<h3 id="ImageNet"><a href="#ImageNet" class="headerlink" title="ImageNet"></a>ImageNet</h3><img src="/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/7.png" class="" width="700" height="700">
+<img src="/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/8.png" class="" width="300" height="300">
+<h3 id="CIFAR-100"><a href="#CIFAR-100" class="headerlink" title="CIFAR-100"></a>CIFAR-100</h3><img src="/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/9.png" class="" width="700" height="700">
+<p><br></p>
+<h1 id="End-to-End-Incremental-Learning"><a href="#End-to-End-Incremental-Learning" class="headerlink" title="End-to-End Incremental Learning"></a>End-to-End Incremental Learning</h1><blockquote>
+<p>Conference: ECCV2018<br>Authors: Francisco M. Castro, et al</p>
+</blockquote>
+<p>EEIL 同样是基于 exemplar 的方法，在上面的文章，我们侧重说了蒸馏如何用到增量学习上，这篇文章的蒸馏思路和上篇基本类似，这里我们侧重说下 exemplar 的选取。</p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p>流程图如下，训练分为四步：</p>
+<ul>
+<li>构造训练集</li>
+<li>蒸馏训练</li>
+<li>balanced fine-tune</li>
+<li>构造 exemplar set</li>
+</ul>
+<img src="/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/10.png" class="" width="600" height="600">
+<h3 id="exemplar"><a href="#exemplar" class="headerlink" title="exemplar"></a>exemplar</h3><p>作者提出了两种策略，分别为固定总的 memory size 和 固定每个类别的 memory size，前者随着增量学习的进行，每个旧类的样本数量会减少，后者随着增量学习的进行，内存会增大。</p>
+<p>训练前，先将新数据和旧数据进行融合，构造出训练集，训练完后，将新数据加入到 memory，如何挑取加入到 memory 的样本，作者提出了两种方法</p>
+<ul>
+<li>随机策略</li>
+<li>herding selection：计算该类别样本的均值，计算每个样本距离均值的距离，选出最靠近均值的样本</li>
+</ul>
+<p>新数据的加入必然会导致旧数据样本数量的减少，因为旧数据也是通过 herding 的方式加入到内存的，在移除旧数据的时候，同样采取该策略，移除距离均值最大的样本。</p>
+<h3 id="training-process"><a href="#training-process" class="headerlink" title="training process"></a>training process</h3><p>训练过程，旧模型输出的是 n 个类别的 logit，作为 teacher 模型，新模型输出的是 n+m 个类别的 logit，同样分为两个 loss</p>
+<ul>
+<li>cross entropy loss：新旧数据同时用上来训练新模型</li>
+<li>distillation loss：和上一篇文章唯一不同的是，这里它只用了旧数据，旧数据在旧模型输出的 logit 作为软标签，指导新模型 FC 层的前 n 个神经元。而上篇文章是将新旧数据都输入到旧模型来作为软标签。</li>
+</ul>
+<h3 id="balanced-fine-tuning"><a href="#balanced-fine-tuning" class="headerlink" title="balanced fine-tuning"></a>balanced fine-tuning</h3><p>为了解决类别不均衡带来的问题，跟上篇文章一样，新旧类选取相同数量的样本作为验证集进行 fine-tune，这里会用更小的学习率</p>
+<p><br></p>
+<h1 id="iCaRL-Incremental-Classiﬁer-and-Representation-Learning"><a href="#iCaRL-Incremental-Classiﬁer-and-Representation-Learning" class="headerlink" title="iCaRL: Incremental Classiﬁer and Representation Learning"></a>iCaRL: Incremental Classiﬁer and Representation Learning</h1><p>总结前两篇文章，发现增量学习的知识蒸馏的基本围绕以下 4 个损失来设计，分类损失均为数据在新模型下输出 logit 和标签之前的损失，蒸馏损失均为数据在新旧模型输出 logit 之间的损失。</p>
+<ul>
+<li>新数据的分类损失</li>
+<li>新数据的蒸馏损失</li>
+<li>旧数据的分类损失</li>
+<li>旧数据的蒸馏损失</li>
+</ul>
+<p>第一篇文章为 4 个损失均有，EEIL 为第1、3、4 个损失的结合；而 iCaRL 为第1、2、4 个损失的组合。</p>
+<p>除此之外，iCaRL 在分类上采取的是最近邻分类策略，算出每个类别的平均特征图，计算最近的一个，则为分类结果。</p>
+<img src="/2019/11/30/Incremental-Learning-with-Knowledge-Distillation/11.png" class="" width="500" height="500">
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/08/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94Be-Your-Own-Teacher-Improve-the-Performance-of-Convolutional-Neural-Networks-via-Self-Distillation/" rel="next" title="【论文阅读】——Be Your Own Teacher, Improve the Performance of Convolutional Neural Networks via Self Distillation">
+                <i class="fa fa-chevron-left"></i> 【论文阅读】——Be Your Own Teacher, Improve the Performance of Convolutional Neural Networks via Self Distillation
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/22/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Revisiting-Knowledge-Distillation-via-Label-Smoothing-Regularization/" rel="prev" title="【论文阅读】—— Revisiting Knowledge Distillation via Label Smoothing Regularization">
+                【论文阅读】—— Revisiting Knowledge Distillation via Label Smoothing Regularization <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Large-Scale-Incremental-Learning"><span class="nav-number">1.</span> <span class="nav-text">Large Scale Incremental Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Methods"><span class="nav-number">1.1.</span> <span class="nav-text">Methods</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Stage-I-baseline-method"><span class="nav-number">1.1.1.</span> <span class="nav-text">Stage I: baseline method</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stage-II-bias-correction"><span class="nav-number">1.1.2.</span> <span class="nav-text">Stage II: bias correction</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Experiments"><span class="nav-number">1.2.</span> <span class="nav-text">Experiments</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ImageNet"><span class="nav-number">1.2.1.</span> <span class="nav-text">ImageNet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CIFAR-100"><span class="nav-number">1.2.2.</span> <span class="nav-text">CIFAR-100</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#End-to-End-Incremental-Learning"><span class="nav-number">2.</span> <span class="nav-text">End-to-End Incremental Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Method"><span class="nav-number">2.1.</span> <span class="nav-text">Method</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#exemplar"><span class="nav-number">2.1.1.</span> <span class="nav-text">exemplar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#training-process"><span class="nav-number">2.1.2.</span> <span class="nav-text">training process</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#balanced-fine-tuning"><span class="nav-number">2.1.3.</span> <span class="nav-text">balanced fine-tuning</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#iCaRL-Incremental-Classi%EF%AC%81er-and-Representation-Learning"><span class="nav-number">3.</span> <span class="nav-text">iCaRL: Incremental Classiﬁer and Representation Learning</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

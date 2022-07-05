@@ -1,37 +1,854 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Title：GaterNet: Dynamic Filter Selection in Convolutional Neural Network via a Dedicated Global Gating NetworkAuthors：Zhourong Chen, Yang Li, Samy Bengio, Si SiAbstract：conditional computation 是指用网络的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文阅读】—— GaterNet, Dynamic Filter Selection in Convolutional Neural Network via a Dedicated Global Gating Network">
+<meta property="og:url" content="http://vincentho.name/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="Title：GaterNet: Dynamic Filter Selection in Convolutional Neural Network via a Dedicated Global Gating NetworkAuthors：Zhourong Chen, Yang Li, Samy Bengio, Si SiAbstract：conditional computation 是指用网络的">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/1.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/2.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/3.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/4.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/5.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/6.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/7.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/8.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/9.png">
+<meta property="article:published_time" content="2018-12-13T15:26:09.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.610Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2018/12/13/【论文阅读】——-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/"/>
+
+
+
+
+
+  <title>【论文阅读】—— GaterNet, Dynamic Filter Selection in Convolutional Neural Network via a Dedicated Global Gating Network | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文阅读】—— GaterNet, Dynamic Filter Selection in Convolutional Neural Network via a Dedicated Global Gating Network</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-13T23:26:09+08:00">
+                2018-12-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Title：GaterNet: Dynamic Filter Selection in Convolutional Neural Network via a Dedicated Global Gating Network<br>Authors：Zhourong Chen, Yang Li, Samy Bengio, Si Si<br>Abstract：conditional computation 是指用网络的一部分层去预测结果，而不是整个网络。这样可以使网络中不同的卷积核能够从不同的样本中学习到特征，一定程度上提高了模型的泛化性能和可解释性。作者提出了一个根据输入样本动态选择卷积核的算法，模型包含两个网络：gater network 和 backbone network，gater network 决定样本通过 backbone network 时需要经过哪些卷积核。</p>
+</blockquote>
+<span id="more"></span>
+<p><br></p>
+<p><em>preface</em></p>
+<p>conditional computation 是指：对于每一个样本，只用模型的一小部分去进行预测，那么在反向传播的时候，也是只有一小部分的参数需要被更新，这对于训练一个庞大的网络是非常有好处的。</p>
+<p>conditional computation 相关的研究主要分为两个方面：Mixture of Experts (MoE) 和 dynamic network configuraion。MoE 通过集成多个子网络来进行预测，子网络的权重由一个 gating module 决定，最近有些研究提出只集成一小部分的子网络，这些子网络是根据不同的样本动态选择的；dynamic network configuration 只有一个主模型，但是会动态选择模型的单元、层数或者其他的 component，通常一些小的 module 会加到每一个网络的 component 中来决定该部分是否需要被选择，这种方法作者称为 local configuration，因为这些小 module 是根据这个 component 当前的信号值来决定是否被选择的，典型的代表是最近 EECV 的一篇论文 《Convolutional networks<br>with adaptive inference graphs》。</p>
+<p>作者提出了一种 global configuration 的方式，通过一个 gater network 对输入进行全局探索，最后得出哪些卷积核需要被使用。</p>
+<p><br></p>
+<h1 id="GaterNet"><a href="#GaterNet" class="headerlink" title="GaterNet"></a>GaterNet</h1><p>GaterNet 分为两个部分：gater network 和 backbone network，给定一个输入样本，gater network 决定 backbone network 使用哪些卷积核进行预测，两个网络用端到端的方式通过反向传播进行训练。</p>
+<img src="/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/1.png" class="">
+<h2 id="Backbone-network"><a href="#Backbone-network" class="headerlink" title="Backbone network"></a>Backbone network</h2><p>backbone network 是模型主要的部分，用来预测最终的结果，任何的 CNN 结构都可以作为 backbone network，如 ResNet、Inception、DenseNet 等等。给定一个输入 $x$，第 $l$ 层的输出为 $O^l(x)$ ：</p>
+<script type="math/tex; mode=display">O^l_i(x) = \phi(F^l_i \ast I^l(x))</script><p>$O^l_i(x)$ 是输出 $O^l(x)$ 的第 $i$ 个 channel，$F^l_i(x)$ 是第 $i$ 个卷积核，$I^l(x)$ 是第 $l$ 层的输入，$\ast$ 代表卷积，$\phi(\cdot)$ 代表非线性激活函数。一般情况下，如果没有 gater network，则所有的卷积核 $F_i^l$ 都会被使用，然后得到一个 dense 的输出 $O^l(x)$，有了 gater network，模型会选择一部分的卷积核来进行卷积，而不是全部卷积核。</p>
+<h2 id="Gater-network"><a href="#Gater-network" class="headerlink" title="Gater network"></a>Gater network</h2><p>对比于 backbone network，gater network 是辅助性作用，并不会直接学习一些特征用于预测。而是通过处理输入图像，然后生成一个二进制的向量 (gating mask)，这个向量用来动态选择一部分的 backbone network 的卷积核用来预测，gater network 的方程如下：</p>
+<script type="math/tex; mode=display">G(x) = D(E(x))</script><p>$E(\cdot)$ 是一个图像特征提取器，$h^{\prime},w^{\prime},c^{\prime}$ 表示输入图像的宽高和通道数，$h$ 表示提取特征的维数。</p>
+<script type="math/tex; mode=display">E: x \rightarrow f, x \in R^{h^{\prime} \times w^{\prime} \times c^{\prime}}, f \in R^h</script><p>$D(\cdot)$ 将特征变换到二进制向量，$c$ 表示 backbone network 中卷积核的总数。</p>
+<script type="math/tex; mode=display">D: f \rightarrow g, f \in R^h, g \in \{0,1\}^c</script><p>综上，gater network 将一个输入图像 $x$ 映射到一个二进制向量 $g$，有了 gating network，backbone network 中第 $l$ 层的输出重新定义为：</p>
+<script type="math/tex; mode=display">O^l_i(x)=\left\{\begin{array}{cc}  zero \ matrix, & g^l_i=0\\  \phi(F^l_i \ast I^l(x)) & g^l_i = 1  \end{array}\right.</script><p>$g^l_i$ 是 $g$ 向量中对应第 $l$ 层第 $i$ 个卷积核的元素，可以看出如果 $g^l_i$ 为 0，第 $l$ 层第 $i$ 个卷积核被跳过，用 0 去代替卷积的输出。当第 $l$ 层有很多的卷积核被跳过时，输出就是一个稀疏的图像。具体实现上，将上式合并成以下的形式：</p>
+<script type="math/tex; mode=display">O^l_i(x) = \phi(F^l_i \ast I^l(x)) \cdot g^l_i</script><p>接下来将讨论何如选择函数 $E(\cdot)$ 和 $D(\cdot)$</p>
+<h3 id="Feature-Extractor"><a href="#Feature-Extractor" class="headerlink" title="Feature Extractor"></a>Feature Extractor</h3><p>$E(\cdot)$ 是一个特征提取器，任意的 CNN 都可以用来作为 $E(\cdot)$，对比 backbone network，$E(\cdot)$ 有两点不同：</p>
+<ol>
+<li>输出层被去除，使得 $E(\cdot)$ 输出的是特征，然后被 $D(\cdot)$ 使用</li>
+<li>$E(\cdot)$ 不需要像 backbone network 那样复杂的 CNN，$E(\cdot)$ 只需要输出输入图像的一个简单的概括即可，太复杂的 $E(\cdot)$ 会带来过多的参数和计算量，且作者想避免 $E(\cdot)$ 喧宾夺主，毕竟 backbone network 才是真正用来预测的网络。</li>
+</ol>
+<h3 id="Features-to-Binary-Gates"><a href="#Features-to-Binary-Gates" class="headerlink" title="Features to Binary Gates"></a>Features to Binary Gates</h3><p>$D(\cdot)$ 函数将一个 $h$ 维的向量 $f$ 映射到一个 $c$ 维的二进制向量 $g$，首先考虑用一层全连接网络进行映射，那么这一层网络的参数就有 $h \times c$（忽略 bias），由于 $c$ 代表 backbone network 中卷积核的总数，往往是几千个，而 $h$ 表示特征的个数，通常也不少，因此这一层的参数量和计算量都不少。为了减少计算量，作者用两层全连接层，第一层使用一个 bottleneck 进行降维到 $b$，因此参数量改为 $(h+c)\times b$。</p>
+<script type="math/tex; mode=display">f^{\prime} = FC_1(f)</script><script type="math/tex; mode=display">g^{\prime} = FC_2(ReLU(BatchNorm(f^{\prime})))</script><p>$g^{\prime}$ 向量是一个实向量，作者通过一个离散化的方法将其转成一个二进制向量，该方法为 Improved SemHash (改进的语意哈希)。</p>
+<p>在训练过程中，将 0 均值和单位标准差的 $c$ 维高斯噪声 $\epsilon$ 加到 $g^{\prime}$，即 $g^{\prime}_{\epsilon} = g^{\prime} + \epsilon$，计算两个向量</p>
+<script type="math/tex; mode=display">g_{\alpha} = \sigma^{\prime}(g^{\prime}_{\epsilon})</script><script type="math/tex; mode=display">g_{\beta} = 1(g^{\prime}_{\epsilon} > 0)</script><p>$\sigma^{\prime}(\cdot)$ 是饱和 sigmoid 函数</p>
+<script type="math/tex; mode=display">\sigma^{\prime}(x) = max(0, min(1, 1.2\sigma(x) - 0.1))</script><p>$\sigma(x)$ 是 sigmoid 函数，$g<em>\alpha$ 是一个实向量，范围在 0 - 1，可微分；而 $g</em>\beta$ 是一个二进制向量，不可微分。因此作者在前向传播的过程中，随机抽取一半的数据用 $g = g<em>\alpha$，另一半的数据用 $g = g</em>\beta$，当用 $g<em>\beta$ 的时候，用 $g</em>\alpha$ 的梯度去代替 $g_\beta$ 的梯度。</p>
+<img src="/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/2.png" class="">
+<p>在预测阶段，不需要引入高斯噪声，且全部适用 $g = g_\beta$。 </p>
+<p>最后，作者希望 gater network 得到的 gates (二进制向量) 越稀疏越好，因此将 gater network 作为正则项</p>
+<script type="math/tex; mode=display">L = -logP(y | x, \theta) + \lambda \frac{||G(x)||_1}{c}</script><p><br></p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><p>作者先在 ResNet 上验证 GaterNet 的有效性，gater network 选用 ResNet-20，backbone network 选用 ResNet-20, ResNet-56, ResNet-164。结果如下，ResNet-Wider 指添加一些卷积核使得参数量和 GaterNet 接近的 ResNet，Gated Filter 指 backbone network 中卷积核的个数。</p>
+<ul>
+<li>GaterNet 比所有的原始 ResNet 要好，在  CIFAR-100 上，GaterNet 比 ResNet-164 的错误率要低了 1.83%。</li>
+<li>GaterNet 同样要比 ResNet-SE 要好，GaterNet 产生二进制的 gate 去选择卷积核，而 ResNet-SE 是 re-scale 通道值，尽管 GaterNet 在前向传递时会有信息损失，因为只用了部分的卷积核，但是模型却有更好的泛化性能，也证明了处理一个样本只需要部分的卷积核，不需要全部。</li>
+<li>ResNet-Wider 要比 ResNet 要好，这是显然的，ResNet-20-Wider 甚至要比 GaterNet 要好，这也比较容易理解，因为 gater network 是用 ResNet-20，GaterNet 有一半的参数都在做 gating strategy，而不是直接参与到预测中。但是 GaterNet 依旧和 ResNet-20-Wider 接近。</li>
+<li>而对于 ResNet-50 和 ResNet-164，增加一些卷积核变成 ResNet-Wider 并不会增加多少准确率，而 GaterNet 却能明显提高准确率，这也说明了 GaterNet 的有效性，不止在参数量的增多，更在于 gating strategy。</li>
+<li>gater network 不需要很复杂，ResNet-20 就已经足够了，当 backbone network 越复杂的时候，gater network 所带来的参数量就越微不足道。</li>
+</ul>
+<img src="/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/3.png" class="">
+<p><br></p>
+<p><strong>Gate Distribution</strong></p>
+<p>这里的 gate 指的是一个卷积核是否被卷积，作者想探究一下 gater network 是否有用，想知道对于每个样本，学习到的二进制向量会是怎样的。作者用  ResNet-164-Gated 这个网络，把 CIFAR-10 的测试集通过 gater network 得到每个测试样本的二进制向量。一个 gate 代表一个卷积核，自然而然 gate 会有三种类型：1）Always On：对于所有样本都是 ON，2）Always Off：对于所有样本都是 OFF，3）Input-dependent gate：或 ON 或 OFF。ResNet-164 共有 54 个 residual unit，每个 unit 中会有一定数量的门，下图表示每个 unit 中三种类型的门的分布情况。</p>
+<ul>
+<li>在浅层的网络，很大一部分的卷积核都是 OFF 的；</li>
+<li>而随着网络加深，Always On 和 Input-dependent 增多。</li>
+<li>在最后的两个 unit，Input-dependent 占最大的比例。</li>
+</ul>
+<p>这和我们的一般认识相符合，浅层网络提取 low-level 的特征，深层网络提取 high-level 特征。</p>
+<img src="/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/4.png" class="">
+<p>作者认为 Input-dependent 这个定义不够精细，对于 CIFAR-10 中 10000 个测试样例，如果对于某一个卷积核，它只卷积了 1 个样本，skip 了 9999 个样本，它也是属于 Input-dependent 类型的。作者想知道每个 Input-dependent 类型的门，有多少个样本通过了这个门。ResNet-164 共有 7200 个卷积核，即 7200 个门，其中有 1567 个 Input-dependent 的门，在这 1567 个门中，有 443 个门几乎是全通过或全拒绝，即上面说到的情况。剩下 1124 个门的通过样本数量在 100 - 9900 之间。</p>
+<p>下图的 x 轴表示一个 input-dependent 的门通过样本的个数，y 轴表示 input-dependent 门的个数，整体表示的意识是：通过样本数为 x 的门有 y 个。下图的两边表示的就是那 443 个门，几乎全部通过或几乎全部拒绝。如果将下图进行求和 (积分)，结果必定为 1567。</p>
+<img src="/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/5.png" class="">
+<p>上面的实验都是基于一个门来进行的，探索了每个门通过的样本数，下面坐着探索每个样本通过的门数，经过实验得到，通过的门数最小值和最大值分别是 5380 和 5506，平均通过门数为 5453，通过门数似乎服从正态分布。</p>
+<img src="/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/6.png" class="">
+<p>最后，作者想探究 gater network 究竟学到了什么 gating strategy，因此它用每个样本通过 gater network 得到的二进制向量 (7200维) 去代表每个样本，然后用 PCA 将其降维到 400，再用 t-SNE 映射到二维空间，如下图，可以看出，相同 label 的二进制向量都比较靠近，因此 gater network 学习到：对于相同 label 的样本，它会试着让它通过相似的门，也就是说用 backbone network 的相同部分去处理这些 label 相同的样本。另外，下图的簇并不是区分地很好，这也说明了 gater network 并没有占据 backbone network 的地位。</p>
+<img src="/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/7.png" class="">
+<p><strong>CIFAR-10 上的结果</strong></p>
+<img src="/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/8.png" class="">
+<p><strong>ImageNet 上的结果</strong></p>
+<img src="/2018/12/13/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-GaterNet-Dynamic-Filter-Selection-in-Convolutional-Neural-Network-via-a-Dedicated-Global-Gating-Network/9.png" class="">
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/11/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-MobileNetV2-Inverted-Residuals-and-Linear-Bottlenecks/" rel="next" title="【论文阅读】—— MobileNetV2, Inverted Residuals and Linear Bottlenecks">
+                <i class="fa fa-chevron-left"></i> 【论文阅读】—— MobileNetV2, Inverted Residuals and Linear Bottlenecks
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Convolutional-Networks-with-Adaptive-Computation-Graphs/" rel="prev" title="【论文阅读】—— Convolutional Networks with Adaptive Computation Graphs">
+                【论文阅读】—— Convolutional Networks with Adaptive Computation Graphs <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GaterNet"><span class="nav-number">1.</span> <span class="nav-text">GaterNet</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Backbone-network"><span class="nav-number">1.1.</span> <span class="nav-text">Backbone network</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gater-network"><span class="nav-number">1.2.</span> <span class="nav-text">Gater network</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Feature-Extractor"><span class="nav-number">1.2.1.</span> <span class="nav-text">Feature Extractor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Features-to-Binary-Gates"><span class="nav-number">1.2.2.</span> <span class="nav-text">Features to Binary Gates</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">2.</span> <span class="nav-text">实验结果</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

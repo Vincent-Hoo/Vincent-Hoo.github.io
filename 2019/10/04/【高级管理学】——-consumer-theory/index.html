@@ -1,37 +1,934 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="课程名称：高级管理学授课人：Ying Kong本章梗概：介绍了消费者的相关理论，如效用函数，需求曲线，弹性等概念。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【高级管理学】—— consumer theory">
+<meta property="og:url" content="http://vincentho.name/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="课程名称：高级管理学授课人：Ying Kong本章梗概：介绍了消费者的相关理论，如效用函数，需求曲线，弹性等概念。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/1.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/2.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/3.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/4.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/5.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/6.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/7.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/8.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/9.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/10.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/11.png">
+<meta property="article:published_time" content="2019-10-04T13:56:42.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.749Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2019/10/04/【高级管理学】——-consumer-theory/"/>
+
+
+
+
+
+  <title>【高级管理学】—— consumer theory | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【高级管理学】—— consumer theory</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-04T21:56:42+08:00">
+                2019-10-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>课程名称：高级管理学<br>授课人：Ying Kong<br>本章梗概：介绍了消费者的相关理论，如效用函数，需求曲线，弹性等概念。</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="Preference"><a href="#Preference" class="headerlink" title="Preference"></a>Preference</h2><p>bundle：多个不同种类商品的集合，比如 bundle x 为 5 个商品 1 和 10 个商品 2 组成。</p>
+<p>preference：对于不同的 bundle，消费者可以选择其中的一个，对于消费者，两个 bundle 之间会有选择偏好，这就是 preference。对于两个 bundle $x$ 和 $y$，他们之间有三种关系，（由于找不到相关的经济学符号，因此用数学符号来代替）</p>
+<ul>
+<li><p>strict preference：$x$ is more preferred than $y$, denoted as $x&gt;y$</p>
+</li>
+<li><p>weak preference：$x$ is as at least preferred as y, denoted as $x \geq y$</p>
+</li>
+<li><p>indifference：$x$ is exactly as preferred as y, denoted as $x \sim y$</p>
+</li>
+</ul>
+<p>preference relations</p>
+<ul>
+<li><p>$(x \geq y) \ and\ (y\geq x)\ \rightarrow \ (x\sim y)$</p>
+</li>
+<li><p>$(x \geq y)\ and \ (not\  y \geq x) \ \rightarrow \ (x &gt; y)$</p>
+</li>
+<li><p>For any two bundles $x$ and $y$, $(x \geq y)\ or \ (y \geq x)$</p>
+</li>
+<li><p>Any bundle $x$ is always at least as preferred as itself, $x \geq x$</p>
+</li>
+<li><p>$(x \geq y) \  and \ (y \geq x) \ \rightarrow \ (x \geq z)$</p>
+</li>
+</ul>
+<p><br></p>
+<h2 id="Indifference-Curve"><a href="#Indifference-Curve" class="headerlink" title="Indifference Curve"></a>Indifference Curve</h2><p>假设一个 bundle 为 $x$，indifference curve 指的是所有可能的 bundle $y$ 使得 $y \sim x$，即 ${y|y\sim x}$，因此也叫 indifference set。当我们的 bundle 只考虑两种商品 $x_1$ 和 $x_2$ 时，indifference curve 为二维平面上的一条线，如下图：</p>
+<img src="/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/1.png" class="" width="500" height="500">
+<p>一条曲线代表一条 indifference curve，curve 上的任意两个点 $x = (x_1,x_2)$ 和 $y = (x_1^\prime, x_2^\prime)$ 都满足 $x\sim y$，而不同的两条线上的点必定满足 strict preference 的关系，越往右上方的点，越会被 preferred，因此 $l_1$ 上的点都 strict preferred 于 $l_2$ 上的点。</p>
+<p><em>Note：</em>任意两条 indifference curve 必定是无交点的</p>
+<h3 id="Two-Extreme-Cases-of-Indifference-Curve"><a href="#Two-Extreme-Cases-of-Indifference-Curve" class="headerlink" title="Two Extreme Cases of Indifference Curve"></a>Two Extreme Cases of Indifference Curve</h3><h4 id="Perfect-Substitute"><a href="#Perfect-Substitute" class="headerlink" title="Perfect Substitute"></a>Perfect Substitute</h4><p>同样是考虑两种商品组成的 bundle，如果消费者认为商品一和商品二是等同的，那么这两个商品就是 perfect  substitute，由于两者等同，因此在比较不同 bundle 哪个更加被 preferred 的时候，只需考虑两种商品的总数量即可。indifference curve 如下，不同的 curve 的斜率均为 -1。</p>
+<img src="/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/2.png" class="" width="500" height="500">
+<h4 id="Perfect-Complement"><a href="#Perfect-Complement" class="headerlink" title="Perfect Complement"></a>Perfect Complement</h4><p>商品一和商品二总是以固定的比例出现，比如对于一辆小汽车，总是 4 个车轮和 1 个发动机，因此商品一和商品二的比例总是 4:1，即使一个 bundle 里面有再多的车轮或者再多的发动机，我们也只能考虑能够成对的数量，作为是否被 preferred 的依据 (only the number of pairs of units of the two commodities determines the preference rank-order of bundles)</p>
+<p>下面的例子中，商品一和商品二总是以 1:1 的比例出现，因此 (9,5)、(5,5) 和 (5,9) 都是 equally preferred，因为他们都有 5 pairs，而 (9,9) 则 strict preferred 于前面的三个点，因为它有 9 pairs，indifference curve 的形状为直角。</p>
+<img src="/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/3.png" class="" width="500" height="500">
+<h3 id="Marginal-Rate-of-Substitution-MRS"><a href="#Marginal-Rate-of-Substitution-MRS" class="headerlink" title="Marginal Rate-of-Substitution(MRS)"></a>Marginal Rate-of-Substitution(MRS)</h3><p>一条 indifference curve 的斜率就叫做 MRS，它所表示的意思是，我们愿意牺牲多少数量的商品一，去换取商品二，从而使得 equally preferred。对于 perfect substitute 来说，其 MRS 均为 -1，因为两者等同，因此少一个商品二，就会多一个商品一。</p>
+<p><br></p>
+<h2 id="Utility-Function"><a href="#Utility-Function" class="headerlink" title="Utility Function"></a>Utility Function</h2><p>在前面，我们一直用 preference 来衡量两个 bundle 之间的关系，而 utility function（效用函数） 就是用来代表 preference 的</p>
+<ul>
+<li><p>若 $x &gt; y$，则 $U(x) &gt; U(y)$ （前者是 strict preference 符号，后者是数学符号）</p>
+</li>
+<li><p>若 $x \sim y$，则 $U(x) = U(y)$</p>
+</li>
+</ul>
+<p>因此一条 indifference curve 上的所有点，我们都可以说他们的效用是一样的。</p>
+<p><em>Note：</em>效用值是一个 ordinal 的概念，即只关注两个 bundle 间效用的大小关系，至于效用值具体数值并不是关键，比如 x 的效用值为 6，y 的效用值为 2，只能说明 x 比 y 更加 preferred，并不表示 x 比 y 三倍的 preferred。因此假设 x 比 y 更为 preferred，我们可以赋值给 $U(x)$ 和 $U(y)$ 任何值，只要满足 $U(x) &gt; U(y)$ 即可。</p>
+<p>现在我们可以将 indifference curve 和 utility function 放在同一个坐标系里面，xOy 平面依旧是 indifference curve，z 维度表示效用值。</p>
+<img src="/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/4.png" class="" width="300" height="300">
+<p>indifference map：所有的 indifference curve 的集合，其等同于 utility function。</p>
+<p>几种不同的 utility function：</p>
+<ul>
+<li><p>perfect substitute：$U(x_1,x_2)=x_1+x_2$</p>
+</li>
+<li><p>perfect complement：$U(x_1,x_2)=min(k_1x_1,k_2x_2)$</p>
+</li>
+<li><p>quasi-linear：$U(x_1,x_2)=f(x_1)+x_2$</p>
+</li>
+<li>Cobb-Douglas：$U(x_1,x_2)=x_1^ax_2^b$，indifference curve 都是双曲线状</li>
+</ul>
+<h3 id="Marginal-Utility"><a href="#Marginal-Utility" class="headerlink" title="Marginal Utility"></a>Marginal Utility</h3><p>The marginal utility of commodity $i$ is the rate-of-change of total utility as the quantity of commodity $i$ consumed changes.</p>
+<script type="math/tex; mode=display">
+MU_i=\frac{\partial U}{\partial x_i}</script><p><strong>Marginal Utility &amp; Marginal Rate-of-Substitution</strong></p>
+<p>考虑具体的一条 indifference curve：$U(x_1, x_2)=k$</p>
+<p>全微分后得：</p>
+<script type="math/tex; mode=display">
+\frac{\partial U}{\partial x_1}dx_1+\frac{\partial U}{\partial x_2}dx_2=0</script><p>化简后得到 MRS 和 MU 的关系</p>
+<script type="math/tex; mode=display">
+MRS=\frac{dx_2}{dx_1}=-\frac{\partial U/\partial x_1}{\partial U/\partial x_2}=-\frac{MU_1}{MU_2}</script><p><strong>Monotonic transformation &amp; MRS</strong> </p>
+<p>假设 $V=f(U)$，对于新的效用函数 $V$，其对应的 MRS 为</p>
+<script type="math/tex; mode=display">
+MRS=-\frac{\partial V/\partial x_1}{\partial V/\partial x_2}=-\frac{f^\prime(U) \times\partial U/\partial x_1}{f^\prime(U) \times\partial U/\partial x_2}=-\frac{\partial U/\partial x_1}{\partial U/\partial x_2}</script><p>因此 MRS 在经过一个正单向变换后，并不会改变</p>
+<p><br></p>
+<h2 id="Optimal-Choice-and-Demand-Function"><a href="#Optimal-Choice-and-Demand-Function" class="headerlink" title="Optimal Choice and Demand Function"></a>Optimal Choice and Demand Function</h2><h3 id="Rational-Constrained-Choice"><a href="#Rational-Constrained-Choice" class="headerlink" title="Rational Constrained Choice"></a>Rational Constrained Choice</h3><p>作为消费者，我们当然想选择 utility 尽可能高的 bundle，但同时我们受商品价格以及预算的约束，假设商品一的价格为 $p_1$，商品二的价格为 $p_2$，预算为 $m$，那么我们选择的 bundle 必须满足 $p_1x_1+p_2x_2\leq m$，在这个约束下，我们再去考虑 utility 最大的 bundle。</p>
+<p>假设 $p_1=p_2=1$，$m=4$，在约束下的为 affordable bundles，然后找到一条刚好与约束线相切的 indifference curve，相交点即为 most preferred affordable bundle，记为 $(x_1^{\ast},x_2^{\ast})$，又称为 ordinary demand。</p>
+<img src="/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/5.png" class="" width="300" height="300">
+<p>对于 ordinary demand，其满足两个条件：</p>
+<ul>
+<li><p>预算用完：$p_1x_1^\ast+p_2x_2^\ast=m$</p>
+</li>
+<li><p>$(x_1^\ast,x_2^\ast)$ 处的斜率等于 constraint 的斜率 $-p_1/p_2$</p>
+</li>
+</ul>
+<img src="/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/6.png" class="" width="300" height="300">
+<h3 id="几种不同效用函数下的-ordinary-demand"><a href="#几种不同效用函数下的-ordinary-demand" class="headerlink" title="几种不同效用函数下的 ordinary demand"></a>几种不同效用函数下的 ordinary demand</h3><h4 id="Cobb-Douglas"><a href="#Cobb-Douglas" class="headerlink" title="Cobb-Douglas"></a>Cobb-Douglas</h4><p>$U(x_1,x_2)=x_1^ax_2^b$，该效用函数的 indifference curve 为双曲线，就像上面的图，因此我们需要找到切点，用 MU 计算 MRS，让其等于约束方程的斜率，即可算到 ordinary demand 为</p>
+<script type="math/tex; mode=display">
+(x_1^*,x_2^*)=(\frac{am}{(a+b)p_1},\frac{bm}{(a+b)p_2})</script><h4 id="Perfect-Substitute-1"><a href="#Perfect-Substitute-1" class="headerlink" title="Perfect Substitute"></a>Perfect Substitute</h4><p>简单的通过图示法即可得到 ordinary demand，因为 perfect substitute 的 indifference curve 均为斜率 -1 的线，找到效用最大的即可。根据 $p_1$ 和 $p_2$ 的大小关系分为三种情况：</p>
+<ul>
+<li>$p_1 &gt; p_2$，$(x_1^\ast,x_2^\ast)=(0,\frac{m}{p_2})$</li>
+<li>$p_1 &lt; p_2$，$(x_1^\ast,x_2^\ast)=(\frac{m}{p_1},0)$</li>
+<li>$p_1 = p_2$，$(x_1^\ast,x_2^\ast)$ 为 budget constraint 上的点</li>
+</ul>
+<img src="/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/7.png" class="" width="700" height="700">
+<h4 id="Perfect-Complement-1"><a href="#Perfect-Complement-1" class="headerlink" title="Perfect Complement"></a>Perfect Complement</h4><p>同样用图示法去解，ordinary demand 必定在直角拐点处，因此可以得到 ordinary demand 为</p>
+<script type="math/tex; mode=display">
+(x_1^*,x_2^*)=(\frac{m}{p_1+ap_2},\frac{am}{p_1+ap_2})</script><img src="/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/8.png" class="" width="500" height="500">
+<h3 id="Demand-Function"><a href="#Demand-Function" class="headerlink" title="Demand Function"></a>Demand Function</h3><p>又叫 ordinary demand funtion，研究 $(x_1^\ast,x_2^\ast)$ 会随着 $p_1$、$p_2$ 和 $m$ 的变化而怎么变化，由于 $p_1$、$p_2$ 和 $m$ 会影响到 budget constraint，因此研究 demand function 可以让我们更快更直接的得到 ordinary demand。</p>
+<p>在这里我们重点关注 own-price changes，比如在 $p_2$ 和 $m$ 不变的情况下，只改变 $p_1$，如下图，右边的即为 demand function，描述 $x_1^\ast$ 和 $p_1$ 之间的关系；</p>
+<p>左边绿色的线是所有 ordinary demand 的连线，p1 price offer curve 指的是固定 $p_2$ 和 $m$， 只改变 $p_1$ 下的 ordinary demand 的变化线。因此可以从每个点中，算出对应的 $p_1$。<br><img src="/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/9.png" class="" width="500" height="500"></p>
+<p><br></p>
+<h2 id="Market-Demand-amp-Elasticity"><a href="#Market-Demand-amp-Elasticity" class="headerlink" title="Market Demand &amp; Elasticity"></a>Market Demand &amp; Elasticity</h2><p>市场的 demand function 等于市场中每个消费者各自的 demand function 的和，即整个市场的需求量等于各个个体需求量之和</p>
+<script type="math/tex; mode=display">
+X_j(p_1,p_2,m^1,...,m^n)=\sum_{i=1}^nx_j^{*i}(p_1,p_2,m^i)</script><p>弹性的一般定义如下，研究的是一个变量 x 会随着另一个变量 y 如何变化</p>
+<script type="math/tex; mode=display">
+\epsilon_{x,y}=\frac{\%dx}{\%dy}=\frac{dx/x}{dy/y}</script><p><strong>Own-Price Elasticity：</strong>Own-Price Elasticity 指的是价格 $p$ 和需求 $x^\ast$ 之间的弹性，它是一个点概念，一般我们不说某一条 demand function 的弹性，而说 demand function 的某一点的弹性，因为市场中我们一般处在 demand function 中的某一点，我们需要关注的是在这一点的基础上，增加或减少价格所带来需求的变化。其定义如下</p>
+<script type="math/tex; mode=display">
+\epsilon_{X_i^*,p_i}=\frac{p_i}{X_i^*}\times\frac{dX_i^*}{dp_i}</script><p>demand function 中每个点的弹性可能都不一样，下面的例子中，根据弹性的大小分为三类：</p>
+<ul>
+<li>$-\infty &lt; \epsilon &lt; -1$，own-price elastic</li>
+<li>$\epsilon=-1$，own-price unit elastic</li>
+<li>$-1 &lt; \epsilon &lt; 0$，own-price inelastic</li>
+</ul>
+<img src="/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/10.png" class="" width="500" height="500">
+<p><strong>revenue &amp; own-price elasticity</strong></p>
+<p>销售者的 revenue 为：$R(p)=p \times X^*(p)$</p>
+<p>revenue 随着价格 $p$ 的变化率为：</p>
+<script type="math/tex; mode=display">
+\frac{dR}{dp}=X^*(p)+p\frac{dX^*}{xp}=X^*(p)(1+\frac{p}{X^*(p)}\frac{dX^*}{dp})=X^*(p)(1+\epsilon)</script><p>因此：</p>
+<ul>
+<li>$-\infty &lt; \epsilon &lt; -1$，$\frac{dR}{dq}&lt;0$，升价会导致销售者收入减少</li>
+<li>$\epsilon=-1$，$\frac{dR}{dq}=0$，升价不会影响销售者收入</li>
+<li>$-1 &lt; \epsilon &lt; 0$，$\frac{dR}{dq}&gt;0$，升价会导致销售者收入增加</li>
+</ul>
+<p>我们考虑需求函数的反函数 $p(q)$，其代表当销售者卖出 $q$ 件商品时的价格 $p$，因此 revenue 可以表示为 $R(q) = p(q)\times q$</p>
+<p>同理 mariginal revenue 为：</p>
+<script type="math/tex; mode=display">
+MR(q)=\frac{dp(q)}{dq}q+p(q)=p(q)(q+\frac{q}{p(q)}\frac{dp(q)}{dq})=p(q)(1+\frac{1}{\epsilon})</script><p>因此：</p>
+<ul>
+<li>$-\infty &lt; \epsilon &lt; -1$，$MR(q)&gt;0$，需求增多会提高收入</li>
+<li>$\epsilon=-1$，$MR(q)=0$，需求增多不会影响收入</li>
+<li>$-1 &lt; \epsilon &lt; 0$，$MR(q)&lt;0$，需求增多会减少收入</li>
+</ul>
+<p><strong>Note：</strong>$\frac{dR}{dp}$ 不能称为 marginal revenue，所有边界的概念都是指增加一单位的物品所带来的另外变量的变化，因此 $dp(q)/dq$ 才是 marginal revenue，而 $dR/dp$ 只能叫做 revenue 随着价格的变化率。</p>
+<p>两种表达方式所表述的东西是一样的，假设 $\epsilon &lt; -1$，那么增加一单位的价格带来的需求的减少量必定超过一单位，因此收入减少；而增加一单位的商品，价格的减少量是小于一单位的，因此收入增多。</p>
+<p><br></p>
+<h2 id="Consumer-Surplus"><a href="#Consumer-Surplus" class="headerlink" title="Consumer Surplus"></a>Consumer Surplus</h2><p>对于 demand curve $p_1=v^\prime(x_1)$，当消费者计划消费 $x_1^\prime$ 个商品一的时候，其消费者剩余为</p>
+<script type="math/tex; mode=display">
+CS=\int_0^{x_1^\prime}v^\prime(x_1)dx_1-p_1^\prime x_1^\prime</script><img src="/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/11.png" class="" width="300" height="300">
+<p>消费者剩余指的是：消费者本身对商品有一个预期的价格，而市场价格比预期价格要低，因此出现了剩余，从公式中可以看出，第二项为实际支付的钱，而第一项则为需求在 $x_1^\prime$ 下的该消费者的平均预期所需要支付的钱，我们可以将积分项拆开</p>
+<script type="math/tex; mode=display">
+\int_0^{x_1^\prime}v^\prime(x_1)dx_1=lim_{n\rightarrow \infty}\sum_{i=1}^nv^\prime(x_1)\frac{x_1^\prime}{n}=lim_{n\rightarrow \infty}\frac{1}{n}\sum_{i=1}^nv^\prime(x_1)x_1^\prime</script><p>$v^\prime(x_1)x_1^\prime$ 为价格为 $v^\prime(x_1)$ 下购买 $x_1^\prime$ 个商品所需要支付的钱，将不同价格下所需要支付的钱进行一个平均，即为该消费者平均预期所需要支付的钱。</p>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/18/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Image-Super-Resolution-Using-Knowledge-Distillation/" rel="next" title="【论文阅读】—— Image Super-Resolution Using Knowledge Distillation">
+                <i class="fa fa-chevron-left"></i> 【论文阅读】—— Image Super-Resolution Using Knowledge Distillation
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/" rel="prev" title="【高级管理学】—— producer theory">
+                【高级管理学】—— producer theory <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Preference"><span class="nav-number">1.</span> <span class="nav-text">Preference</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Indifference-Curve"><span class="nav-number">2.</span> <span class="nav-text">Indifference Curve</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Two-Extreme-Cases-of-Indifference-Curve"><span class="nav-number">2.1.</span> <span class="nav-text">Two Extreme Cases of Indifference Curve</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Perfect-Substitute"><span class="nav-number">2.1.1.</span> <span class="nav-text">Perfect Substitute</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Perfect-Complement"><span class="nav-number">2.1.2.</span> <span class="nav-text">Perfect Complement</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Marginal-Rate-of-Substitution-MRS"><span class="nav-number">2.2.</span> <span class="nav-text">Marginal Rate-of-Substitution(MRS)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Utility-Function"><span class="nav-number">3.</span> <span class="nav-text">Utility Function</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Marginal-Utility"><span class="nav-number">3.1.</span> <span class="nav-text">Marginal Utility</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Optimal-Choice-and-Demand-Function"><span class="nav-number">4.</span> <span class="nav-text">Optimal Choice and Demand Function</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Rational-Constrained-Choice"><span class="nav-number">4.1.</span> <span class="nav-text">Rational Constrained Choice</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%A0%E7%A7%8D%E4%B8%8D%E5%90%8C%E6%95%88%E7%94%A8%E5%87%BD%E6%95%B0%E4%B8%8B%E7%9A%84-ordinary-demand"><span class="nav-number">4.2.</span> <span class="nav-text">几种不同效用函数下的 ordinary demand</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Cobb-Douglas"><span class="nav-number">4.2.1.</span> <span class="nav-text">Cobb-Douglas</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Perfect-Substitute-1"><span class="nav-number">4.2.2.</span> <span class="nav-text">Perfect Substitute</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Perfect-Complement-1"><span class="nav-number">4.2.3.</span> <span class="nav-text">Perfect Complement</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Demand-Function"><span class="nav-number">4.3.</span> <span class="nav-text">Demand Function</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Market-Demand-amp-Elasticity"><span class="nav-number">5.</span> <span class="nav-text">Market Demand &amp; Elasticity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Consumer-Surplus"><span class="nav-number">6.</span> <span class="nav-text">Consumer Surplus</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

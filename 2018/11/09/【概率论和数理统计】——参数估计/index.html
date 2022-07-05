@@ -1,37 +1,1028 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="概率论," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="课程名称：概率论与数理统计开设学校：中科大课程平台：icourse第四章：数理统计入门，从概率论过渡到数理统计，讲述数理统计的几个基本概念，以及参数估计，包括点估计和区间估计。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【概率论和数理统计】——参数估计">
+<meta property="og:url" content="http://vincentho.name/2018/11/09/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E5%92%8C%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="课程名称：概率论与数理统计开设学校：中科大课程平台：icourse第四章：数理统计入门，从概率论过渡到数理统计，讲述数理统计的几个基本概念，以及参数估计，包括点估计和区间估计。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2018/11/09/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E5%92%8C%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1/esn2.png">
+<meta property="article:published_time" content="2018-11-09T08:51:00.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.526Z">
+<meta property="article:author" content="Vincent Ho">
+<meta property="article:tag" content="概率论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2018/11/09/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E5%92%8C%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1/esn2.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2018/11/09/【概率论和数理统计】——参数估计/"/>
+
+
+
+
+
+  <title>【概率论和数理统计】——参数估计 | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2018/11/09/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E5%92%8C%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【概率论和数理统计】——参数估计</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-09T16:51:00+08:00">
+                2018-11-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>课程名称：概率论与数理统计<br>开设学校：中科大<br>课程平台：icourse<br>第四章：数理统计入门，从概率论过渡到数理统计，讲述数理统计的几个基本概念，以及参数估计，包括点估计和区间估计。</p>
+</blockquote>
+<span id="more"></span>
+<p><em>preface</em></p>
+<p>统计分为描述性统计和数理统计，描述性统计主要对数据进行简单化的分析，如加减乘除，算均值中位数等；而数理统计是以数学和概率论为工具，研究如何有效收集随机性数据、如何分析数据、以及在给定的统计模型下进行统计推断。下面具体讲解数理统计的这三个研究方向。</p>
+<ul>
+<li>数据收集<ul>
+<li>主要通过抽样和设计试验，抽样一般针对社会科学，进行抽样调查</li>
+<li>抽样得到的随机数据要具有代表性，要反映整个样本空间</li>
+<li>试验要有对照</li>
+</ul>
+</li>
+<li>数据分析<ul>
+<li>涉及统计分析的方法</li>
+</ul>
+</li>
+<li>统计推断<ul>
+<li>估计（estimate）：点估计，区间估计</li>
+<li>检验（test）：参数检验，非参数检验</li>
+</ul>
+</li>
+</ul>
+<p>数理统计不同于一般的资料统计，它更侧重于应用随机现象本身的规律性进行资料的收集、整理和分析。由于大量的随即现象必然呈现出它的规律性，因而从理论上讲，只要对随机现象进行足够多次观察，被研究的随机现象的规律性一定能够清楚地呈现出来。但在客观上只允许我们对随机现象进行次数不多的观察实验，也就是说，我们获得的只是局部观察资料。</p>
+<p>数理统计的基本思想是：从所要研究对象的全体中，抽取一小部分进行观测和试验，以取得信息，从而对整体做出推断。每个推断必须伴随一定的概率，以表明推断的可靠性（数理推断）。</p>
+<p>数理统计的基本任务是：以大数定律、中心极限定理为理论基础，根据实际掌握的部分信息对有关主体试验的分布、数字特征做出估计并加以检验的数理推断。</p>
+<p><br></p>
+<h1 id="数理统计的几个基本概念"><a href="#数理统计的几个基本概念" class="headerlink" title="数理统计的几个基本概念"></a>数理统计的几个基本概念</h1><h2 id="总体"><a href="#总体" class="headerlink" title="总体"></a>总体</h2><ul>
+<li>总体（population）：研究对象的全体，总体中的每个成员称为个体，总体中所包含的个体的个数称为总体的容量。根据总体容量，可以将总体分为有限总体和无限总体。<ul>
+<li>在数理统计研究中，人们往往研究有关对象的某一项数量指标，为此，对这一指标进行随机试验，观察试验结果的全部观察值，从而考察该数量指标的分布情况，这时我们研究的对象就是总体的某个数量指标。</li>
+<li>由于每个个体的出现是随机的，所以相应的数量指标的出现也是随机的，因此可以把这种数量指标看作一个随机变量，随机变量的分布就是该数量指标在总体中的分布</li>
+<li>总体可以用一个随机变量及其分布来描述，因此在理论上可以把总体和概率分布等同起来。</li>
+</ul>
+</li>
+</ul>
+<h2 id="样本"><a href="#样本" class="headerlink" title="样本"></a>样本</h2><ul>
+<li>样本（sample）：总体的分布一般是未知的，或只知道包含未知参数的分布。因此为了推断总体的分布及其各种特征，按照一定规则从总体中抽取若干个体进行观察试验，以获得有关总体的信息，这一抽取的过程称为<strong>抽样</strong>，所抽取的部分个体称为<strong>样本</strong>，样本所包含的个体数量称为<strong>样本容量</strong>。<ul>
+<li>总体可以看成是一个随机变量 $X$，对总体 $X$ 在相同的条件下，进行  $n$ 次重复、独立的观察，其结果记为 $X_1, X_2, …, X_n$。这样得到的随机变量 $X_1, X_2, …, X_n$ 是来自总体 $X$ 的一个<strong>简单随机样本</strong>，与总体随机变量具有相同的分布。可以看出，样本也可以看成是一个随机变量。</li>
+<li>抽样的样本应具有：<ul>
+<li>代表性：$X_1, X_2, …, X_n$ 中每一个与所观察的总体有相同的分布。</li>
+<li>独立性：$X_1, X_2, …, X_n$ 是相互独立的随机变量。</li>
+</ul>
+</li>
+<li>简单随机样本：是一种理想化的样本。<ul>
+<li>对于有限总体，若采用有放回抽取，则可得到简单样本；若采用无放回抽取，则无法保证每次抽取的独立性。但若有限总体的容量远大于样本容量，则无放回抽取近似有放回抽取。</li>
+<li>对于无限总体，抽取部分个体后放回与否对总体成分影响不大，因此可采用无放回抽取获得简单样本。</li>
+</ul>
+</li>
+<li>若总体的分布函数为 $F(x)$，概率密度函数为 $f(x)$<ul>
+<li>则简单随机样本的联合分布函数为：$F(x_1, x_2, …,x_n) = F(x_1)F(x_2)…F(x_n)$ </li>
+<li>则简单随机样本的联合概率密度函数为：$f(x_1, x_2, …,x_n) = f(x_1)f(x_2)…f(x_n)$  </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>样本值：一旦给定一组样本 $X_1, X_2, …, X_n$，得到 $n$ 个具体的数值 $(x_1, x_2, …, x_n)$，则称为样本的一次观察值，简称样本值。 </li>
+<li>三者的关系：事实上，我们抽样后得到的资料都是具体的、确定的值，我们只能观察到随机变量取的值，而见不到随机变量。<ul>
+<li>统计就是从手中已有的资料（样本值），去推断总体的分布情况，而样本是联系总体和样本值的桥梁。总体分布决定了样本取值的概率规律，也就是样本取到样本值的规律，因而可以由样本值去推断总体。</li>
+</ul>
+</li>
+<li>样本二重性：另外一套理论是，不区分样本和样本值，而是认为样本具有二重性。<ul>
+<li>当决定了抽样方案，但是没有实施时，样本是一组随机变量</li>
+<li>当抽样方案实施后，样本是一组数</li>
+</ul>
+</li>
+</ul>
+<h2 id="统计量"><a href="#统计量" class="headerlink" title="统计量"></a>统计量</h2><ul>
+<li>统计量是为了刻画总体某个特征，而对样本进行某种加工。换句话说，统计量是样本的函数，且不带任何参数。</li>
+<li>由于样本具有二重性，统计量也具有二重性，它可以是一个随机变量，也可以是一个数。所以在研究统计量的时候，需要研究它的两种形态，一般理论上我们研究的统计量是把它看成随机变量。</li>
+<li>常见的统计量<ul>
+<li>样本均值：$\bar{X} = \frac{1}{n}\sum X_i$，由大数定律得出，$\bar{X} \rightarrow E(X)$ </li>
+<li>样本方差：$s^2 = \frac{1}{n-1}\sum(X_i - \bar{X})^2$，同样由大数定律得出，$s^2 \rightarrow Var(X)$ </li>
+<li>k阶样本中心矩：$v_k = \frac{1}{n}\sum(X_i - \bar{X})^k$</li>
+<li>k阶样本原点矩：$\mu_k = \frac{1}{n}\sum X_i^k$</li>
+</ul>
+</li>
+<li>顺序统计量：设样本为 $X<em>1, X_2, …, X_n$，构造统计量 $X</em>{(i)}$ 等于样本 $X<em>1, X_2, …, X_n$ 中第 $i$ 小的数，显然 $X</em>{(i)}$ 是一个统计量，因为它是样本的函数。因此可以得到 $X<em>{(1)} \le X</em>{(2)} \le …\le X_{(n)}$ </li>
+<li>构造了顺序统计量之后，就可以得到其它的统计量，如极差 $R = X<em>{(n)} - X</em>{(1)}$，中位数</li>
+</ul>
+<p><strong>Note:  </strong> $\mu$ 和 $\sigma^2$ 是未知常数，不会变化；$\bar{X}$ 和 $S^2$ 或是随机变量或是一个数，但他们都是一个统计量。</p>
+<p><br></p>
+<h1 id="参数估计-parametric-estimation"><a href="#参数估计-parametric-estimation" class="headerlink" title="参数估计(parametric estimation)"></a>参数估计(parametric estimation)</h1><ul>
+<li>定义：参数估计问题是利用从总体抽样得到的部分信息来估计总体的某些参数或者总体的某些数字特征。</li>
+<li>参数估计的两个研究方向：<ul>
+<li>在已知总体分布类型的前提下，由样本信息估计出总体未知参数的近似值，从而近似估计总体分布。</li>
+<li>有时关心的不是总体服从具体什么分布，而是关注总体的某些数字特征，如均值、方差等。</li>
+</ul>
+</li>
+<li>估计量：设总体 $X$ 的分布函数为 $F(x,\theta)$，其中 $\theta$ 为未知参数，$X_1, X_2, …, X_n$ 为来自总体的样本，由样本构造一个统计量 $\hat{\theta} = g(X_1, X_2, …, X_n)$，若以这个样本函数去估计参数 $\theta$，则称 $\hat{\theta}$ 为参数 $\theta$ 的估计量；若样本试验已经实施，那么 $\hat{\theta}$ 为参数 $\theta$ 的估计值。</li>
+<li>参数估计主要分为：点估计和区间估计</li>
+</ul>
+<h2 id="点估计"><a href="#点估计" class="headerlink" title="点估计"></a>点估计</h2><p>点估计分为两种：矩估计和极大似然估计</p>
+<h3 id="矩估计"><a href="#矩估计" class="headerlink" title="矩估计"></a>矩估计</h3><ul>
+<li>原理：依据大数定理，用样本矩代替总体矩</li>
+<li>假设总体分布有 $p$ 个参数，计算 $p$ 个样本矩 $J_1$ 到 $J_p$，然后根据矩估计原理，总体矩等于样本矩，总体矩是关于参数的函数，所以反解方程算出参数</li>
+<li>总体均值等于样本均值，因为总体一阶原点矩可以用样本一阶原点矩代替；同理，总体方差等于样本方差</li>
+<li>矩估计不唯一，由于估计量也是一个统计量，因此也是随机变量；而总体的真实参数是一个未知常数，非随机变量。</li>
+</ul>
+<h3 id="极大似然估计"><a href="#极大似然估计" class="headerlink" title="极大似然估计"></a>极大似然估计</h3><ul>
+<li><p>思想：极大似然估计法，是建立在最大似然原理的基础上的求点估计量的方法，最大似然原理的直观想法是：在试验中概率最大的事件最有可能发生。在已得试验结果的条件下，应该寻找使得该结果出现可能性最大的那个参数值作为真正参数的估计。</p>
+</li>
+<li><p>似然函数：设 $X_1, X_2, …, X_n$ 是取自总体 $X$ 的一个样本，总体的密度函数为 $f(x, \theta)$，样本的联合密度为 $f(x_1, x_2, …,x_n, \theta) = \prod f(x_i,\theta)$，记 $L(x, \theta) = \prod f(x_i, \theta)$</p>
+<ul>
+<li>若给定 $\theta$，则 $L(x,\theta)$ 是密度函数</li>
+<li>若给定 $x$，则 $L(x,\theta)$ 是似然函数 </li>
+</ul>
+</li>
+<li><p>极大似然估计指：给定样本值，估计参数 $\theta$，使得似然函数取到最大值，似然函数实际上可以看成是一个概率值，因为 $f(x)dx$ 就可以看成是概率，$L(x,\theta)dx$ 相当于抽样得到这一组样本值的概率，现在要求一个参数 $\theta$ 使得这个概率最大；把 $dx$ 去掉，转成求似然函数 $L(x,\theta)$ 最大值。</p>
+</li>
+<li><p>对于离散型随机变量，似然函数为 </p>
+<script type="math/tex; mode=display">L(\theta) = P(X_1 = x_1, X_2 = x_2, ..., X_n = x_n; \theta) = \prod P(X = x_i; \theta)</script><p>对于连续型随机变量，似然函数为 </p>
+<script type="math/tex; mode=display">L(\theta) = \prod f(x_i; \theta)</script></li>
+<li><p>极大似然估计的步骤</p>
+<ul>
+<li>求出似然函数，$L(x, \theta) = \prod f(x_i, \theta)$ </li>
+<li>若似然函数可导，求出 $ln L(x,\theta)$ 及似然方程 $\frac{dlnL(x,\theta)}{d\theta_i} = 0, (i = 1,2,…,m)$ </li>
+<li>解似然方程得到极大似然估计值</li>
+<li>最后得到极大似然估计量</li>
+</ul>
+</li>
+<li><p>例题</p>
+<ol>
+<li>设 $X$ 服从参数为 $\lambda$ 的泊松分布，$\lambda$ 是未知常数，$X_1, X_2, …., X_n$ 是来自 $X$ 的一个样本，求 $\lambda$ 的极大似然估计量<ul>
+<li>$X$ 的分布律为：<script type="math/tex; mode=display">P(X = x) = \frac{\lambda^x}{x!}e^{-\lambda}</script></li>
+<li>似然函数：<script type="math/tex; mode=display">L(\lambda) = \prod(\frac{\lambda^{x_i}}{x_i!}e^{-\lambda}) = e^{-n\lambda}\frac{\lambda^{\sum x_i}}{\prod(x_i!)}</script></li>
+<li>对数似然函数： <script type="math/tex; mode=display">lnL(\lambda) = -n\lambda + (\sum x_i)ln\lambda - \sum ln(x_i!)</script></li>
+<li>解似然方程：<script type="math/tex; mode=display">\frac{dlnL(\lambda)}{d\lambda} = -n + \frac{\sum x_i}{\lambda} = 0</script></li>
+<li>似然估计值：<script type="math/tex; mode=display">\hat{\lambda} = \frac{1}{n}\sum x_i = \bar{x}</script></li>
+<li>似然估计量：<script type="math/tex; mode=display">\hat{\lambda} = \frac{1}{n}\sum X_i = \bar{X}</script><br></li>
+</ul>
+</li>
+<li>设总体 $X$ 具有分布列如下，已知取得样本值1、2、1、2、2、3、3，求 $\theta$ 的极大似然估计值<ul>
+<li>$P(X=1) = \theta^2, P(X=2)=2\theta(1-\theta), P(X=3)=(1-\theta)^2$</li>
+<li>$L(\theta) = P(X_1 = 1, X_2 = 2, …, X_7 = 3) = 8\theta^7(1-\theta)^7$ </li>
+<li>$\frac{dlnL(\theta)}{d\theta} = \frac{7}{\theta} - \frac{7}{1-\theta} = 0$</li>
+<li>$\hat{\theta} = 0.5$<br><br></li>
+</ul>
+</li>
+<li><p>设总体 $X \sim N(\mu, \sigma^2)$，$X_1, …, X_n$ 为来自总体的样本，求 $\mu$ 和 $\sigma^2$ 的极大似然估计量</p>
+<ul>
+<li>$X$ 的分布函数为：<script type="math/tex; mode=display">f(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi}\sigma} exp(-\frac{(x-\mu)^2}{2\sigma^2})</script></li>
+<li>似然函数：<script type="math/tex; mode=display">L(\mu, \sigma^2) = \prod \frac{1}{\sqrt{2\pi}\sigma} exp(-\frac{(x_i-\mu)^2}{2\sigma^2}) = (\frac{1}{2\pi\sigma^2})^{\frac{n}{2}}exp(-\frac{\sum (x_i - \mu)^2}{2\sigma^2})</script></li>
+<li>对数似然函数：<script type="math/tex; mode=display">lnL(\mu, \sigma^2) = -\frac{n}{2}ln(2\pi) - \frac{n}{2}ln\sigma^2 -\frac{\sum (x_i - \mu)^2}{2\sigma^2}</script></li>
+<li>令偏导等于0<script type="math/tex; mode=display">\frac{\partial lnL(\mu, \sigma^2)}{\partial \mu} = \frac{1}{\sigma^2}(\sum x_i - n\mu) = 0</script><script type="math/tex; mode=display">\frac{\partial lnL(\mu, \sigma^2)}{\partial \sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2(\sigma^2)^2} \sum (x_i - \mu)^2 = 0</script></li>
+<li>解得：<script type="math/tex; mode=display">\hat{\mu} = \frac{1}{n} \sum x_i = \bar{x}$，$\hat{\sigma}^2 = \frac{1}{n}\sum (x_i - \bar{x})^2</script><br></li>
+</ul>
+</li>
+<li><p>从鱼塘里随机捕获500条鱼，做好标记后重新放入鱼池里，充分混合后再捕获1000条，发现其中有72条带标记，问鱼塘里可能有多少条鱼。</p>
+<ul>
+<li>假设鱼塘有 $N$ 条鱼，$P(X = 72) = \frac{C<em>{500}^{72} C</em>{N-500}^{1000-72}}{C_N^{1000}}$ </li>
+<li>可以将这个问题看成极大似然估计的问题，估计参数 $N$，使得上面的概率最大。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="点估计优良性准则"><a href="#点估计优良性准则" class="headerlink" title="点估计优良性准则"></a>点估计优良性准则</h3><p>使用矩估计方法和极大似然估计得到的参数估计量可能相同，也可能不同，那么如何评判估计量的好坏呢？主要通过无偏性、有效性和一致性判断。</p>
+<h4 id="无偏性"><a href="#无偏性" class="headerlink" title="无偏性"></a>无偏性</h4><ul>
+<li>定义：设 $\hat{\theta}$ 是未知参数 $\theta$ 的估计量，若 $E\hat{\theta} = \theta$，则称 $\hat{\theta}$ 为 $\theta$ 的无偏估计量，或者称估计量 $\hat{\theta}$ 具有无偏性，$\theta - E\hat{\theta}$ 称为系统误差。</li>
+<li>估计量在试验实施前是一个随机变量，无偏性要求多次试验实施的参数平均值就等于真实的参数值。</li>
+<li>定理：<ul>
+<li>样本均值 $\bar{X}$ 是总体均值 $\mu$ 的无偏估计量，反过来，总体均值 $\mu$ 的无偏估计不唯一，估计量 $\hat{\mu}_1 = \sum w_i X_i, \sum w_i=1$，这也是总体均值的无偏估计</li>
+<li>样本方差 $S_n^2$ （二阶中心矩）不是总体方差 $\sigma^2$ 的无偏估计量，证明如下：<ul>
+<li><img src="/2018/11/09/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E5%92%8C%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1/esn2.png" class=""></li>
+</ul>
+</li>
+<li>因为二阶中心矩对总体方差的估计偏小，因此修正样本方差为：$S^2 = \frac{1}{n-1}\sum (X_i - \bar{X})^2$  </li>
+</ul>
+</li>
+<li>不是无偏的估计量可以通过修正得到无偏估计量。</li>
+</ul>
+<h4 id="有效性（最小方差无偏性）"><a href="#有效性（最小方差无偏性）" class="headerlink" title="有效性（最小方差无偏性）"></a>有效性（最小方差无偏性）</h4><ul>
+<li>定义：设 $\hat{\theta}_1$ 和 $\hat{\theta}_2$ 都是未知参数 $\theta$ 的无偏估计量，若 $Var(\hat{\theta}_1) \le Var(\hat{\theta}_2)$，则称 $\hat{\theta}_1$ 比 $\hat{\theta}_2$ 更有效</li>
+<li>注意：有效性是以无偏性为前提的</li>
+</ul>
+<h4 id="相合性（一致性）"><a href="#相合性（一致性）" class="headerlink" title="相合性（一致性）"></a>相合性（一致性）</h4><ul>
+<li>定义：设 $\hat{\theta}$ 都是未知参数 $\theta$ 的无偏估计量，若 $\hat{\theta}$ 依概率收敛于 $\theta$，即对于任意 $\epsilon &gt; 0$，有 $lim_{n \rightarrow \infty}P(|\hat{\theta} - \theta| \ge \epsilon) = 0$，则称 $\hat{\theta}$ 为 $\theta$ 的相合估计量</li>
+<li>样本方差虽然不是无偏估计量，但是它依旧相合 </li>
+</ul>
+<h4 id="渐近正态性"><a href="#渐近正态性" class="headerlink" title="渐近正态性"></a>渐近正态性</h4><ul>
+<li>如果估计量经过标准化的极限分布为标准正态分布，则称该统计量具有渐近正态性</li>
+<li>渐近正态性能保证样本量较大时，估计量的渐近分布已知， 这样当估计量的分布难以得出或者过于复杂时候，可以使用其近似分布来进行计算。</li>
+</ul>
+<p><br></p>
+<h2 id="区间估计"><a href="#区间估计" class="headerlink" title="区间估计"></a>区间估计</h2><p>点估计是用样本算得的一个值去估计未知参数，但是点估计仅仅是未知参数的一个近似值，它没有反映出这个近似值的精确度以及误差范围。而区间估计正好弥补了点估计的这个缺陷，我们希望确定一个区间，使我们能以比较高的可靠程度相信它包含真参数值，这里所说的可靠程度是用概率来度量的，称为置信水平或置信度。</p>
+<h4 id="几个基本概念"><a href="#几个基本概念" class="headerlink" title="几个基本概念"></a>几个基本概念</h4><ul>
+<li>置信区间：设 $\theta$ 是一个待估参数，给定 $\alpha &gt; 0$，若由样本 $X_1, X_2, … , X_n$ 确定的两个统计量 $\underline{\theta}$ 和 $\overline{\theta}$ ($\underline{\theta} &lt;\overline{\theta}$) 满足 $P(\underline{\theta} &lt; \theta &lt; \overline{\theta}) \ge 1- \alpha$，则称区间 $(\underline{\theta} ,\overline{\theta})$ 是 $\theta$ 的置信度为 $1-\alpha$ 的置信区间，$\underline{\theta}$ 和 $\overline{\theta}$ 分别称为置信下限和置信上限。</li>
+<li>可信度：$1-\alpha$ </li>
+<li>精度：区间的长度，$\overline{\theta} - \underline{\theta}$ </li>
+</ul>
+<h4 id="区间估计的基本要求"><a href="#区间估计的基本要求" class="headerlink" title="区间估计的基本要求"></a>区间估计的基本要求</h4><ul>
+<li>寻找两个统计量，$\underline{\theta}$ 和 $\overline{\theta}$ 使得区间 $(\underline{\theta} ,\overline{\theta})$ 以指定概率包含真值 $\theta$。</li>
+<li>要求 $\theta$ 以很大的可能被包含在区间 $(\underline{\theta} ,\overline{\theta})$ 内，就是说，概率 $P(\underline{\theta} &lt; \theta &lt; \overline{\theta})$ 要尽可能的大，即要求估计尽量可靠。</li>
+<li>估计的精度要尽可能地高，即要求区间长度尽可能地短。</li>
+</ul>
+<h4 id="一些注意点"><a href="#一些注意点" class="headerlink" title="一些注意点"></a>一些注意点</h4><ul>
+<li>可靠度和精度是一对矛盾，一般是保证可靠度的条件下尽可能地提高精度。</li>
+<li>被估计的参数 $\theta$ 虽然未知，但是它是一个常数，没有随机性，而区间 $(\underline{\theta} ,\overline{\theta})$ 是随机的，因此置信区间的本质是，随机区间 $(\underline{\theta} ,\overline{\theta})$ 以 $1-\alpha$ 的概率包含参数 $\theta$ 的真值，而不能说参数 $\theta$ 以 $1-\alpha$ 的概率落入随即区间 $(\underline{\theta} ,\overline{\theta})$。</li>
+<li>若反复抽样多次，每个样本值确定一个区间 $(\underline{\theta} ,\overline{\theta})$，每个这样的区间可能包含 $\theta$ 的真值，也可能不包含，按照伯努利大数定理，在这样多的区间中，包含 $\theta$ 真值的约占 $1-\alpha$，不包含的约占 $\alpha$ </li>
+</ul>
+<h4 id="置信区间求解"><a href="#置信区间求解" class="headerlink" title="置信区间求解"></a>置信区间求解</h4><ol>
+<li>寻找待估参数 $\theta$ 的一个良好的点估计 $\hat{\theta}$</li>
+<li>寻找一个待估参数 $\theta$ 和点估计量 $\hat{\theta}$ 的函数 $U(\hat{\theta}, \theta)$，且其分布为已知。</li>
+<li>对于给定的置信水平 $1-\alpha$，根据 $U(\hat{\theta}, \theta)$ 的分布，确定常数 $a$ 和 $b$，使得 $P(a \le U(\hat{\theta}, \theta) \le b) = 1-\alpha$</li>
+<li>对 $a \le U(\hat{\theta}, \theta) \le b$ 作等价变形，得到 $\underline{\theta}(\hat{\theta}) &lt; \theta &lt; \overline{\theta}(\hat{\theta})$，置信区间为 $(\underline{\theta} ,\overline{\theta})$</li>
+</ol>
+<p><strong>Note</strong></p>
+<ul>
+<li>区间估计是基于点估计的</li>
+<li>确定区间估计很关键的是要寻找一个待估参数 $\theta$ 和点估计量 $\hat{\theta}$ 的函数 $U(\hat{\theta}, \theta)$，且其分布为已知，不依赖任何未知参数。而这与总体分布有关，所以总体分布的形式是否已知，是怎样的类型，至关重要。</li>
+<li>上面的第三步求解常数 $a$ 和 $b$，会有很多个解，我们需要从里面挑出精度最高的，即 $b-a$ 最小的。而一般根据待估参数不同，精度最高的常数 $a$ 和 $b$ 满足的条件不同，如果 $U(\hat{\theta}, \theta)$ 为单峰且对称的情况，那么当 $a = -b$ 的时候，置信区间长度最短。</li>
+</ul>
+<h4 id="单正态总体的区间估计"><a href="#单正态总体的区间估计" class="headerlink" title="单正态总体的区间估计"></a>单正态总体的区间估计</h4><p>设 $X_1, X_2, …, X_n$ 取自总体 $X\sim N(\mu, \sigma^2)$，样本均值 $\bar{X} = \frac{1}{n}\sum X_i $，样本修正方差 $S^2 = \frac{1}{n-1} \sum (X_i - \bar{X})^2$，$\mu$ 的区间估计结构为 $[\bar{X} - d, \bar{X} + d]$，2d为精度；$\sigma^2$ 的区间估计结构为 $[S^2 / c, S^2 / d]$  </p>
+<ul>
+<li>总体方差 $\sigma^2$ 已知，估计总体均值 $\mu$ 的置信区间<ol>
+<li>寻找总体均值较优的点估计量，$\hat{\mu} = \bar{X}$</li>
+<li>构造不依赖待估参数且具有已知分布的统计量 $\frac{\bar{X} - \mu}{\sigma / \sqrt{n}} \sim N(0,1)$，标准化的随机变量 $\bar{X}$ </li>
+<li>令 $a = -b$，计算<script type="math/tex; mode=display">P(|\frac{\bar{X} - \mu}{\sigma / \sqrt{n}}| < a) = 1-\alpha</script><script type="math/tex; mode=display">P(\frac{\bar{X} - \mu}{\sigma / \sqrt{n}} > a) = \alpha / 2</script>解得： $a = u_{\alpha /2}$ </li>
+<li>因此置信区间 <script type="math/tex; mode=display">(\bar{X} - u_{\alpha/2} \frac{\sigma}{\sqrt{n}}, \bar{X} + u_{\alpha/2} \frac{\sigma}{\sqrt{n}})</script><br></li>
+</ol>
+</li>
+<li>总体方差 $\sigma^2$ 未知，用样本方差 $S^2$ 代替，估计总体均值 $\mu$ 的置信区间<ul>
+<li>总体方差未知，用样本方差代替，构造统计量 $\frac{\bar{X} - \mu}{S/ \sqrt{n}} \sim t_{n-1}$，t分布</li>
+<li>置信区间<script type="math/tex; mode=display">(\bar{X} - (n-1)t_{\alpha/2} \frac{S}{\sqrt{n}}, \bar{X} + (n-1)t_{\alpha/2} \frac{S}{\sqrt{n}})</script><br></li>
+</ul>
+</li>
+<li>估计总体方差 $\sigma^2$<ul>
+<li>构造统计量 $\frac{(n-1)S^2}{\sigma^2} \sim \chi^2_{n-1}$  </li>
+<li>计算 <script type="math/tex; mode=display">P(\frac{(n-1)S^2}{\sigma^2} \ge K_2) = \alpha / 2</script>以及 <script type="math/tex; mode=display">P(\frac{(n-1)S^2}{\sigma^2} \le K_2) = \alpha / 2</script></li>
+<li>解得：<script type="math/tex; mode=display">K_2 = \chi^2_{\alpha/2}, K_1 = \chi^2_{1-\alpha/2}</script></li>
+<li>置信区间：<script type="math/tex; mode=display">(\frac{(n-1)S^2}{\chi^2_{\alpha/2}}, \frac{(n-1)S^2}{\chi^2_{1-\alpha/2}})</script></li>
+</ul>
+</li>
+</ul>
+<p><strong>Note：</strong></p>
+<ul>
+<li>上面的例子，总体 $X$ 都是服从正态分布，当给定 $\alpha$ 时，查正态分布表或者t分布表，确定临界值，从而确定置信区间</li>
+<li>但是如果总体 $X$ 分布是未知的，样本均值 $\bar{X}$ 就不是正态，单这时只要 $n$ 充分的大，根据中心极限定理，$\frac{\bar{X} - \mu}{\sigma / \sqrt{n} }$ 会近似于标准正态分布，$\frac{\bar{X} - \mu}{S/ \sqrt{n} }$ 是t分布，而t分布也会趋于标准正态分布</li>
+</ul>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" rel="tag"># 概率论</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/05/%E3%80%90%E8%AE%BA%E6%96%87%E5%A4%8D%E7%8E%B0%E3%80%91%E2%80%94%E2%80%94Attention-Fused-Deep-Matching-Network/" rel="next" title="【论文复现】——Attention-Fused Deep Matching Network">
+                <i class="fa fa-chevron-left"></i> 【论文复现】——Attention-Fused Deep Matching Network
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/21/Introduction-to-Generative-Adversarial-Network/" rel="prev" title="Introduction to Generative Adversarial Network">
+                Introduction to Generative Adversarial Network <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E7%9A%84%E5%87%A0%E4%B8%AA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">数理统计的几个基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E4%BD%93"><span class="nav-number">1.1.</span> <span class="nav-text">总体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B7%E6%9C%AC"><span class="nav-number">1.2.</span> <span class="nav-text">样本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1%E9%87%8F"><span class="nav-number">1.3.</span> <span class="nav-text">统计量</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1-parametric-estimation"><span class="nav-number">2.</span> <span class="nav-text">参数估计(parametric estimation)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%B9%E4%BC%B0%E8%AE%A1"><span class="nav-number">2.1.</span> <span class="nav-text">点估计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A9%E4%BC%B0%E8%AE%A1"><span class="nav-number">2.1.1.</span> <span class="nav-text">矩估计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%81%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1"><span class="nav-number">2.1.2.</span> <span class="nav-text">极大似然估计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%B9%E4%BC%B0%E8%AE%A1%E4%BC%98%E8%89%AF%E6%80%A7%E5%87%86%E5%88%99"><span class="nav-number">2.1.3.</span> <span class="nav-text">点估计优良性准则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A0%E5%81%8F%E6%80%A7"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">无偏性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E6%95%88%E6%80%A7%EF%BC%88%E6%9C%80%E5%B0%8F%E6%96%B9%E5%B7%AE%E6%97%A0%E5%81%8F%E6%80%A7%EF%BC%89"><span class="nav-number">2.1.3.2.</span> <span class="nav-text">有效性（最小方差无偏性）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%90%88%E6%80%A7%EF%BC%88%E4%B8%80%E8%87%B4%E6%80%A7%EF%BC%89"><span class="nav-number">2.1.3.3.</span> <span class="nav-text">相合性（一致性）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B8%90%E8%BF%91%E6%AD%A3%E6%80%81%E6%80%A7"><span class="nav-number">2.1.3.4.</span> <span class="nav-text">渐近正态性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%BA%E9%97%B4%E4%BC%B0%E8%AE%A1"><span class="nav-number">2.2.</span> <span class="nav-text">区间估计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%A0%E4%B8%AA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">几个基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%BA%E9%97%B4%E4%BC%B0%E8%AE%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E8%A6%81%E6%B1%82"><span class="nav-number">2.2.0.2.</span> <span class="nav-text">区间估计的基本要求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="nav-number">2.2.0.3.</span> <span class="nav-text">一些注意点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%AE%E4%BF%A1%E5%8C%BA%E9%97%B4%E6%B1%82%E8%A7%A3"><span class="nav-number">2.2.0.4.</span> <span class="nav-text">置信区间求解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E6%AD%A3%E6%80%81%E6%80%BB%E4%BD%93%E7%9A%84%E5%8C%BA%E9%97%B4%E4%BC%B0%E8%AE%A1"><span class="nav-number">2.2.0.5.</span> <span class="nav-text">单正态总体的区间估计</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

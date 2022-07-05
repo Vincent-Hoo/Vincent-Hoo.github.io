@@ -1,37 +1,834 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Title：Visualizing and Understanding Convolutional NetworksAuthors：Matthew D. Zeiler，Rob FergusSession：ECCV, 2014Abstract：作者提出了一种可视化卷积神经网络的方法，并且根据可视化结果，将 AlexNet 网络参数进行调整，在 ImageNet 上的结果有明显提升，并且得到了 IL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文阅读】—— Visualizing and Understanding Convolution Networks">
+<meta property="og:url" content="http://vincentho.name/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="Title：Visualizing and Understanding Convolutional NetworksAuthors：Matthew D. Zeiler，Rob FergusSession：ECCV, 2014Abstract：作者提出了一种可视化卷积神经网络的方法，并且根据可视化结果，将 AlexNet 网络参数进行调整，在 ImageNet 上的结果有明显提升，并且得到了 IL">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/AlexNet.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/ZFNet.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/unpool.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/deconvnet.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/1.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/2.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/3.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/4.png">
+<meta property="article:published_time" content="2018-11-26T13:54:41.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.688Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/AlexNet.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2018/11/26/【论文阅读】——-Visualizing-and-Understanding-Convolution-Networks/"/>
+
+
+
+
+
+  <title>【论文阅读】—— Visualizing and Understanding Convolution Networks | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文阅读】—— Visualizing and Understanding Convolution Networks</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-26T21:54:41+08:00">
+                2018-11-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Title：Visualizing and Understanding Convolutional Networks<br>Authors：Matthew D. Zeiler，Rob Fergus<br>Session：ECCV, 2014<br>Abstract：作者提出了一种可视化卷积神经网络的方法，并且根据可视化结果，将 AlexNet 网络参数进行调整，在 ImageNet 上的结果有明显提升，并且得到了 ILSVRC 2013 的冠军，并将网络取名 ZFNet（两位作者的名字首字母）。</p>
+</blockquote>
+<span id="more"></span>
+<p><br></p>
+<h1 id="AlexNet-as-prerequisite"><a href="#AlexNet-as-prerequisite" class="headerlink" title="AlexNet as prerequisite"></a>AlexNet as prerequisite</h1><p>AlexNet 是由 Alex Krizhevsky 提出并获得 ILSVRC 2012的冠军，网络结构如下，网络采用了5个卷积层和2个全连接层，并且用ReLu作为激活函数，采用了Dropout等正则手段。</p>
+<img src="/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/AlexNet.png" class="">
+<p><br></p>
+<h1 id="ZFNet"><a href="#ZFNet" class="headerlink" title="ZFNet"></a>ZFNet</h1><p>ZFNet 在 AlexNet基础上进行了微妙的调整，将第一个卷积层的 filter 从 $11 \times 11$ 调整为 $7 \times 7$，并且将 stride 从 4 减小到 2，除此之外，ZFNet 和 AlexNet 完全一样，有人会觉得 ZFNet 就是将 AlexNet 做了一个调参工作，然后就拿了一个比赛冠军且发了一篇论文，事实确实是这样的。。</p>
+<img src="/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/ZFNet.png" class="">
+<p>但是这篇文章的主要贡献并不在于 ZFNet 的提出，而是在于作者是如何可视化卷积神经网络，从而找到调整 AlexNet 的方向，这才是这篇论文的精髓所在。</p>
+<p><br></p>
+<h1 id="Visualization-Approach"><a href="#Visualization-Approach" class="headerlink" title="Visualization Approach"></a>Visualization Approach</h1><p>作者想探索输入图片的每个 pixel 和网络中间的卷积层输出的联系，卷积层输出又称为 feature map，因此作者提出了一种能将中间卷积层的输出逆映射到输入空间的方法，采取的方法是deconvolution network。</p>
+<p>正常的 convolution network 由卷积层、激活函数、池化层组成，deconvolution network要进行逆映射，将前向传递的过程逆转。deconvnet 包含三个部分</p>
+<ul>
+<li><p>Unpool：作者在 convnet 中采用的是 max-pooling，在进行反转的时候，我们需要知道最大值所在的位置，因此作者在 convnet 中保存了一个 switch，用来指示最大值所在的 pixel 位置。</p>
+<img src="/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/unpool.png" class="">
+</li>
+<li><p>Rectification：convnet 中用的是 Relu 作为非线性激活函数，在 deconvnet 中同样采用 Relu。</p>
+</li>
+<li><p>Filtering：convnet 中用 filter 来对上一层的输出进行卷积操作，而 deconvnet 用转置的 filter 对 rectified unpooled map 进行卷积。</p>
+</li>
+</ul>
+<img src="/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/deconvnet.png" class="">
+<p><br></p>
+<h1 id="Visualization-Discoveries"><a href="#Visualization-Discoveries" class="headerlink" title="Visualization Discoveries"></a>Visualization Discoveries</h1><h2 id="Feature-Visualization"><a href="#Feature-Visualization" class="headerlink" title="Feature Visualization"></a>Feature Visualization</h2><ul>
+<li>对于每一层的 feature map，在数据集上选取激活值最强的 9 张图，画成一个九宫格。把它们映射回输入空间后可以看到不同结构的重建特征图（灰色图），以及这些特征图对应图像块（彩色图）。</li>
+<li>灰色图并不是模型的样本，灰色图展示了使得该层激活值较大的图的pattern，也变相说明了每一个卷积层究竟在挖掘什么样的特征。</li>
+<li>从结果可以看出，前面的层学习一些基本的形状，后面的层学习的内容更加高级，越多样性。</li>
+</ul>
+<img src="/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/1.png" class="">
+<h2 id="Feature-Evolution-during-Training"><a href="#Feature-Evolution-during-Training" class="headerlink" title="Feature Evolution during Training"></a>Feature Evolution during Training</h2><ul>
+<li>下图是随着训练的迭代，feature map 的变化，每一层的八列分别代表不同 epoch 时的特征图</li>
+<li>可以看出，低层的 feature map 收敛较快，高层的收敛较慢，要到 40-50 个 epoch 才开始收敛。</li>
+</ul>
+<img src="/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/2.png" class="">
+<h2 id="Architecture-Selection"><a href="#Architecture-Selection" class="headerlink" title="Architecture Selection"></a>Architecture Selection</h2><p>下面展示的是作者为什么调整 AlexNet 第一层的原因，可以看出作者调整过后的 feature map 要更加的清晰，意味着 Alexnet 的卷积核过大，忽略了一些细节信息。</p>
+<img src="/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/3.png" class="">
+<h2 id="Occlusion-Sensitivity"><a href="#Occlusion-Sensitivity" class="headerlink" title="Occlusion Sensitivity"></a>Occlusion Sensitivity</h2><ul>
+<li>作者通过遮挡图片的不同位置，观察 feature map 以及最后分类结果的变化，从而推断模型是否真的学习到 object 的位置。</li>
+<li>结果表明，模型知道物体的位置，因为当遮挡住物体的时候，分类结果迅速下降。</li>
+<li>b 图展示的是第五层的激活数值，可以看出当遮住小狗的脸的时候，激活值迅速下降。</li>
+<li>d、e 图和 b 图差不多，当遮住小狗的脸的时候，分类的正确率迅速下降。</li>
+</ul>
+<img src="/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Visualizing-and-Understanding-Convolution-Networks/4.png" class="">
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/26/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Explaining-and-Harnessing-Adversarial-Examples/" rel="next" title="【论文阅读】—— Explaining and Harnessing Adversarial Examples">
+                <i class="fa fa-chevron-left"></i> 【论文阅读】—— Explaining and Harnessing Adversarial Examples
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/27/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94%20OverFeat,%20Integrated%20Recognition,%20Localization%20and%20Detection%20using%20Convolutional%20Networks/" rel="prev" title="【论文阅读】—— OverFeat, Integrated Recognition, Localization and Detection using Convolutional Networks">
+                【论文阅读】—— OverFeat, Integrated Recognition, Localization and Detection using Convolutional Networks <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AlexNet-as-prerequisite"><span class="nav-number">1.</span> <span class="nav-text">AlexNet as prerequisite</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ZFNet"><span class="nav-number">2.</span> <span class="nav-text">ZFNet</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Visualization-Approach"><span class="nav-number">3.</span> <span class="nav-text">Visualization Approach</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Visualization-Discoveries"><span class="nav-number">4.</span> <span class="nav-text">Visualization Discoveries</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Feature-Visualization"><span class="nav-number">4.1.</span> <span class="nav-text">Feature Visualization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Feature-Evolution-during-Training"><span class="nav-number">4.2.</span> <span class="nav-text">Feature Evolution during Training</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Architecture-Selection"><span class="nav-number">4.3.</span> <span class="nav-text">Architecture Selection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Occlusion-Sensitivity"><span class="nav-number">4.4.</span> <span class="nav-text">Occlusion Sensitivity</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,837 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Title：Data-Free Learning of Student NetworksAuthors：Hanting Chen, Yunhe Wang et.alConference：ICCV 2019Abstract：作者提出了一种无需原始数据的蒸馏方式，通过用对抗生成网络（GAN）去生成数据集，能够达到原数据的蒸馏效果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文阅读】—— Data-Free Learning of Student Networks">
+<meta property="og:url" content="http://vincentho.name/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="Title：Data-Free Learning of Student NetworksAuthors：Hanting Chen, Yunhe Wang et.alConference：ICCV 2019Abstract：作者提出了一种无需原始数据的蒸馏方式，通过用对抗生成网络（GAN）去生成数据集，能够达到原数据的蒸馏效果">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/1.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/2.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/3.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/4.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/5.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/6.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/7.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/8.png">
+<meta property="article:published_time" content="2019-10-30T01:47:36.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.557Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2019/10/30/【论文阅读】——-Data-Free-Learning-of-Student-Networks/"/>
+
+
+
+
+
+  <title>【论文阅读】—— Data-Free Learning of Student Networks | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文阅读】—— Data-Free Learning of Student Networks</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-30T09:47:36+08:00">
+                2019-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Title：Data-Free Learning of Student Networks<br>Authors：Hanting Chen, Yunhe Wang et.al<br>Conference：ICCV 2019<br>Abstract：作者提出了一种无需原始数据的蒸馏方式，通过用对抗生成网络（GAN）去生成数据集，能够达到原数据的蒸馏效果</p>
+</blockquote>
+<span id="more"></span>
+<p><em>preface</em></p>
+<p>传统的知识蒸馏框架是基于以下假设：用来训练教师网络的数据集，如 ImageNet、Cifar，同时用来做知识蒸馏时的数据集，但是在现实场景下，用来训练教师网络的数据可能会处于隐私保护的原因，不会公开出来，而公开的仅仅只有教师网络这一个模型，相当于是一个接口，这时候我们没有了训练教师网络的数据集，应该如何进行知识蒸馏来训练学生网络呢？</p>
+<p>解决无数据下的知识蒸馏的基本思路是：构造合成数据集，使得合成的数据集能够模拟原数据集的数据分布。Data-Free 下的知识蒸馏的第一篇论文是 NIPS 2017 workshop 的一篇文章，<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1710.07535.pdf"> Data-free knowledge distillation for deep neural networks</a>，这篇文章的主要思路是通过一些 meta-data 来重构数据集，meta-data 为训练教师网络时收集的一些信息，如网络输出层或中间层的激活值的均值或方差等，然后用这些 meta-data 来指导生成图片，使得合成的图片的激活值方差尽可能地接近 meta-data。</p>
+<img src="/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/1.png" class="">
+<p>但这种方法还是需要 meta-data 作为支撑，而 ICCV 2019 的这篇文章通过 GAN 直接模拟合成数据集，且合成的数据集蒸馏效果更好。</p>
+<p><br></p>
+<h2 id="GAN-Loss-Function"><a href="#GAN-Loss-Function" class="headerlink" title="GAN Loss Function"></a>GAN Loss Function</h2><p>作者提出的整体架构如下，作者把教师网络作为判别器去指导生成器的训练，训练好的生成器生成图片，然后分别通过教师和学生网络，然后进行知识蒸馏。</p>
+<img src="/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/2.png" class="">
+<p>但是传统 GAN 中的判别器时一个二分类的判别器，用来判断生成的图片的真假，而教师网络是多分类网络，用来判断输入图像属于哪一个类别，为了能够使得生成器生成的数据能够尽可能地像原数据集，作者提出了 3 个损失来约束生成器。</p>
+<h3 id="One-hot-Loss"><a href="#One-hot-Loss" class="headerlink" title="One-hot Loss"></a>One-hot Loss</h3><p>先定义一些符号：</p>
+<ul>
+<li>生成器的输入是一些随机的向量：${z^1,z^2,…,z^n }$</li>
+<li>生成器的输出是一些生成的图片：${x^1,x^2,…,x^n }$，$x^i=G(z^i)$</li>
+<li>将生成的图片输入到判别器（教师网络）得到输出：${y^1_T,y^2_T,…,y^n_T }$，$y_T^i=D(x^i)$</li>
+<li>判别器（教师网络）预测的类别：${t^1,t^2,…,t^n }$，$t^i=argmax_j(y^i_T)_j$</li>
+</ul>
+<p>要使生成的图片尽可能像原数据集，首先要使得生成图片通过教师网络后的结果 $y_T^i$ 尽可能地像一个 one-hot 向量，即能够预测出某一个类别出来，因此我们把 $t_i$ 看作是一个伪标签来约束生成器。</p>
+<script type="math/tex; mode=display">
+L_{oh}=\frac{1}{n}\sum_i H_{cross\_entropy}(y_T^i, t^i)</script><h3 id="Information-Entropy-Loss"><a href="#Information-Entropy-Loss" class="headerlink" title="Information Entropy Loss"></a>Information Entropy Loss</h3><p>除了从单张图片去考虑生成器的生成质量，还要从整体上去考虑，要使生成器生成的图片尽可能地像训练集原始的图片，其次还要做到生成的图片每个类别是均衡的。这里作者用了信息熵来表示各种类别的均衡性，当每个类别生成的概率都一样时，信息熵达到最大值，因此通过最大化信息熵来训练网络，$H_{info}(p)=-\frac{1}{k}\sum_i p_ilog(p_i)$</p>
+<script type="math/tex; mode=display">
+L_{ie}=-H_{info}(\frac{1}{n}\sum_i y^i_T)</script><p>每个类别的概率为教师网络输出层在不同样本下的平均</p>
+<h3 id="Activation-Loss"><a href="#Activation-Loss" class="headerlink" title="Activation Loss"></a>Activation Loss</h3><p>第三个损失函数是考虑到图片的真实性，一般真实的图片对应的网络激活值都比较大，所以把网络激活值同时加到损失函数里面进行约束。这里用到的特征层为全连接层前的特征图 $f_T^i$</p>
+<script type="math/tex; mode=display">
+L_a=-\frac{1}{n}\sum_i||f_T^i||_1</script><p><br></p>
+<p>整体的 Loss 为三个 loss 的加权</p>
+<script type="math/tex; mode=display">
+L_{Total}=L_{oh}+\alpha L_a + \beta L_{ie}</script><p>伪代码如下，训练分为两个阶段，先训练生成器，使得生成器合成的图片尽可能接近真实数据集分布，第二个阶段为用训练好的生成器生成图片来进行知识蒸馏。</p>
+<img src="/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/3.png" class="">
+<p><br></p>
+<h2 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h2><h3 id="Ablation-study"><a href="#Ablation-study" class="headerlink" title="Ablation study"></a>Ablation study</h3><p>先验证三个 loss 对应的作用，实验设置为：教师网络为 LeNet-5，学生网络为 LeNet-5-HALF，数据集为 MINST。下表结果为用不同损失函数训练出来的生成器进行知识蒸馏后学生网络的性能，从结果可以看出，在 MINST 这种简单的数据集，即使不训练生成器，随机的图片都有 88 的精度，而当不同 loss 被考虑的时候，可以看出信息熵损失是最有用的，当没有信息熵损失的时候，结果都很差。另外两个损失作为信息熵损失的补充，进一步提升了生成图片的质量</p>
+<img src="/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/4.png" class="">
+<h3 id="Comparison-with-other-methods"><a href="#Comparison-with-other-methods" class="headerlink" title="Comparison with other methods"></a>Comparison with other methods</h3><h4 id="Results-in-MINST"><a href="#Results-in-MINST" class="headerlink" title="Results in MINST"></a>Results in MINST</h4><ul>
+<li>Normal distribution：不训练生成器，直接用正态分布的随机数据去进行知识蒸馏训练学生网络，然后再用MINST 测试。</li>
+<li>Alternative data：用一个类似 MINST 的数据集 USPS，也是一个手写数字的数据集，用这个数据集去进行知识蒸馏，再用 MINST 测试，可以看出即使是相近的数据集，他们的数据分布也会有一些不一样，所以当用 MINST 测试的时候性能会下降。</li>
+<li>Meta-data：上面提到的 NIPS 2017 workshop 上的方法，用 meta-data 生成数据集，再用合成的数据集来进行知识蒸馏，再用 MINST 测试。</li>
+<li>DAFL：用 GAN 的方式生成数据集，用合成的数据进行知识蒸馏，用用 MINST 测试。</li>
+</ul>
+<p>可以看出用 GAN 生成的数据集是最像原数据集的，因为用合成的图片训练的知识蒸馏比用原 MINST 数据知识蒸馏，性能并没有降太多。</p>
+<img src="/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/5.png" class="">
+<h4 id="Results-in-Cifar"><a href="#Results-in-Cifar" class="headerlink" title="Results in Cifar"></a>Results in Cifar</h4><img src="/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/6.png" class="">
+<h3 id="Visualization"><a href="#Visualization" class="headerlink" title="Visualization"></a>Visualization</h3><p>从图片可以看出，生成图片的轮廓还是有点像原始图片的。</p>
+<img src="/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/7.png" class="">
+<p>用生成图片训练的学生网络的 filter 和用原数据训练的教师网络的 filter 接近。</p>
+<img src="/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/8.png" class="">
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/" rel="next" title="【高级管理学】—— producer theory">
+                <i class="fa fa-chevron-left"></i> 【高级管理学】—— producer theory
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/04/Discussion-on-the-efficacy-of-teacher-networks-in-knowledge-distillation/" rel="prev" title="Discussion on the efficacy of teacher networks in knowledge distillation">
+                Discussion on the efficacy of teacher networks in knowledge distillation <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#GAN-Loss-Function"><span class="nav-number">1.</span> <span class="nav-text">GAN Loss Function</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#One-hot-Loss"><span class="nav-number">1.1.</span> <span class="nav-text">One-hot Loss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Information-Entropy-Loss"><span class="nav-number">1.2.</span> <span class="nav-text">Information Entropy Loss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Activation-Loss"><span class="nav-number">1.3.</span> <span class="nav-text">Activation Loss</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Experiment"><span class="nav-number">2.</span> <span class="nav-text">Experiment</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ablation-study"><span class="nav-number">2.1.</span> <span class="nav-text">Ablation study</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Comparison-with-other-methods"><span class="nav-number">2.2.</span> <span class="nav-text">Comparison with other methods</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Results-in-MINST"><span class="nav-number">2.2.1.</span> <span class="nav-text">Results in MINST</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Results-in-Cifar"><span class="nav-number">2.2.2.</span> <span class="nav-text">Results in Cifar</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Visualization"><span class="nav-number">2.3.</span> <span class="nav-text">Visualization</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

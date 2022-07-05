@@ -1,37 +1,1180 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="概率论," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="课程名称：概率论与数理统计开设学校：中科大课程平台：icourse第二章：随机变量及其分布，讲述离散型和连续型随机变量的概念，离散随机变量分布律，常见的离散随机变量的概率分布；随机变量的分布函数和概率密度函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【概率论与数理统计】————随机变量及其分布">
+<meta property="og:url" content="http://vincentho.name/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="课程名称：概率论与数理统计开设学校：中科大课程平台：icourse第二章：随机变量及其分布，讲述离散型和连续型随机变量的概念，离散随机变量分布律，常见的离散随机变量的概率分布；随机变量的分布函数和概率密度函数">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/%E4%BA%8C%E9%A1%B9%E5%88%86%E5%B8%83.png">
+<meta property="og:image" content="http://vincentho.name/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/%E6%B3%8A%E6%9D%BE%E5%88%86%E5%B8%83.png">
+<meta property="og:image" content="http://vincentho.name/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/%E5%88%86%E5%B8%83%E5%87%BD%E6%95%B0.png">
+<meta property="og:image" content="http://vincentho.name/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/%E6%8C%87%E6%95%B0%E5%88%86%E5%B8%83.png">
+<meta property="og:image" content="http://vincentho.name/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/%E4%BA%8C%E7%BB%B4%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F.png">
+<meta property="og:image" content="http://vincentho.name/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/%E4%BA%8C%E7%BB%B4%E6%AD%A3%E6%80%81.png">
+<meta property="og:image" content="http://vincentho.name/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/%E5%8D%A1%E6%96%B9%E5%88%86%E5%B8%83.png">
+<meta property="og:image" content="http://vincentho.name/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/%E5%8D%A1%E6%96%B9%E5%88%86%E5%B8%83alpha.png">
+<meta property="og:image" content="http://vincentho.name/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/t%E5%88%86%E5%B8%83.png">
+<meta property="og:image" content="http://vincentho.name/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/t%E5%88%86%E5%B8%83alpha.png">
+<meta property="og:image" content="http://vincentho.name/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/F%E5%88%86%E5%B8%83.png">
+<meta property="article:published_time" content="2018-09-04T13:25:03.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.515Z">
+<meta property="article:author" content="Vincent Ho">
+<meta property="article:tag" content="概率论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/%E4%BA%8C%E9%A1%B9%E5%88%86%E5%B8%83.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2018/09/04/【概率论与数理统计】——随机变量及其分布/"/>
+
+
+
+
+
+  <title>【概率论与数理统计】————随机变量及其分布 | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【概率论与数理统计】————随机变量及其分布</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-04T21:25:03+08:00">
+                2018-09-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>课程名称：概率论与数理统计<br>开设学校：中科大<br>课程平台：icourse<br>第二章：随机变量及其分布，讲述离散型和连续型随机变量的概念，离散随机变量分布律，常见的离散随机变量的概率分布；随机变量的分布函数和概率密度函数</p>
+</blockquote>
+<span id="more"></span>
+<h1 id="1-随机变量的概念"><a href="#1-随机变量的概念" class="headerlink" title="1. 随机变量的概念"></a>1. 随机变量的概念</h1><p>之前我们研究的概率，是基于样本空间下的一个随机试验，研究其发生的概率，若我们要研究一连串的随机试验及其它发生的概率，往往这一连串的事件之间有联系，我们就可以引入随机变量，用一个数字或者一个区间来表示这一连串的随机事件，如 $X$ 表示抛 5 次硬币正面向上的次数，那么我们就可以用 $X=3$ 来表示 5 次有 3 次正面向上这一个随机事件；</p>
+<p>所以，随机变量就是一个数与一个事件的对应关系，相当于是一个随机变量的一个取值对应一个随机事件，随机变量的引入就是为了更加简洁地表示一个随机事件，不需要用一大串的文字描述。但是随机变量的引入更多是为了研究一连串相关的事件，而不只是随机变量某一取值时刻下的事件，往往是研究随机变量不同取值下的不同随机事件之间的联系。<br><br></p>
+<h1 id="2-如何研究随机变量"><a href="#2-如何研究随机变量" class="headerlink" title="2. 如何研究随机变量"></a>2. 如何研究随机变量</h1><p>由于随机变量是表示一连串的事件，首先我们得确定随机变量可以取哪些值，即确定有哪些随机事件。其次我们需要研究随机变量取不同值下所表示的随机事件发生的概率。</p>
+<p>之前说到，我们用一个数字或者一个区间来表示一个随机事件，这里面就包含了两种随机变量：离散型随机变量和连续性随机变量，前者随机变量的取值是可数的或者有限的，后者不可数。<br><br></p>
+<h1 id="3-离散随机变量的分布"><a href="#3-离散随机变量的分布" class="headerlink" title="3. 离散随机变量的分布"></a>3. 离散随机变量的分布</h1><p>当随机变量取不同取值的时候，所表示的随机事件的概率会不同，对于离散型的随机变量，我们可以用表格的形式，列出不同取值下的概率，这就是随机变量的概率分布，即不同取值下所表示的随机事件的概率值，可以统一用以下的式子来表示。此式子叫做分布律</p>
+<script type="math/tex; mode=display">P(X = x_k) = p_k，k = 1,2,...</script><p>且满足</p>
+<ol>
+<li>$p_k \ge 0，k = 1,2,…$</li>
+<li>$\sum_1^{+\infty}p_k = 1$ </li>
+</ol>
+<p>或者用表格来表示</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">$X$</th>
+<th style="text-align:center">$x_1$</th>
+<th style="text-align:center">$x_2$</th>
+<th style="text-align:center">$x_3$</th>
+<th>$…$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$p_k$</td>
+<td style="text-align:center">$p_1$</td>
+<td style="text-align:center">$p_2$</td>
+<td style="text-align:center">$p_3$</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="3-1-离散均匀分布"><a href="#3-1-离散均匀分布" class="headerlink" title="3.1 离散均匀分布"></a>3.1 离散均匀分布</h2><ul>
+<li>分布律：$ P(X = x_k) = \frac{1}{n}$， $k = 1,2,…,n $</li>
+<li>其实就是我们之前所说的古典概型，古典概型满足两个特性，有限性和等可能性，实际上描述的就是离散均匀分布，随机变量的每个取值对应一个基本事件，每一个基本事件的概率都是一样。</li>
+</ul>
+<h2 id="3-2-二项分布"><a href="#3-2-二项分布" class="headerlink" title="3.2 二项分布"></a>3.2 二项分布</h2><ul>
+<li><p>在一次试验中事件 $A$ 发生的概率为 $p$ ，把这种试验重复做 $n$ 次，若把 $X$ 记为 $n$ 次试验中事件 $A$ 发生的次数，$X$ 可以取 $0-n$，$P(X = k) = C_n^k p^k (1-p)^{n-k}$ ，称 $X$ 服从二项分布，记为 $X \sim B(n, p)$   $~$ </p>
+<img src="/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/%E4%BA%8C%E9%A1%B9%E5%88%86%E5%B8%83.png" class="">
+</li>
+<li><p>伯努利试验：一次试验中可能的结果为 $A$ 和 $A$ 的对立事件，重复做这样的试验</p>
+</li>
+<li><p>若 $n=1$，则变为 $0-1$ 分布，或叫两点分布或伯努利分布，$X$ 只取0，1两个值，$P(X = 1) = p$, $P(X = 0) = 1 - p$，$X = 1$表示 $A$ 发生，$X = 0$ 表示 $A$ 不发生。两点分布是最简单的一种分布，任何一个只有两种可能结果的随机现象，如明天是否下雨，都属于两点分布</p>
+</li>
+<li><p>任何概率分布都应该满足 $P(X = x_k) \ge 0$,   $ \sum_1^n P(X = x_k) = 1 $，二项分布也满足，二项式定理展开就可以证明</p>
+<ul>
+<li>$\sum_1^n P(X = x_k) = \sum_1^n C_n^{k} p^k(1-p)^{n-k} = (p + 1-p)^n = 1$</li>
+</ul>
+</li>
+<li><p>求解 $P(X = x_k)$取最大值的 $k$ 值</p>
+<ul>
+<li>令 $b_k = P(X = x_k)  = C_n^k p^k(1-p)^{n-k} = \frac{n!}{k!(n-k)!}p^k(1-p)^{n-k}$ </li>
+<li>最大值应该满足 $\frac{b<em>k}{b</em>{k-1}} \ge 1$ 且 $\frac{b<em>{k}}{b</em>{k+1}} \ge 1$</li>
+<li>解得 $p(n+1)-1 \le k \le p(n+1)$  </li>
+<li>若 $p(n+1)$ 为整数，则最大值时k有两个值</li>
+</ul>
+</li>
+<li><p>例题：若100个人射飞机，射中飞机的概率为0.02，假设 $X$ 为射中飞机的人数，那么 $X \sim B(100, 0.02)$ ，100个人本来是相互独立地射飞机，但是可以看成100次重复的随机试验，所以满足二项分布</p>
+</li>
+</ul>
+<h2 id="3-3-泊松分布"><a href="#3-3-泊松分布" class="headerlink" title="3.3 泊松分布"></a>3.3 泊松分布</h2><ul>
+<li>分布律：$P(X = x_k) = e^{-\lambda} \frac{\lambda^k}{k!}$ </li>
+<li>描述稀有事件发生的概率，交通路口发生事故的次数满足泊松分布</li>
+<li>随机变量取值为：$[ 0, +\infty)$ </li>
+<li>泊松分布可以作为二项分布的一种近似<ul>
+<li>$X \sim B(n, p)$，$n$ 很大，$p$ 很小，$np$ 较小，$P(X = k) = C_n^k p^k (1-p)^{n-k}\approx e^{-\lambda} \frac{\lambda^k}{k!}$, $\lambda = np$ <ul>
+<li>$P(X = k) = C_n^k p^k (1-p)^{n-k} = \frac{n(n-1)…(n-k+1)}{k!}p^k(1-p)^{n-k}$  </li>
+<li>因为 $p$ 很小，根据泰勒展开，$1 - p \approx e^{-p}$ ，所以 $(1-p)^{n-k} \approx e^{-p(n-k)}$ </li>
+<li>由于泊松分布一般描述稀有事件，即 $k$ 较小，由因为 $n$ 很大，所以 $n - k \approx n$ ，$e^{-p(n-k)} \approx e^{-pn} = e^{-\lambda}$ </li>
+<li>同样因为 $k$ 较小，$n$ 很大，$\frac{n(n-1)…(n-k+1)}{k!} p^k \approx \frac{(np)^k}{k!} = \frac{\lambda^k}{k!}$   </li>
+</ul>
+</li>
+<li>二项分布不好算，可以用泊松分布近似计算，从上面的推导可以看出 $k$ 不能很大</li>
+<li>$n$ 很大，$np$ 很小，准确点说 $n &gt;30$，$np &lt; 5$ 即可<img src="/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/%E6%B3%8A%E6%9D%BE%E5%88%86%E5%B8%83.png" class="">
+</li>
+</ul>
+</li>
+</ul>
+<p>二项分布当n等于1时，可以转成两点分布；当n很大，p很小的时候，可以转成泊松分布。</p>
+<p><br></p>
+<h1 id="4-分布函数和密度函数"><a href="#4-分布函数和密度函数" class="headerlink" title="4. 分布函数和密度函数"></a>4. 分布函数和密度函数</h1><h2 id="4-1-分布函数"><a href="#4-1-分布函数" class="headerlink" title="4.1 分布函数"></a>4.1 分布函数</h2><p>上面提到的都是离散型随机变量的概率分布 $P(X =x_k) = p_k,  k = 0,1,2,…$ ，离散型随机变量的取值是有限的或者是可数的，离散型变量的一个取值对应一个随机事件，而对于连续型变量，通常用一段区间来表示一个随机事件，如 $P(a &lt; X \le b)$，这个概率又可以表示为 $P(X \le b) - P(X \le a)$。</p>
+<ul>
+<li><p>定义：$P(X \le x) = F(x)$，$-\infty &lt; x &lt; +\infty$。随机变量 $X$ 的分布函数</p>
+</li>
+<li><p>分布函数直观来说就是表示随机变量取值小于某个值的概率，它具有以下几个性质</p>
+<ul>
+<li>分布函数是非递减的，且 $lim<em>{x\to -\infty} F(x) =0$ ，$lim</em>{x\to +\infty} F(x) =1$，从分布函数的定义就可以看出。</li>
+<li>离散型随机变量的分布函数不连续，因为离散变量的取值是有限的，因此分布函数会呈现出阶梯状，且是右连续的<ul>
+<li>$F(x) = P(X \le x)=\sum<em>{x</em>{k} \le x} P(X = x_k) $ </li>
+</ul>
+</li>
+<li>连续型随机变量的分布函数是连续且递增的，有了分布函数，某个区间的概率值就很容易计算，$P(a &lt; X \le b) = F(b) - F(a)$，<img src="/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/%E5%88%86%E5%B8%83%E5%87%BD%E6%95%B0.png" class="">
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>注意区分以下分布律和分布函数，分布律是描述离散随机变量遵循的分布，简单来说就是取不同值的概率；而分布函数是随机变量小于某个值的概率</li>
+</ul>
+<h2 id="4-2-密度函数"><a href="#4-2-密度函数" class="headerlink" title="4.2 密度函数"></a>4.2 密度函数</h2><p>随机变量的分布函数 $F(x)$ 是描述随机变量取值小于某个值下的概率的函数，而随机变量的密度函数 $f(x)$ 满足以下几个条件，注意并不是所有的随机变量或者分布函数都有对应的密度函数，但是所有的随机变量都有分布函数</p>
+<ol>
+<li>$f(x)$ 是非负的</li>
+<li>$\int_{-\infty}^{+\infty} f(x)dx=1$ </li>
+<li>$F(x) = \int_{-\infty}^{x}f(t)dt$  </li>
+</ol>
+<p>从上面的定义可以看出，密度函数 $f(x)$ 是分布函数 $F(x)$ 的微分，而 $F(x)$ 是 $f(x)$ 的积分，所以计算以下概率可以转变成求密度函数的积分，注意无论是分布函数还是密度函数，还是分布律，他们都是服务于算概率的</p>
+<script type="math/tex; mode=display">P(a < X \le b) = F(b) - F(a) = \int_a^b f(x)dx</script><p>上面定义的第二点，也很容易理解，$\int_{-\infty}^{+\infty} f(x)dx=F(+\infty)-F(-\infty)=1-0=1$  </p>
+<p>对于连续型随机变量 $P(X = a) = 0$，因为 $P(X = a) = lim<em>{h\to 0} \int</em>{a-h}^{a}f(x)dx=0$ </p>
+<p>分布函数连续不一定是连续型随机变量的分布函数，连续不一定可微，只有密度函数存在，才能说是连续随机变量</p>
+<h2 id="4-3-总结一下"><a href="#4-3-总结一下" class="headerlink" title="4.3 总结一下"></a>4.3 总结一下</h2><p>对于离散型的随机变量，只可以取有限个或者可数个值，我们可以用分布律去描述它，$P(X = x_k) = p_k$   </p>
+<p>对于连续型的随机变量，我们用一个区间去表示一个随机事件，但由于区间涉及两个边界值，我们引入分布函数 $F(x)$ 描述随机变量取值小于某个值的概率，进而引入密度函数 $f(x)$，然后概率值就可以转化为求密度函数的积分值</p>
+<p>但是对于离散型随机变量，我们也可以研究它的分布函数，但是它没有概率密度函数，因为它的分布函数不可微</p>
+<p><br></p>
+<h1 id="5-连续随机变量的分布"><a href="#5-连续随机变量的分布" class="headerlink" title="5. 连续随机变量的分布"></a>5. 连续随机变量的分布</h1><p>对于离散随机变量，我们可以用分布律来描述，对于连续型随机变量，我们可以用分布函数或密度函数来描述，分布律、分布函数、密度函数都是为了算概率而存在的</p>
+<h2 id="5-1-均匀分布"><a href="#5-1-均匀分布" class="headerlink" title="5.1 均匀分布"></a>5.1 均匀分布</h2><ul>
+<li><p>若一个随机变量的密度函数为以下的形式，则该随机变量服从均匀分布，$X \sim U(a,b)$ </p>
+<script type="math/tex; mode=display">f(x)= \left\{\begin{array}{cc} 
+\frac{1}{b-a}, & a \le x \le b\\ 
+0, & other\ values 
+\end{array}\right.</script></li>
+<li><p>均匀分布可以用示性函数 $I$ 来表示，$f(x) = \frac{1}{b-a}I_{a\le x\le b}(x)$ </p>
+</li>
+</ul>
+<h2 id="5-2-指数分布"><a href="#5-2-指数分布" class="headerlink" title="5.2 指数分布"></a>5.2 指数分布</h2><ul>
+<li><p>指数分布的随机变量，密度函数满足 $f(x) =\lambda e^{-\lambda x} I_{x \ge 0}(x)$，$\lambda &gt; 0$，$X \sim exp(\lambda)$  </p>
+<script type="math/tex; mode=display">f(x)= \left\{\begin{array}{cc} 
+\lambda e^{-\lambda x}, & x \ge 0\\ 
+0, & x < 0 
+\end{array}\right.</script></li>
+<li><p>$\lambda$ 越大，密度函数下降得越快</p>
+<img src="/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/%E6%8C%87%E6%95%B0%E5%88%86%E5%B8%83.png" class="">
+</li>
+<li><p>指数分布最大的特点是无后效性，通常用来描述元件的寿命，即寿命是无老化的，假如我知道一个元件已经用了 $s$ 个小时，想知道原件能用 $s + t$ 个小时的概率，它就等于原件用 $t$ 个小时的概率</p>
+<ul>
+<li>$P(X &gt; s+t \mid X&gt;s) = P(X &gt;t)$  </li>
+<li>证明：<ul>
+<li>令事件 $A$ 为 $X &gt; s+t$，事件 $B$ 为 $X &gt; s$，则 $P(A \mid B) = \frac{P(AB)}{P(B)}$  </li>
+<li>可以看出 $B \subset A$，所以 $P(AB) = P(A)$ </li>
+<li>$P(A) = \int_{s+t}^{+\infty} \lambda e^{-\lambda x}dx$ </li>
+<li>令 $\lambda x=u$，则 $P(A) = \int<em>{\lambda(s+t)}^{+\infty} e^{-u}du = -e^{-u} \mid</em>{\lambda(s+t)}^{+\infty} = e^{-\lambda(s+t)}$  </li>
+<li>同理，$P(B)=e^{-\lambda s}$  </li>
+<li>因此，$P(A \mid B) = \frac{P(A)}{P(B)} = e^{-\lambda t} = P(X &gt; t)$  </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="5-3-正态分布"><a href="#5-3-正态分布" class="headerlink" title="5.3 正态分布"></a>5.3 正态分布</h2><ul>
+<li>密度函数满足 $f(x) = \frac{1}{\sqrt{2\pi} \sigma} exp(-\frac{(x-\mu)^2}{2\sigma^2})$，$-\infty &lt; x &lt; +\infty$，记为 $X \sim N(\mu, \sigma^2)$    </li>
+<li>密度函数的曲线有以下性质<ul>
+<li>对称函数，对称轴为 $x = \mu$，对称轴左边单调递增，对称轴右边单调递减，极值落在 $x = \mu$ 上，为$\frac{1}{\sqrt{2\pi} \sigma}$</li>
+<li>$\sigma$ 的大小决定了密度函数的陡峭程度</li>
+</ul>
+</li>
+<li>当 $\mu = 0$，$\sigma = 1$ 的时候，称为标准正态分布，密度函数记为 $\phi(x)$，分布函数记为 $\Phi(x)$ <ul>
+<li>分布函数 $\Phi(x)$ 是密度函数 $\phi(x)$ 的积分，$\Phi(x) = \int_{-\infty}^x \phi(t)dt$ </li>
+<li>$\Phi(x) = 1 - \Phi(-x)$，可以从密度函数 $\phi(x)$ 算面积很容易证出。</li>
+</ul>
+</li>
+<li>一般的正态分布 $X \sim N(\mu, \sigma^2)$ 都可以转成标准正态分布 $X \sim N(0, 1)$，其分布函数 $F(x) = \Phi(\frac{x-\mu}{\sigma})$ ，然后通过查标准正态分布表格来算出概率。</li>
+</ul>
+<p><br></p>
+<h1 id="6-多维随机变量"><a href="#6-多维随机变量" class="headerlink" title="6. 多维随机变量"></a>6. 多维随机变量</h1><p>多维随机变量也称随机向量，跟一维随机变量一样，多维随机变量就是多个随机事件的并集，或者说是多个事件的联合概率，像一维随机变量，我们同样关注多维随机向量的分布。</p>
+<h2 id="6-1-二维离散型随机向量的分布"><a href="#6-1-二维离散型随机向量的分布" class="headerlink" title="6.1 二维离散型随机向量的分布"></a>6.1 二维离散型随机向量的分布</h2><p>$P(X=x<em>i, Y=y_j)=p</em>{i,j}$ </p>
+<p> 同样应该满足密度分布的基本条件</p>
+<ol>
+<li>$p_{i,j}&gt;0$</li>
+<li>$\sum\sum p_{ij}=1$ </li>
+</ol>
+<h2 id="6-2-二维连续型随机向量的分布"><a href="#6-2-二维连续型随机向量的分布" class="headerlink" title="6.2 二维连续型随机向量的分布"></a>6.2 二维连续型随机向量的分布</h2><p>类似一维随机变量，我们用分布函数来描述它的概率分布，$F(x,y)$ 称为随机向量 $(X,Y)$ 的联合分布函数。</p>
+<p>$F(x, y)=P(X \le x, Y \le y)$ </p>
+<p>将二维随机变量 $(X,Y)​$ 看成是平面上随机点的坐标，那么，分布函数 $F(x,y)​$ 在点 $(x,y)​$ 处的函数值就是下图无穷矩形域内的面积占整个平面的概率。<br><img src="/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/%E4%BA%8C%E7%BB%B4%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F.png" class=""></p>
+<p>$F(x,y)$ 有如下性质：</p>
+<ol>
+<li>给定 $y$，$F(x,y)$ 是 $x$ 的非减函数；给定 $x$, $F(x,y)$ 是 $y$ 的非减函数</li>
+<li>$\lim<em>{x \rightarrow -\infty} F(x,y)=0$，$\lim</em>{y \rightarrow -\infty} F(x,y)=0$，$\lim_{x \rightarrow +\infty, y \rightarrow +\infty} F(x,y)=1$ </li>
+<li>$P(a&lt;X \le b, c &lt; Y \le d) = F(b,d) - F(a,d) - F(b,c) + F(a,c)$     </li>
+<li>$P(X \le x_i) = P(X \le x_i, Y \le +\infty) = F(x_i, +\infty)$ </li>
+<li>$F(x,y)$ 分别是关于 $x$ 和 $y$ 右连续</li>
+</ol>
+<p>同样从分布函数引出概率密度函数，若对分布函数 $F(x,y)$，存在 $f(x,y) \ge 0$，使得对任一 $(x,y) \in R^2$，有 $F(x,y)=\int<em>{-\infty}^{x} \int</em>{-\infty}^{y} f(u,v)dudv$，则称 $F(x,y)$ 为连续型联合分布函数，$f(x,y)$ 为联合密度函数。 $f(x,y)$ 同样具有以下性质：</p>
+<ol>
+<li>$f(x,y) \ge 0$  </li>
+<li>$\int<em>{-\infty}^{+\infty} \int</em>{-\infty}^{+\infty} f(x,y)dxdy=1$ </li>
+<li>$\frac{\partial F(x,y)}{\partial x \partial y} = f(x,y)$ </li>
+</ol>
+<p>几何上，$z=f(x,y)$ 表示空间的一个曲面，$\int<em>{-\infty}^{+\infty} \int</em>{-\infty}^{+\infty} f(x,y)dxdy=1$ 表示介于 $f(x,y)$ 与 $xOy$  平面之间的空间区域的面积。<br><img src="/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/%E4%BA%8C%E7%BB%B4%E6%AD%A3%E6%80%81.png" class=""></p>
+<p><br></p>
+<h1 id="7-边缘分布-marginal-distribution"><a href="#7-边缘分布-marginal-distribution" class="headerlink" title="7. 边缘分布(marginal distribution)"></a>7. 边缘分布(marginal distribution)</h1><ul>
+<li><p>定义：已知 $(X,Y)$ 的联合分布函数为 $F(x,y)$，则 $X$ 的分布 $F_1(x)$ 和 $Y$ 的分布 $F_2(y)$ 称为 $F(x,y)$ 的边缘分布</p>
+<ul>
+<li>$F_1(x)=P(X \le x)=P(X \le x, Y \le +\infty)=F(x, +\infty)$ </li>
+<li>$F_2(y)=P(Y \le y)=P(Y \le y, X \le +\infty) = F(+\infty, y)$ </li>
+</ul>
+</li>
+<li><p>二维离散型随机变量的边缘分布</p>
+<ul>
+<li>二维离散随机变量的分布一般以联表的形式表示</li>
+<li>固定某个 $x<em>i$，$P(X=x_i) = \sum</em>{j=1}^{m}p<em>{ij}$，联表每一行的求和就是随机变量 $X$ 的边缘分布，可记为 $p</em>{i\bullet}$ </li>
+<li>固定某个 $y<em>i$ ，$P(Y=y_j) = \sum</em>{i=1}^{n}p<em>{ij}$ ，联表每一列的求和就是随机变量 $Y$ 的边缘分布，可记为 $p</em>{\bullet j}$ </li>
+</ul>
+</li>
+<li><p>二维连续型随机变量的边缘分布</p>
+<ul>
+<li>二维连续随机变量的分布一般以概率密度函数的形式表示</li>
+<li>从联合密度函数，求 $X$ 的密度函数，就需要将随机变量 $Y$ 从积分中去掉，$f<em>X(u) = \int</em>{-\infty}^{+\infty}f(u,v)dv$ <ul>
+<li>$F<em>X(x) = F(x, +\infty)=\int</em>{-\infty}^x[\int<em>{-\infty}^{+\infty}f(x,y)dy]dx=\int</em>{-\infty}^{x}f_X(x)dx$ </li>
+</ul>
+</li>
+<li>同理，求 $Y$ 的密度函数，，$f<em>Y(v) = \int</em>{-\infty}^{+\infty}f(u,v)du$    </li>
+</ul>
+</li>
+<li><p>二维正态分布的边缘分布就是一维正态分布</p>
+</li>
+<li><p>注意：联合分布可以推出边缘分布，但是边缘分布不能推出联合分布，例子：一维正态分布推不出二维正态分布，二维正态分布还有一个参数 $\rho$</p>
+</li>
+</ul>
+<p><br></p>
+<h1 id="8-条件分布"><a href="#8-条件分布" class="headerlink" title="8. 条件分布"></a>8. 条件分布</h1><p>假设有两个随机变量 $X,Y$，在给定 $Y$ 取某个或某些值的条件下，$X$ 的概率分布就叫做 $Y = y_j$ 条件下 $X$ 的条件分布律。</p>
+<h2 id="8-1-离散型随机变量的条件分布"><a href="#8-1-离散型随机变量的条件分布" class="headerlink" title="8.1 离散型随机变量的条件分布"></a>8.1 离散型随机变量的条件分布</h2><ul>
+<li>定义：设 $(X,Y)$ 为二维离散型随机变量，若对固定的 $j$ ，称 $P(X=x<em>i \mid Y=y_j) = \frac{p</em>{ij}}{p<em>{\bullet j}}$ 为 $Y = y_j$ 条件下的 $X$ 的条件分布律；同理，对固定的 $i$ ，称 $P(Y=y_j \mid X=x_i) = \frac{p</em>{ij}}{p_{i\bullet}}$  为 $X = x_i$ 条件下的 $Y$ 的条件分布律；</li>
+<li>条件分布是一种概率分布，它具有概率分布的一切性质，正如条件概率是一种概率，具有概率的一切性质一样。<ul>
+<li>$P(X=x_i \mid Y=y_j) \ge 0$</li>
+<li>$\sum_{i=1}^{\infty} P(X=x_i \mid Y=y_j) =1$ </li>
+</ul>
+</li>
+<li>离散型随机变量的条件分布，就是在联合分布的联表的某一行或者某一列的分布。</li>
+<li>由条件分布和边缘分布，可以根据乘法公式，求得联合分布<ul>
+<li>$P(X=x_i, Y=y_j) = P(X=x_i)P(Y=y_j \mid X= x_i)$ </li>
+</ul>
+</li>
+</ul>
+<h2 id="8-2-连续型随机变量的条件分布"><a href="#8-2-连续型随机变量的条件分布" class="headerlink" title="8.2 连续型随机变量的条件分布"></a>8.2 连续型随机变量的条件分布</h2><ul>
+<li><p>定义：设 $X$ 和 $Y$ 的联合概率密度为 $f(x,y)$，$(X,Y)$ 关于 $Y$ 的边缘概率密度为 $f<em>Y(y)$，若对于固定的 $y$，$f_Y(y) &gt;0$，则称 $\frac{f(x,y)}{f_Y(y)}$ 为在 $Y = y$ 的条件下 $X$ 的条件概率密度，记为 $f</em>{X \mid Y}(x \mid y) = \frac{f(x,y)}{f<em>Y(y)}$，同理，$f</em>{Y \mid X}(y \mid x) = \frac{f(x,y)}{f_X(x)}$ </p>
+</li>
+<li><p>由条件密度和边缘密度，可以得到联合密度</p>
+<ul>
+<li>$f(x,y)=f<em>X(x)f</em>{Y \mid X}(y \mid x)$ </li>
+</ul>
+</li>
+<li>例题：从 [0,1] 中随机取一个数 $X$， 则 $X \sim U(0,1)$，当 $X=x$ 时，再从 $(0,x)$ 中随机取一个数 $Y$，求 $Y$ 的分布。<ul>
+<li>题目给定 $X$ 的分布，以及在 $X = x$ 下 $Y$ 的条件分布，自然可以算出 $(X,Y)$ 的联合分布，再从联合分布就可以算出 $Y$ 的边缘分布</li>
+<li>$f<em>X(x)=I</em>{(0,1)}(x)$，$f<em>{Y \mid X}(y \mid x) = \frac{1}{x}I</em>{(0,x)}(y)$ </li>
+<li>联合分布：$f(x,y) = I<em>{(0,1)}(x) \frac{1}{x}I</em>{(0,x)}(y)$ </li>
+<li>边缘分布：$f_Y(y)=\int f(x.y)dx$，算这种积分最重要的就是搞清楚，谁变谁不变，以及积分的上下限是多少，显然被积的是 $x$，所以 $x$ 是变量，$y$ 是常数，所以我们固定某一个 $y$，可以得出 $x$ 的范围是 $[y,1]$，因此 $f_Y(y)=-ln(y)$ ，最后限定 $y$ 的范围是 $(0,1)$ </li>
+</ul>
+</li>
+</ul>
+<p><strong>有了联合分布，边缘分布和条件分布都能求</strong><br><br></p>
+<h1 id="9-随机变量的独立性"><a href="#9-随机变量的独立性" class="headerlink" title="9. 随机变量的独立性"></a>9. 随机变量的独立性</h1><ul>
+<li>回忆两个随机事件独立的定义是：$P(AB)= P(A)P(B)$</li>
+<li>随机变量之间的独立好比，两个或多个随机变量的任意取值所代表的随机事件都相互独立<ul>
+<li>离散型随机变量：$P(X = x_i, Y = Y_j) = P(X = x_i)P(Y = y_j)$ </li>
+<li>连续型随机变量独立即联合分布等于边缘分布的乘积，$F(x,y) = F_X(x)F_Y(y)$；或联合密度等于边缘密度的乘积，$f(x,y)=f_X(x)f_Y(y)$ </li>
+</ul>
+</li>
+<li>两个随机变量 $(X,Y)$ 相互独立就是指 $X$ 有关的任何事件发生与否都与 $Y$ 有关的任意时间发生与否无关。</li>
+<li>随机变量的独立是随机事件独立的延申，从两个事件的独立，延申至一系列事件的独立。</li>
+<li>如果多个随机变量相互独立，且分布一致，称为独立同分布，简称 independent identical distribution(iid).</li>
+</ul>
+<p><br></p>
+<h1 id="10-随机变量的函数的概率分布"><a href="#10-随机变量的函数的概率分布" class="headerlink" title="10. 随机变量的函数的概率分布"></a>10. 随机变量的函数的概率分布</h1><ul>
+<li>随机变量函数：已知随机变量 $X$ 的分布，另一个随机变量 $Y$ 满足 $Y = g(X)$，这就是随机变量的函数，我们可以从自变量(随机变量 $X$ )的分布求出随机变量 $Y$ 的分布<ul>
+<li>连续型：$F(y) = P(Y \le y) = \int_{g(x)\le y} f(x)dx$ </li>
+<li>离散型：$P(Y = y<em>j) = \sum</em>{g(x_i)=y_j}P(X = x_i)$ </li>
+</ul>
+</li>
+<li>推广至随机向量的函数：已知随机向量 $(X,Y)$ 的分布，另一个随机变量 $Z = g(X, Y)$，求 $Z$ 的分布<ul>
+<li>连续型： $F(Z) = P(Z \le z)= \int\int_{g(x,y) \le z}f(x,y)dxdy$ </li>
+<li>离散型：$P(Z = z<em>q) = \sum</em>{g(x_i,y_j) = z_q}P(X = x_i, Y = y_j)$，若 $X$ 和 $Y$ 独立，那么后面的概率可以拆成两个单独概率想乘。</li>
+</ul>
+</li>
+<li>推广至随机向量的多个函数： 已知随机向量 $(X,Y)$ 的分布，另一个随机变量 $Z_1 = g_1(X, Y)$，另一个随机变量 $Z_2 = g_2(X, Y)$，求 $(Z_1, Z_2)$ 的联合分布<ul>
+<li>$F(Z<em>1, Z_2) = P(Z_1 \le z_1, Z_2 \le z_2) = \int\int</em>{Z_1 = g_1(X, Y) \le z_1, Z_2 = g_2(X, Y) \le z_2} f(x,y)dxdy$  </li>
+<li>设 $u = g_1(x,y)$，$v = g_2(x,y)$，若反函数存在，即 $x = \phi(u, v)$，$y = \psi(u,v)$， </li>
+<li>$\int\int<em>{Z_1 = g_1(X, Y) \le z_1, Z_2 = g_2(X, Y) \le z_2} f(x,y)dxdy = \int\int</em>{u \le z_1, v \le z_2} f(\phi(u,v), \psi(u,v)) \frac{dxdy}{dudv}dudv$ <ul>
+<li>$\frac{dxdy}{dudv} = |J|$，为 $(x,y)$ 关于 $(u,v)$ 的 Jacobi行列式</li>
+<li>$J = \left|\begin{array}{cccc}  \frac{\partial x}{\partial u} &amp;    \frac{\partial x}{\partial v} \<br>\frac{\partial y}{\partial u} &amp;    \frac{\partial y}{\partial v}\<br>\end{array}\right|  $     </li>
+</ul>
+</li>
+<li>所以 $(Z<em>1,Z_2)$ 的分布函数等于 $F(Z_1, Z_2) = \int</em>{-\infty}^{z<em>1}\int</em>{-\infty}^{v_1} f(\phi(u,v), \psi(u,v)) |J|dudv$，</li>
+<li>同理，$(Z_1,Z_2)$ 的密度函数为 $ f(\phi(u,v), \psi(u,v)) |J|$ </li>
+</ul>
+</li>
+<li><p>例题：在直角坐标平面随机选取一点，分别以随机变量 $X$ 和 $Y$ 表示其横纵坐标，可以认为 $X$ 和 $Y$ 相互独立，且都服从正态分布 $N(0,1)$，求极坐标 $(R, t)$ 的分布 </p>
+<ul>
+<li>题意是已知 $X$ 和 $Y$ 的分布，求 $(R,t)$ 的联合分布</li>
+<li>反函数很容易得：$x = Rcost$，$y = Rsint$，$R \in [0, +\infty]$，$t \in [0, 2 \pi)$ </li>
+<li><p>$J = \left|\begin{array}{cccc} \frac{\partial x}{\partial R} &amp;    \frac{\partial x}{\partial t} \<br>\frac{\partial y}{\partial R} &amp;    \frac{\partial y}{\partial t}\<br>\end{array}\right| = \left|\begin{array}{cccc} cost &amp;    -Rsint \<br>sint &amp;   Rcost\<br>\end{array}\right| = R$</p>
+</li>
+<li><p>$(X,Y)$ 的联合密度为其边缘密度的乘积($X$ 和 $Y$ 相互独立)，$f(x,y) = \frac{1}{2\pi}exp(-\frac{x^2+y^2}{2})$ </p>
+</li>
+<li>$f(R,t) =  f(Rcost, Rsint) |J| = \frac{1}{2\pi}Rexp(-\frac{R^2}{2})$，$R &gt; 0$，$t \in [0, 2 \pi)$ </li>
+<li>$f(R,t) = f<em>1(R)f_2(t)$，其中 $f_1(R) = Rexp(-\frac{R^2}{2})I</em>{R&gt;0}(R)$，$f<em>2(t) = \frac{1}{2\pi}I</em>{[0,2\pi)}(t)$，由于f(R,t) 可以写成两个密度函数的乘积，所以 $R$ 和 $t$ 相互独立，且 $t$ 服从 $[0,2\pi)$ 的均匀分布 </li>
+</ul>
+</li>
+<li><p>注意：两个服从正态分布的随机变量的和也服从正态分布，$X \sim N(\mu_1, \sigma_1^2)$，$Y \sim N(\mu_2, \sigma_2^2)$，且 $X$ 和 $Y$ 相互独立，则 $X + Y  \sim N(\mu_1 +\mu_2, \sigma_1^2 + \sigma_2^2)$ </p>
+</li>
+<li><p>设 $X$ 和 $Y$ 是两个相互独立的随机变量，求 $M = max(X,Y)$ 的分布</p>
+<ul>
+<li>$F_M(z) = P(max(X,Y) \le z) = P(X \le z, Y \le z) = P(X \le z)P(Y \le z) = F_X(z)F_Y(z)$  </li>
+<li>密度函数：$f_M(z) = \frac{\partial F_M(z)}{\partial z} = f_X(z)F_Y(z) + F_X(z)f_Y(z)$ </li>
+<li>推广至n个随机变量的最大值也是同样的道理，最大值小于 $z$，即每个随机变量都小于 $z$</li>
+</ul>
+</li>
+<li><p>设 $X$ 和 $Y$ 是两个相互独立的随机变量，求 $N = min(X,Y)$ 的分布</p>
+<ul>
+<li><p>$N$ 等于 $X$ 和 $Y$ 的最小值，$N \le z$，即 $X$ 和 $Y$ 的任意一个小于 $z$，求它的对立事件，即 $X$ 和 $Y$ 都大于 $z$</p>
+</li>
+<li><p>$F_N(z) = P(N \le z) = 1-P(N &gt; z) = 1- P(X &gt; z, Y &gt; z) = 1 - P(X &gt; z)P(Y &gt; z) $ </p>
+<p>$= 1 - (1-F_X(z))(1-F_Y(z))$  </p>
+</li>
+<li><p>密度函数：$f_N(z) = \frac{\partial F_N(z)}{\partial z} = -f_X(z)(1-F_Y(z)) + (1-F_X(z))f_Y(z)$  </p>
+</li>
+</ul>
+<p>关键就是改变积分的区域，通过随机变量函数，约定积分区域</p>
+</li>
+</ul>
+<p><br></p>
+<h1 id="11-统计三大分布"><a href="#11-统计三大分布" class="headerlink" title="11. 统计三大分布"></a>11. 统计三大分布</h1><p>$\Gamma(x)=\int_0^\infty e^{-t}t^{x-1}dt$，$x &gt; 0$</p>
+<p>性质：</p>
+<ol>
+<li>$\Gamma(x+1) = x\Gamma(x)$，$\Gamma(1)=1$，$\Gamma(n+1) = n!$ </li>
+<li>$\Gamma(\frac{1}{2}) = \sqrt{\pi}$ </li>
+</ol>
+<h2 id="11-1-卡方分布-chi-squared-distribution"><a href="#11-1-卡方分布-chi-squared-distribution" class="headerlink" title="11.1 卡方分布(chi-squared distribution)"></a>11.1 卡方分布(chi-squared distribution)</h2><ul>
+<li><p>定义：设 $X_1, X_2, …, X_n$ 独立同分布，均服从标准正态分布，$\chi^2 = \sum_1^nX_i^2$，则称 $\chi^2$ 是自由度为 $n$ 的卡方分布，记为 $\chi_n^2$，自由度是指能够自由变换的自变量的个数，如果受到一个约束，自由度就要减一，依次类推。</p>
+</li>
+<li><p>卡方分布的密度函数为</p>
+<ul>
+<li><p>$f_n(x) = \frac{x^{\frac{x-2}{2}}e^{-\frac{x}{2}}}{2^{\frac{n}{2}}\Gamma(\frac{n}{2})}$ </p>
+</li>
+<li><p>当 $n=1$，$f_1(x) = \frac{x^{-\frac{1}{2}}e^{-\frac{1}{2}}}{2^{\frac{1}{2}} \sqrt{\pi}}$，为单调递减函数；当 $n=2$，$f_2(x) = e^{-x}$，同为单调递减，当 $n \ge 3$，曲线有单峰，从 $0$ 开始单调上升，再单调下降趋向于0；由于是密度函数，其积分值为1。</p>
+<img src="/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/%E5%8D%A1%E6%96%B9%E5%88%86%E5%B8%83.png" class="">
+</li>
+<li><p>若 $X \sim \chi_n^2$，记 $p(X &gt; c) = \alpha$，则 $c = \chi_n^2(\alpha)$ 称为卡方分布的上侧分位数，给定 $\alpha$，可以通过查卡方分布表格，求出 $c$。</p>
+<img src="/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/%E5%8D%A1%E6%96%B9%E5%88%86%E5%B8%83alpha.png" class="">
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="11-2-t-分布"><a href="#11-2-t-分布" class="headerlink" title="11.2 t 分布"></a>11.2 t 分布</h2><ul>
+<li><p>又称 student‘s distribution</p>
+</li>
+<li><p>定义：设 $X \sim N(0,1)$，$Y \sim \chi_n^2$，且 $X$ 和 $Y$ 相互独立，令 $T = \frac{X}{\sqrt{\frac{Y}{n}}}$，则称 $T$ 的分布为自由度为 $n$ 的t分布，记为 $T \sim t_n$。</p>
+</li>
+<li><p>概率密度函数为</p>
+<ul>
+<li><p>$t_n(x) = \frac{\Gamma(\frac{n+1}{x})}{\sqrt{n\pi}\Gamma(\frac{n}{2})}(1+\frac{x^2}{n})^{-\frac{n+1}{2}}$ </p>
+<img src="/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/t%E5%88%86%E5%B8%83.png" class="" width="500" height="250">
+</li>
+<li><p>与标准正态分布的关系</p>
+<ul>
+<li>t分布的密度函数与标准正态分布的密度很相似，都是关于y轴对称，偶函数</li>
+<li>t分布密度函数的峰值要低于标准正态的峰值，但尾部要比正态要高，这很正常，因为密度函数积分都要等于1，中间高度低了，两边的高度就要上升</li>
+<li>当 $n$ 趋于无穷的时候，$t_n$ 会趋于标准正态。</li>
+</ul>
+</li>
+<li><p>若 $T \sim t_n$，$P(|T| &gt; c) = \alpha$，则 $c = t_n(\alpha / 2)$ 称为t分布的双侧 $\alpha$ 分位数</p>
+<img src="/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/t%E5%88%86%E5%B8%83alpha.png" class="">
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="11-3-F-分布"><a href="#11-3-F-分布" class="headerlink" title="11.3 F 分布"></a>11.3 F 分布</h2><ul>
+<li><p>定义：$X \sim \chi<em>n^2$， $Y \sim \chi_m^2$，$X$ 和 $Y$ 相互独立，令 $Z = \frac{X/n}{Y/m}$，则称 $Z$ 为自由度是 $n$ 和 $m$ 的 $F$ 分布，记为 $F \sim F</em>{n,m}$ </p>
+</li>
+<li><p>$t$ 分布的平方为一个自由度为1和n的F分布，$t_n^2 = \frac{X^2}{Y/n}$，$X$ 为标准正态，$X^2$ 为自由度为1的卡方分布</p>
+</li>
+<li><p>同样有上测 $\alpha$ 分位数的概念</p>
+<img src="/2018/09/04/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83/F%E5%88%86%E5%B8%83.png" class="">
+</li>
+<li><p>性质：$F<em>{m,n}(1-\alpha) = \frac{1}{F</em>{n,m}(\alpha)}$<br><br></p>
+<h1 id="12-总结"><a href="#12-总结" class="headerlink" title="12. 总结"></a>12. 总结</h1><p>这一章将随机事件过渡为随机变量，进而描述一系列随机事件发生的概率，也就是所谓的随机变量的分布，很多第一章提到的概念，如条件概率，在这一章都会以分布的形式出现，都是描述一系列的概率值，牢记，无论是分布函数还是密度函数，还是积分，它们都是为算概率服务的，最终目的都是算概率。</p>
+</li>
+</ul>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" rel="tag"># 概率论</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/27/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6%E4%B8%8E%E6%A6%82%E7%8E%87/" rel="next" title="【概率论与数理统计】——事件与概率">
+                <i class="fa fa-chevron-left"></i> 【概率论与数理统计】——事件与概率
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/24/%E3%80%90%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%E3%80%91%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E8%BE%BE%E8%A7%82%E6%9D%AF%E6%96%87%E6%9C%AC%E6%99%BA%E8%83%BD%E5%A4%84%E7%90%86%E6%8C%91%E6%88%98%E8%B5%9B/" rel="prev" title="【数据挖掘比赛】————达观杯文本智能处理挑战赛">
+                【数据挖掘比赛】————达观杯文本智能处理挑战赛 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">1. 随机变量的概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%A6%82%E4%BD%95%E7%A0%94%E7%A9%B6%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F"><span class="nav-number">2.</span> <span class="nav-text">2. 如何研究随机变量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E7%A6%BB%E6%95%A3%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E7%9A%84%E5%88%86%E5%B8%83"><span class="nav-number">3.</span> <span class="nav-text">3. 离散随机变量的分布</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E7%A6%BB%E6%95%A3%E5%9D%87%E5%8C%80%E5%88%86%E5%B8%83"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 离散均匀分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E4%BA%8C%E9%A1%B9%E5%88%86%E5%B8%83"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 二项分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E6%B3%8A%E6%9D%BE%E5%88%86%E5%B8%83"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 泊松分布</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E5%88%86%E5%B8%83%E5%87%BD%E6%95%B0%E5%92%8C%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">4. 分布函数和密度函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E5%88%86%E5%B8%83%E5%87%BD%E6%95%B0"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 分布函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B0"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 密度函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 总结一下</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E8%BF%9E%E7%BB%AD%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E7%9A%84%E5%88%86%E5%B8%83"><span class="nav-number">5.</span> <span class="nav-text">5. 连续随机变量的分布</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-%E5%9D%87%E5%8C%80%E5%88%86%E5%B8%83"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 均匀分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-%E6%8C%87%E6%95%B0%E5%88%86%E5%B8%83"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 指数分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 正态分布</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E5%A4%9A%E7%BB%B4%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F"><span class="nav-number">6.</span> <span class="nav-text">6. 多维随机变量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-%E4%BA%8C%E7%BB%B4%E7%A6%BB%E6%95%A3%E5%9E%8B%E9%9A%8F%E6%9C%BA%E5%90%91%E9%87%8F%E7%9A%84%E5%88%86%E5%B8%83"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 二维离散型随机向量的分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-%E4%BA%8C%E7%BB%B4%E8%BF%9E%E7%BB%AD%E5%9E%8B%E9%9A%8F%E6%9C%BA%E5%90%91%E9%87%8F%E7%9A%84%E5%88%86%E5%B8%83"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 二维连续型随机向量的分布</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-%E8%BE%B9%E7%BC%98%E5%88%86%E5%B8%83-marginal-distribution"><span class="nav-number">7.</span> <span class="nav-text">7. 边缘分布(marginal distribution)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-%E6%9D%A1%E4%BB%B6%E5%88%86%E5%B8%83"><span class="nav-number">8.</span> <span class="nav-text">8. 条件分布</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-%E7%A6%BB%E6%95%A3%E5%9E%8B%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E7%9A%84%E6%9D%A1%E4%BB%B6%E5%88%86%E5%B8%83"><span class="nav-number">8.1.</span> <span class="nav-text">8.1 离散型随机变量的条件分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-%E8%BF%9E%E7%BB%AD%E5%9E%8B%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E7%9A%84%E6%9D%A1%E4%BB%B6%E5%88%86%E5%B8%83"><span class="nav-number">8.2.</span> <span class="nav-text">8.2 连续型随机变量的条件分布</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E7%9A%84%E7%8B%AC%E7%AB%8B%E6%80%A7"><span class="nav-number">9.</span> <span class="nav-text">9. 随机变量的独立性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#10-%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E7%9A%84%E5%87%BD%E6%95%B0%E7%9A%84%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83"><span class="nav-number">10.</span> <span class="nav-text">10. 随机变量的函数的概率分布</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#11-%E7%BB%9F%E8%AE%A1%E4%B8%89%E5%A4%A7%E5%88%86%E5%B8%83"><span class="nav-number">11.</span> <span class="nav-text">11. 统计三大分布</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#11-1-%E5%8D%A1%E6%96%B9%E5%88%86%E5%B8%83-chi-squared-distribution"><span class="nav-number">11.1.</span> <span class="nav-text">11.1 卡方分布(chi-squared distribution)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-2-t-%E5%88%86%E5%B8%83"><span class="nav-number">11.2.</span> <span class="nav-text">11.2 t 分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-3-F-%E5%88%86%E5%B8%83"><span class="nav-number">11.3.</span> <span class="nav-text">11.3 F 分布</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#12-%E6%80%BB%E7%BB%93"><span class="nav-number">12.</span> <span class="nav-text">12. 总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

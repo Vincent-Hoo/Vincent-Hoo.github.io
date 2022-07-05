@@ -1,37 +1,846 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Title：Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate ShiftAuthors：Christian Szegedy, Sergey IoffeSession：ICML, 2015Abstract：Inception 的作者提出 batchNorm，从而解决 inte">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文阅读】—— Batch Normalization, Accelerating Deep Network Training by Reducing Internal Covariate Shift">
+<meta property="og:url" content="http://vincentho.name/2018/12/01/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Batch-Normalization-Accelerating-Deep-Network-Training-by-Reducing-Internal-Covariate-Shift/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="Title：Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate ShiftAuthors：Christian Szegedy, Sergey IoffeSession：ICML, 2015Abstract：Inception 的作者提出 batchNorm，从而解决 inte">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2018/12/01/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Batch-Normalization-Accelerating-Deep-Network-Training-by-Reducing-Internal-Covariate-Shift/bn.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/01/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Batch-Normalization-Accelerating-Deep-Network-Training-by-Reducing-Internal-Covariate-Shift/bn1.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/01/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Batch-Normalization-Accelerating-Deep-Network-Training-by-Reducing-Internal-Covariate-Shift/net.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/01/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Batch-Normalization-Accelerating-Deep-Network-Training-by-Reducing-Internal-Covariate-Shift/res1.png">
+<meta property="og:image" content="http://vincentho.name/2018/12/01/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Batch-Normalization-Accelerating-Deep-Network-Training-by-Reducing-Internal-Covariate-Shift/res2.png">
+<meta property="article:published_time" content="2018-12-01T10:26:49.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.545Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2018/12/01/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Batch-Normalization-Accelerating-Deep-Network-Training-by-Reducing-Internal-Covariate-Shift/bn.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2018/12/01/【论文阅读】——-Batch-Normalization-Accelerating-Deep-Network-Training-by-Reducing-Internal-Covariate-Shift/"/>
+
+
+
+
+
+  <title>【论文阅读】—— Batch Normalization, Accelerating Deep Network Training by Reducing Internal Covariate Shift | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2018/12/01/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Batch-Normalization-Accelerating-Deep-Network-Training-by-Reducing-Internal-Covariate-Shift/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文阅读】—— Batch Normalization, Accelerating Deep Network Training by Reducing Internal Covariate Shift</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-01T18:26:49+08:00">
+                2018-12-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Title：Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift<br>Authors：Christian Szegedy, Sergey Ioffe<br>Session：ICML, 2015<br>Abstract：Inception 的作者提出 batchNorm，从而解决 internal covariate shift 的问题，使得网络训练更快，并在自己的 Inception 网络上加入 batchNorm，使得在 ImageNet 上的错误率进一步降低，该网络被称为 Inception-BN。</p>
+</blockquote>
+<span id="more"></span>
+<p><br></p>
+<p><em>preface</em></p>
+<p>为什么深度神经网络<strong>随着网络深度加深，训练起来越困难，收敛越来越慢？</strong>这是个在深度学习领域很接近本质的好问题。很多论文都是解决这个问题的，比如 ReLU 激活函数，再比如 Residual Network，batchNorm 本质上也是解释，并从某个不同的角度来解决这个问题的。 </p>
+<p><br></p>
+<h1 id="Internal-Covariate-Shift"><a href="#Internal-Covariate-Shift" class="headerlink" title="Internal Covariate Shift"></a>Internal Covariate Shift</h1><p>深度网络难以训练的原因在于，随着前向传递，每一层输入数据的分布都在改变，一个层的输入受前面所有层的参数的影响，细微的改变会被放大，由于每个层的输入数据分布不断在改变，网络需要不断地去学习新的分布。</p>
+<p>covariate shift 是用来描述一个学习系统的输入数据的分布发生变化。而其实 covariate shift 也可以用来描述一个子网络，即一个子网络的输入分布发生变化，它同样也会经历 covariate shift，而在神经网络里面，我们把一个层的输入数据分布发生变化叫做 internal covariate shift。</p>
+<p>batchNorm 的思想来自于：之前的研究表明如果在图像处理中对输入图像进行白化（Whiten）操作的话——所谓<strong>白化</strong>，<strong>就是对输入数据分布变换到0均值，单位方差的正态分布</strong>——那么神经网络会较快收敛。因此作者推论：图像是深度神经网络的输入层，做白化能加快收敛，那么其实对于深度网络来说，其中某个隐层的神经元是下一层的输入，即深度神经网络的每一个隐层都是输入层，只是相对下一层来说而已，那么能不能对每个隐层都做白化呢？</p>
+<p>而 batchNorm 的基本思想就是：把网络中每个隐层节点的<strong>激活函数输入分布</strong>固定下来，就可以避免 internal covariate shift。为什么需要固定激活函数输入分布呢？我们知道激活函数，如 sigmoid 函数，它的两边都是梯度饱和区域，只有 0 附近的区域是有梯度的，因此如果能将 sigmoid 的输入固定到 0 附近，那么就可以解决梯度的问题。</p>
+<p><br></p>
+<h1 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h1><p>上面提到，batchNorm 就好比 whitening，将激活函数的输入进行标准化，从而使它的均值为 0，方差为 1。需要注意的是，标准化的对象是某一隐层的一个神经元，假设某一隐层有 d 个神经元，则分别对每个神经元进行下面的标准化操作。均值和方差是一个 batch 数据在该隐藏层神经元输出的均值和方差。</p>
+<script type="math/tex; mode=display">x^k = Wu^k +b</script><script type="math/tex; mode=display">\hat{x}^k = \frac{x - E(x^k)}{\sqrt{Var(x^k)}}，k \in \{1,2, ..., d \}</script><p>所以经过 batchNorm，每个激活函数的输入数据分布都会是一个标准正态分布，即解决了上面提到的 internal covariate shift 的问题。但是进行这样的标准化可能会影响网络表达的能力，因为数据分布被强行拉到了 0 附近，因此作者将标准化后的数据再进行一个 scale 和 shift 的操作，$\gamma$ 和 $\beta$ 是两个学习的参数，且每个神经元都有对应的 $\gamma$ 和 $\beta$。如果 $\gamma^k = \sqrt{Var(x^k)}$，$\beta^k = E(x^k)$，那么就会将它重新映射到原来的分布。</p>
+<p>$y^k = \gamma^k \hat{x}^k + \beta^k$</p>
+<p>对于一个普通的前向传播网络，batchNorm 层加到激活函数前，如下图</p>
+<img src="/2018/12/01/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Batch-Normalization-Accelerating-Deep-Network-Training-by-Reducing-Internal-Covariate-Shift/bn.png" class="">
+<p>算法的流程如下</p>
+<img src="/2018/12/01/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Batch-Normalization-Accelerating-Deep-Network-Training-by-Reducing-Internal-Covariate-Shift/bn1.png" class="">
+<p>上面提到的算法是训练时候的算法，训练的时候我们是用 mini-batch 的方式去训练一个网络，但是预测的时候，我们是一个一个 example 的去预测，我们不希望一个预测的样本受到其它样本的干扰（训练的时候，batch 内样本互相影响）。作者的解决方法是：预测的时候固定均值和方差，而这个固定的均值和方差是由训练阶段各个 batch 的均值和方差的一个统计量，简单来说就是，用各个 batch 的均值和方差的平均值作为预测阶段的均值和方差。</p>
+<p><strong>CNN 上的 batchNorm</strong></p>
+<ul>
+<li>在 feature map 上进行标准化，一个 feature map 类比一个隐层的神经元。</li>
+<li>前向传递网络中一个 batch 大小为 m，而在 CNN 中做 batchNorm，假如 feature map 的大小为 $p \times q$，那么就相当于 batch size 为 $m \times p \times q$。</li>
+<li>简单来说就是，将 batch 里面同一层的 feature map 进行归一化，归一化的时候，不以 feature map 为一个样本，而是以 feature map 的一个 pixel 为一样本，再求 pixel 级别的均值方差。</li>
+<li>不同的 channel 相当于隐层不同的神经元，所以每个 channel 的feature map 对应一个 $\gamma$ 和 $\beta$。</li>
+</ul>
+<p>batchNorm 的好处</p>
+<ul>
+<li>正则作用，训练时候，batch 里面的样本不再是没有关系的，而是相互影响。</li>
+<li>增快训练效率，batchNorm 能够解决梯度的问题，因此学习率可以稍微调大一点，加快训练速度。</li>
+</ul>
+<p><br></p>
+<h1 id="Inception-BN"><a href="#Inception-BN" class="headerlink" title="Inception-BN"></a>Inception-BN</h1><p>这个版本相对于 Inception-v1，除了在每一个激活函数前加入了 batchNorm 之外，还进行了下面的调整</p>
+<ul>
+<li>跟 VGG 一样，Inception block 里面的 $5 \times 5$ 的卷积核用连续两个 $3 \times 3$ 来代替。</li>
+<li>在 Inception block 里面的池化层，不仅仅使用 max-pooling，还会使用 averaged-pooling。</li>
+<li>在 Inception-v1，会在 Inception block 之间添加 max-pooling 进行降维。这种结构将会被去掉，而在 concatenation 之前，会用一个 stride 为 2 的卷积层和池化层进行降维。</li>
+</ul>
+<img src="/2018/12/01/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Batch-Normalization-Accelerating-Deep-Network-Training-by-Reducing-Internal-Covariate-Shift/net.png" class="">
+<p>由于 batchNorm 能够加快网络的训练，因此作者在训练上还进行了以下的调整</p>
+<ul>
+<li>增大学习率</li>
+<li>去除 dropout</li>
+<li>减小 L2 正则项参数</li>
+<li>加快学习率 decay，因为网络训练加快了</li>
+<li>去除 LRN</li>
+</ul>
+<p>作者根据这些设置训练了好几个网络</p>
+<ul>
+<li>Inception：即 Inception-v1，初始学习率为 0.0015.</li>
+<li>BN-Baseline：即 Inception-BN</li>
+<li>BN-x5：Inception-BN，初始学习率为 5 倍，即 0.0075.</li>
+<li>BN-x30：跟 BN-x5 一样，初始学习率为 0.045.</li>
+<li>BN-x5-Sigmoid：跟 BN-x5 一样，换成 sigmoid 激活。</li>
+</ul>
+<p>从下面结果可以看出，加入 batchNorm 之后能够明显加快网络训练，增大学习率使学习更快，BN-x30 比 Inception 快了接近 16 倍，并且准确率更高。注意的是：BN-x5-Sigmoid 也能达到很好的结果，是因为 batchNorm 解决了梯度的问题，如果没有 batchNorm，作者说准确率不及千分之一。</p>
+<img src="/2018/12/01/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Batch-Normalization-Accelerating-Deep-Network-Training-by-Reducing-Internal-Covariate-Shift/res1.png" class="">
+<img src="/2018/12/01/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Batch-Normalization-Accelerating-Deep-Network-Training-by-Reducing-Internal-Covariate-Shift/res2.png" class="">
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/01/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Identity-Mappings-in-Deep-Residual-Networks/" rel="next" title="【论文阅读】—— Identity Mappings in Deep Residual Networks">
+                <i class="fa fa-chevron-left"></i> 【论文阅读】—— Identity Mappings in Deep Residual Networks
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/03/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Rethinking-the-Inception-Architecture-for-Computer-Vision/" rel="prev" title="【论文阅读】—— Rethinking the Inception Architecture for Computer Vision">
+                【论文阅读】—— Rethinking the Inception Architecture for Computer Vision <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Internal-Covariate-Shift"><span class="nav-number">1.</span> <span class="nav-text">Internal Covariate Shift</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Batch-Normalization"><span class="nav-number">2.</span> <span class="nav-text">Batch Normalization</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Inception-BN"><span class="nav-number">3.</span> <span class="nav-text">Inception-BN</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

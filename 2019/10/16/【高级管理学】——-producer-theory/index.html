@@ -1,37 +1,1013 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="课程名称：高级管理学授课人：Ying Kong本章梗概：本章讲述生产者理论，从利润最大化，成本最小化角度进入，并介绍纯粹竞争以及垄断者模型，最后介绍博弈论模型。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【高级管理学】—— producer theory">
+<meta property="og:url" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="课程名称：高级管理学授课人：Ying Kong本章梗概：本章讲述生产者理论，从利润最大化，成本最小化角度进入，并介绍纯粹竞争以及垄断者模型，最后介绍博弈论模型。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/1.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/2.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/3.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/4.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/5.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/6.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/7.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/8.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/9.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/10.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/11.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/12.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/13.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/14.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/15.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/16.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/17.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/18.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/19.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/20.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/21.png">
+<meta property="og:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/22.png">
+<meta property="article:published_time" content="2019-10-16T04:23:48.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.755Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2019/10/16/【高级管理学】——-producer-theory/"/>
+
+
+
+
+
+  <title>【高级管理学】—— producer theory | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【高级管理学】—— producer theory</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-16T12:23:48+08:00">
+                2019-10-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>课程名称：高级管理学<br>授课人：Ying Kong<br>本章梗概：本章讲述生产者理论，从利润最大化，成本最小化角度进入，并介绍纯粹竞争以及垄断者模型，最后介绍博弈论模型。</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="Production-Function"><a href="#Production-Function" class="headerlink" title="Production Function"></a>Production Function</h2><p>生产者理论和消费者理论很接近，下表总结两者的异同</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">生产者理论</th>
+<th style="text-align:center">消费者理论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">production function: $y = f(x_1, …,x_n)$，，$x_i$ 为 input level，即每个输入单位数，$y$ 为输出的单位数</td>
+<td style="text-align:center">utility function：$U=f(x_1,…,x_n)$</td>
+</tr>
+<tr>
+<td style="text-align:center">y output unit isoquant：生产单位为 $y$ 的各种 input 组合</td>
+<td style="text-align:center">indifference curve：效用为 U 的各种 bundle</td>
+</tr>
+<tr>
+<td style="text-align:center">perfect substitute：$y=a_1x_1+…+a_nx_n$</td>
+<td style="text-align:center">perfect substitute：$U=x_1+x_2$</td>
+</tr>
+<tr>
+<td style="text-align:center">perfect complement：$y=min(a_1x_1,…,a_nx_n)$</td>
+<td style="text-align:center">perfect complement：$U=min(k_1x_1,k_2x_2)$</td>
+</tr>
+<tr>
+<td style="text-align:center">marginal product：增加一个单位的 $x_i$ 所带来的输出单位数的增加，$MP_i=\frac{\partial P}{\partial x_i}$</td>
+<td style="text-align:center">marginal utility：增加一个单位的 $x_i$ 所带来的效用的增加，$MU_i = \frac{\partial U}{\partial x_i}$</td>
+</tr>
+<tr>
+<td style="text-align:center">technical rate-of-substitution：isoquant 某个点的斜率，$TRS=-\frac{MP_1}{MP_2}$</td>
+<td style="text-align:center">marginal rate-of-substitution(MRS)：indifference curve 某个点的斜率，$MRS=-\frac{MU_1}{MU_2}$</td>
+</tr>
+<tr>
+<td style="text-align:center">long run：生产函数中每一个输入 $x_i$ 都可变，即生产过程不受任何输入约束；short run：生产过程至少一个输入变量为常数。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br></p>
+<h2 id="Profit-and-Cost-theory"><a href="#Profit-and-Cost-theory" class="headerlink" title="Profit and Cost theory"></a>Profit and Cost theory</h2><h3 id="Profit-Maximization"><a href="#Profit-Maximization" class="headerlink" title="Profit Maximization"></a>Profit Maximization</h3><p>生产者在生产过程需要注意的几个变量：</p>
+<ul>
+<li>输入原料：$x_1,…,x_m$</li>
+<li>输出产品：$y_1,…,y_n$</li>
+<li>输入原料价格：$w_1,…,w_m$</li>
+<li>输出产品价格：$p_1,…,p_n$</li>
+</ul>
+<p>生产者利润 profit 的定义：</p>
+<script type="math/tex; mode=display">
+\Pi = p_1y_1 + ...+ p_ny_n - w_1x_1 - ... - w_mx_m</script><p>假设现在输入只有 $x_1$ 和 $x_2$，输出只有一个 $y$，并且输入为 long run，需要求利润 $\Pi$ 的最大值。问题中，变量为 $x_1, x_2,y$，常量为 $p,w_1,w_2$，利润为 $\Pi=py-w_1x_1-w_2x_2$，而 $y = f(x_1,x_2)$，因此变量减少为两个，分别对 $x_1,x_2$ 求偏导，并令其为 0，则可求得最大值。 </p>
+<script type="math/tex; mode=display">
+\frac{\partial \Pi}{\partial x_1}=p \times \frac{\partial y}{\partial x_1}-w_1=p \times MP_1 - w_1 = 0</script><script type="math/tex; mode=display">
+\frac{\partial \Pi}{\partial x_2}=p \times MP_2 - w_2 = 0</script><p>可得</p>
+<script type="math/tex; mode=display">
+p\times MP_1=w_1, \ p\times MP_2=w_2</script><p>$p\times MP$ 为 marginal revenue，因此 profit 最大的时候，marginal revenue with respect to $x_i$ 等于 marginal cost with respect to $x_i$，这里的 marginal cost with respect to $x_i$ 代表的是增加一单位的输入$x_i$ 所增加的 cost，那明显是等于输入单价 $w_i$</p>
+<h3 id="Cost-Minimization"><a href="#Cost-Minimization" class="headerlink" title="Cost Minimization"></a>Cost Minimization</h3><p>当生产者需要生产 $y$ （已知常数）个产品时，应该以怎样的输入组合才会实现花费最少？这个问题的解法思路和消费者理论中寻求在 budget 约束下的最大效用一样。</p>
+<p>画出 y output unit isoquant，$cost=w_1x_1+w_2x_2$，这个问题就是寻找一个跟曲线相切的点，这个点即为成本最低的能生产 y 个产品的输入 bundle。</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/1.png" class="" width="500" height="500">
+<h3 id="Cost-Function"><a href="#Cost-Function" class="headerlink" title="Cost Function"></a>Cost Function</h3><p>我们研究一个企业的开销成本，只考察 cost 和 output level $y$ 的关系，不考察其和 input level $x_i$ 的关系，因此 cost function 定义为 $c(y)$，其可以表示为以下形式</p>
+<script type="math/tex; mode=display">
+c(y)=F+c_v(y)</script><ul>
+<li><p>$F$ 为生产过程中固定的费用，无论生产多少个产品都固定的费用</p>
+</li>
+<li><p>$c_v(y)$ 为 variable cost function，它随着 input level 而改变</p>
+</li>
+</ul>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/2.png" class="" width="500" height="500">
+<p>将 output level 加入 cost function 可得 averaged cost function(AC 或 ATC)</p>
+<script type="math/tex; mode=display">
+AC(y)=\frac{c(y)}{y}=\frac{F}{y}+\frac{c_v(y)}{y}=AFC(y)+AVC(y)</script><p>随着 y 不断增大，AFC 会趋近于 0，AVC 趋近 AC</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/3.png" class="" width="500" height="500">
+<h3 id="marginal-cost-function"><a href="#marginal-cost-function" class="headerlink" title="marginal cost function"></a>marginal cost function</h3><p>这里的边界成本指的时 output level 变化时所增加的 cost，而上面提到的 marginal cost with respect to $x_i$，是某个输入发生变化时的带来 cost 的变化，其为一个恒定的值，等于 $w_i$，与这里提到的 marginal cost 不同，marginal cost 的定义如下</p>
+<script type="math/tex; mode=display">
+MC(y)=\frac{\partial c(y)}{\partial y}=\frac{\partial c_v(y)}{\partial y}</script><p>由于 $MC(y)$ 为 $c_v(y)$ 的导数，那么 $c_v(y)$ 则为 $MC(y)$ 的不定积分</p>
+<script type="math/tex; mode=display">
+c_v(y^\prime)=\int_0^{y^\prime}MC(z)dz</script><p><strong>MC 和 AVC 的关系</strong></p>
+<script type="math/tex; mode=display">
+\frac{\partial AVC(y)}{\partial y}=\frac{y\times MC(y)-c_v(y)}{y^2}</script><ul>
+<li><p>$\frac{\partial AVC(y)}{\partial y}&gt;0$，$MC(y)&gt;\frac{c_v(y)}{y}=AVC(y)$</p>
+</li>
+<li><p>$\frac{\partial AVC(y)}{\partial y}&lt;0$，$MC(y)&lt;\frac{c_v(y)}{y}=AVC(y)$</p>
+</li>
+<li>$\frac{\partial AVC(y)}{\partial y}=0$，$MC(y)=\frac{c_v(y)}{y}=AVC(y)$</li>
+</ul>
+<p>即 AVC 的最低点是其和 MC 的交点，当 AVC 上升的时候，MC 比它大，当 AVC 下降的时候，MC 比它小</p>
+<p><strong>MC 和 ATC 的关系</strong></p>
+<script type="math/tex; mode=display">
+\frac{\partial ATC(y)}{\partial y}=\frac{y\times MC(y)-c(y)}{y^2}</script><ul>
+<li><p>$\frac{\partial ATC(y)}{\partial y}&gt;0$，$MC(y)&gt;\frac{c(y)}{y}=ATC(y)$</p>
+</li>
+<li><p>$\frac{\partial ATC(y)}{\partial y}&lt;0$，$MC(y)&lt;\frac{c(y)}{y}=ATC(y)$</p>
+</li>
+<li>$\frac{\partial ATC(y)}{\partial y}=0$，$MC(y)=\frac{c(y)}{y}=ATC(y)$</li>
+</ul>
+<p>同样的结论，即 ATC 的最低点是其和 MC 的交点，当 ATC 上升的时候，MC 比它大，当 ATC 下降的时候，MC 比它小</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/4.png" class="" width="500" height="500">
+<p><br></p>
+<h2 id="Competition-theory"><a href="#Competition-theory" class="headerlink" title="Competition theory"></a>Competition theory</h2><h3 id="Pure-Competition"><a href="#Pure-Competition" class="headerlink" title="Pure Competition"></a>Pure Competition</h3><blockquote>
+<p>Also regarded as perfect competition, pure competition is a situation in which the market for a product is populated with so many consumers and producers that no one entity has the ability to influence the price of the product sufficiently to cause a fluctuation. Within this type of market setting, sellers are considered to be price takers, indicating that they are not in a position to set the price for their products outside a certain range, given the fact that so many other producers are active within the market. At the same time, consumers have little influence over the prices offered by the producers, since there is no singular group of consumers that dominates the demand. </p>
+</blockquote>
+<p>一个企业对某样产品的市场价格没有影响，而这个产品的市场价格由市场上所有的公司共同决定，其为市场需求和市场供给的交点，如果一个企业将产品价格设高于市场价格，那么它的需求量为 0，因为没有人会买；而如果将产品价格设低于市场价格，那么该企业的需求量为市场的总需求量。</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/5.png" class="" width="500" height="500">
+<p>因此我们可以得到一个企业对于某个产品的需求曲线如下，它是一条平行于 x 轴的直线，高度等于市场价格，意味着企业如果定价等于市场价格，它的需求是没有限制的，而如果价格高于市场价，需求为0。</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/6.png" class="" width="500" height="500">
+<p>对于给定的市场价格 $p$，一个企业应该如何决定生产量 $y$ 使得利润最大化呢，问题定义为</p>
+<script type="math/tex; mode=display">
+max_{y\ge0}\Pi_s(y)=py-c_S(y)</script><p>对于利润 $\Pi_S(y)$，唯一自变量为 $y$，求利润最大值需要解下面两个条件</p>
+<ul>
+<li><p>一阶导数为 0，得出极值点，$\frac{d\Pi_S(y)}{dy}=p-MC_S(y)=0$</p>
+</li>
+<li><p>二阶导数小于 0，得出极大值点，$\frac{d^2\Pi_S(y)}{dy^2} = -\frac{dMC_S(y)}{dy}&lt;0$</p>
+</li>
+</ul>
+<p>从上面条件，我们可以得出利润最大化的 $y_S^\ast$ 应该满足</p>
+<ul>
+<li>$MC_S(y)$ 与 p 的交点</li>
+<li>交点处于 $MC_S(y)$ 的上升阶段</li>
+</ul>
+<p>上面的步骤只是求得利润的最大值，但并非最大值一定是正的，也可能为负值，当为负值的时候，证明企业在亏损，我们可以比较在交点处的 AC 值和 p 的大小关系，来判断取到最大值时，利润是否为正</p>
+<script type="math/tex; mode=display">
+\Pi_S(y)=p(y-\frac{C_S(y)}{y})=p(y-AC(y))</script><p>若 $AC(y_S^\ast) \le p$，则不亏， 若 $AC(y_S^\ast)=p$，我们称其为 breakeven price，保本价格，因为无亏损也无盈利，若 $AC(y_S^\ast)&gt;p$，则利润为负，再把成本拆开</p>
+<script type="math/tex; mode=display">
+\Pi_S(y)=p(y-\frac{C_v(y)}{y})-F=p(y-AVC(y))-F</script><p>若 $AVC(y_S^\ast)&lt;p&lt;AC(y_S^\ast)$，则企业勉强可以生存，虽然依旧亏损，但是起码能支付得起 $c_v(y)$</p>
+<p>若 $AVC(y_S^\ast)&gt;p$，则企业需要关闭，称 $AVC(y_S^\ast)=p$ 的点为 breakdown price</p>
+<p><br></p>
+<h3 id="Producer-surplus-amp-Profit"><a href="#Producer-surplus-amp-Profit" class="headerlink" title="Producer surplus &amp; Profit"></a>Producer surplus &amp; Profit</h3><p>$PS=p\times y^\ast(p)-\int_0^{y^\ast(p)}MC_S(y)=revenue-c_v(y^\ast(p))$</p>
+<p>$\Pi=revenue-c(y^\ast(p))=revenue-c_v(y^\ast(p))-F$</p>
+<p>$PS=Profit+F$</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/7.png" class="" width="500" height="500">
+<p><br></p>
+<h3 id="Long-Run-Market-Equilibrium-Price"><a href="#Long-Run-Market-Equilibrium-Price" class="headerlink" title="Long-Run Market Equilibrium Price"></a>Long-Run Market Equilibrium Price</h3><p>假设 market demand 曲线固定不变，而 market supply 由市场中的企业所决定，假设一开始只有两个企业，那么市场价格为两条曲线的交点 $p_2$，在 $p_2$ 下企业会盈利，就会导致有第三个企业进入市场，这时候 market supply 曲线发生改变，市场价格 $p_3$ 也因此降低，但此时企业依旧盈利，第四个企业进入，市场价格为 $p_4$，此时企业亏损，有企业会离开市场。</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/8.png" class="">
+<p>以此类推，当市场中的企业足够的多和小的话，那么 market supply 曲线将会是一条水平线，水平线的高度为 $min\ AC(y)$，所以 long run market price $p^e=min\ AC(y)$</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/9.png" class="" width="300" height="300">
+<p><br></p>
+<h2 id="Monopoly-theory"><a href="#Monopoly-theory" class="headerlink" title="Monopoly theory"></a>Monopoly theory</h2><h3 id="Pure-monopoly"><a href="#Pure-monopoly" class="headerlink" title="Pure monopoly"></a>Pure monopoly</h3><blockquote>
+<p>A market in which one company has control over the entire market for a product, usually because of a barrier to entry such as a technology only available to that company.</p>
+</blockquote>
+<p>pure competition 中的企业都是 market price taker，而pure monopoly 的市场价格完全由垄断者所决定，因此垄断者的利润定义为</p>
+<script type="math/tex; mode=display">
+\Pi(y)=p(y)y-c(y)</script><p>价格由自己的 demand function 所决定</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/10.png" class="" width="500" height="500">
+<p>要使得利润 $\Pi(y)$ 最大，求其对 output level $y$ 的偏导，利润最大值下的 output level $y^\ast$ 满足 marginal revenue 等于 marginal cost。</p>
+<script type="math/tex; mode=display">
+\frac{d \Pi(y)}{dy}=\frac{d}{dy}(p(y)y)-\frac{dc(y)}{dy}=MR(y)-MC(y)=0</script><p>例子：</p>
+<ul>
+<li><p>$p(y)=a-by$，$R(y)=p(y)y=ay-by^2$，$MR(y)=a-2by$</p>
+</li>
+<li><p>$c(y)=F+\alpha y+\beta y^2$，$MC(y)=\alpha+2\beta y$</p>
+</li>
+</ul>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/11.png" class="" width="600" height="600">
+<p><br></p>
+<h3 id="Monopolistic-Pricing-amp-Own-Price-Elasticity"><a href="#Monopolistic-Pricing-amp-Own-Price-Elasticity" class="headerlink" title="Monopolistic Pricing &amp; Own-Price Elasticity"></a>Monopolistic Pricing &amp; Own-Price Elasticity</h3><script type="math/tex; mode=display">
+MR(y)=\frac{d}{dy}p(y)y=p(y)+y\frac{dp(y)}{dy}=p(y)(1+\frac{1}{\epsilon})</script><p>假设 $MC(y) = k$，$k$ 为一个常数，那么</p>
+<script type="math/tex; mode=display">
+p(y^\ast)=\frac{k}{1+\frac{1}{\epsilon}}</script><p>当 $\epsilon$ 往 -1 增大时，垄断者会调整 output level 使得市场价格上升，并且垄断者为了使得自己的 marginal revenue 为正值，会选择弹性商品，即 $\epsilon &lt; -1$</p>
+<p><strong>markup pricing：</strong>市场价格和成本之差</p>
+<script type="math/tex; mode=display">
+markup = p(y^\ast)-MC(y^\ast)=\frac{k}{1+\frac{1}{\epsilon}}-k=-\frac{k}{1+\epsilon}</script><p>所以当 $\epsilon$ 往 -1 增大时，markup price 也随之增大</p>
+<p><br></p>
+<h2 id="Two-player-Game-Theory"><a href="#Two-player-Game-Theory" class="headerlink" title="Two-player Game Theory"></a>Two-player Game Theory</h2><p>A game consists of</p>
+<ul>
+<li>a set of players</li>
+<li>a set of strategies for each player</li>
+<li>the payoffs to each player for every possible choice of strategies by the players. Payoff matrix is always used to represent the relationship.</li>
+</ul>
+<p>我们只研究两个 player 且每个 player 两种决策的博弈论</p>
+<h3 id="Pure-Strategy"><a href="#Pure-Strategy" class="headerlink" title="Pure Strategy"></a>Pure Strategy</h3><p>每个 player 只能从自己的决策选项中选择一个，考虑下面的例子</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/12.png" class="" width="500" height="500">
+<p><strong>Nash Equilibrium(NE)：</strong>A play of the game where each strategy is a best reply to the other.</p>
+<p>上面例子中 (U,L) 和 (D,R) 都是 NE，比如当 player A 选择 U 的时候，player B 肯定会选择 L，反过来一样。</p>
+<p>一个 game 可能会有多个 NE，上面的例子，player A 和 B 是同时做选择的，称为 simultaneous play games，我们很难判断这两个 NE 哪个较好；而 sequential play games 通常是先后做选择，先做选择的为 leader，后作选择的为 follower，当选择有先后时，就比较容易判断哪个 NE 较好。下面的图表示如果 A 先做选择，(U,L) 会较好。</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/13.png" class="" width="500" height="500">
+<h3 id="Mixed-Strategy"><a href="#Mixed-Strategy" class="headerlink" title="Mixed Strategy"></a>Mixed Strategy</h3><p>有些 game 如果只用 pure strategy 的话，可能得不到 NE，即无论 player A 怎么选择，player B 总能选出更好的，使得 player A 接着改变选择。而 Mixed strategy 下，player 可以以某个概率去选择某个 strategy，使得整体的 expected payoff 达到 NE。</p>
+<p>下面的例子没有 pure strategy，但是有 Mixed strategy</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/14.png" class="" width="500" height="500">
+<p>对于有限个玩家且玩家的决策有限的情况，至少会有一个 NE，如果没有 pure strategy NE，那么肯定有 mixed strategy NE。</p>
+<p><br></p>
+<h2 id="Best-Responses-amp-Nash-Equilibrium"><a href="#Best-Responses-amp-Nash-Equilibrium" class="headerlink" title="Best Responses &amp; Nash Equilibrium"></a>Best Responses &amp; Nash Equilibrium</h2><p>上面用 payoff matrix 来找 NE，下面将介绍 best response 的方法来寻找 NE。</p>
+<h3 id="Pure-strategy"><a href="#Pure-strategy" class="headerlink" title="Pure strategy"></a>Pure strategy</h3><p>假设 player A 的两个 action 分别为 $a_1^A$ 和 $a_2^A$，player B 的两个 action 分别为 $a_1^B$ 和 $a_2^B$，payoff matrix 写成类似效用函数的形式</p>
+<ul>
+<li>$U^A(a_1^A,a_1^B)=6$ and $U^B(a_1^A,a_1^B)=4$</li>
+<li>$U^A(a_1^A,a_2^B)=3$ and $U^B(a_1^A,a_2^B)=5$</li>
+<li>$U^A(a_2^A,a_1^B)=4$ and $U^B(a_2^A,a_1^B)=3$</li>
+<li>$U^A(a_2^A,a_2^B)=5$ and $U^B(a_2^A,a_2^B)=7$</li>
+</ul>
+<p>如果 A 选择 $a_1^A$，B 的 best response 为 $a_2^B$；如果 A 选择 $a_2^A$，B 的 best response 为 $a_2^B$。</p>
+<p>如果 B 选择 $a_1^B$，A 的 best response 为 $a_1^A$；如果 B 选择 $a_2^B$，B 的 best response 为 $a_2^A$。</p>
+<p>第一幅图为 B 选择变化时，A 的 best response；第二幅图为 A 选择变化时，B 的 best response，注意横纵坐标不同，将两幅图放在一起，交点即为 NE，即 $(a_2^A,a_2^B)$</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/15.png" class="">
+<h3 id="Mixed-Strategy-1"><a href="#Mixed-Strategy-1" class="headerlink" title="Mixed Strategy"></a>Mixed Strategy</h3><p>假设 payoff matrix 如下</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/16.png" class="" width="500" height="500">
+<p>$\pi^A_1$ 为 A 选择 $a_1^A$ 的概率，$1-\pi^A_1$ 为 A 选择 $a_2^A$ 的概率；$\pi^B_1$ 为 B 选择 $a_1^B$ 的概率，$1-\pi^B_1$ 为 B 选择 $a_2^B$ 的概率。假设给定 $\pi_1^B$，我们可以得到 A 选择不同 action 下的平均 payoff</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/17.png" class="" width="400" height="400">
+<p>当给定 $\pi_1^B$ 时，A 的 best response 为</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/18.png" class="" width="400" height="400">
+<p>对应的 best response curve 为</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/19.png" class="" width="400" height="400">
+<p>同理，给定 $\pi_1^A$ 时，B 的情况</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/20.png" class="" width="400" height="400">
+<p>B 的 best response curve 为</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/21.png" class="" width="400" height="400">
+<p>找两个曲线的交点，即为 NE，有三个 NE，两个为 pure strategy NE，一个为 mixed strategy NE。</p>
+<img src="/2019/10/16/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-producer-theory/22.png" class="">
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/04/%E3%80%90%E9%AB%98%E7%BA%A7%E7%AE%A1%E7%90%86%E5%AD%A6%E3%80%91%E2%80%94%E2%80%94-consumer-theory/" rel="next" title="【高级管理学】—— consumer theory">
+                <i class="fa fa-chevron-left"></i> 【高级管理学】—— consumer theory
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Data-Free-Learning-of-Student-Networks/" rel="prev" title="【论文阅读】—— Data-Free Learning of Student Networks">
+                【论文阅读】—— Data-Free Learning of Student Networks <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Production-Function"><span class="nav-number">1.</span> <span class="nav-text">Production Function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Profit-and-Cost-theory"><span class="nav-number">2.</span> <span class="nav-text">Profit and Cost theory</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Profit-Maximization"><span class="nav-number">2.1.</span> <span class="nav-text">Profit Maximization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cost-Minimization"><span class="nav-number">2.2.</span> <span class="nav-text">Cost Minimization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cost-Function"><span class="nav-number">2.3.</span> <span class="nav-text">Cost Function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#marginal-cost-function"><span class="nav-number">2.4.</span> <span class="nav-text">marginal cost function</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Competition-theory"><span class="nav-number">3.</span> <span class="nav-text">Competition theory</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Pure-Competition"><span class="nav-number">3.1.</span> <span class="nav-text">Pure Competition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Producer-surplus-amp-Profit"><span class="nav-number">3.2.</span> <span class="nav-text">Producer surplus &amp; Profit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-Run-Market-Equilibrium-Price"><span class="nav-number">3.3.</span> <span class="nav-text">Long-Run Market Equilibrium Price</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Monopoly-theory"><span class="nav-number">4.</span> <span class="nav-text">Monopoly theory</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Pure-monopoly"><span class="nav-number">4.1.</span> <span class="nav-text">Pure monopoly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Monopolistic-Pricing-amp-Own-Price-Elasticity"><span class="nav-number">4.2.</span> <span class="nav-text">Monopolistic Pricing &amp; Own-Price Elasticity</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Two-player-Game-Theory"><span class="nav-number">5.</span> <span class="nav-text">Two-player Game Theory</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Pure-Strategy"><span class="nav-number">5.1.</span> <span class="nav-text">Pure Strategy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mixed-Strategy"><span class="nav-number">5.2.</span> <span class="nav-text">Mixed Strategy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Best-Responses-amp-Nash-Equilibrium"><span class="nav-number">6.</span> <span class="nav-text">Best Responses &amp; Nash Equilibrium</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Pure-strategy"><span class="nav-number">6.1.</span> <span class="nav-text">Pure strategy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mixed-Strategy-1"><span class="nav-number">6.2.</span> <span class="nav-text">Mixed Strategy</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

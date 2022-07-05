@@ -1,37 +1,874 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Title：VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITIONAuthors：Karen Simonyan, Andrew ZissermanSession：ICLR, 2015Abstract：VGGNet 代表了牛津大学的 Visual Geometry Group，该网络赢得了 ILSVRC 2014分类比赛">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文阅读】—— VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITION">
+<meta property="og:url" content="http://vincentho.name/2018/11/29/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-VERY-DEEP-CONVOLUTIONAL-NETWORKS-FOR-LARGE-SCALE-IMAGE-RECOGNITION/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="Title：VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITIONAuthors：Karen Simonyan, Andrew ZissermanSession：ICLR, 2015Abstract：VGGNet 代表了牛津大学的 Visual Geometry Group，该网络赢得了 ILSVRC 2014分类比赛">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2018/11/29/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-VERY-DEEP-CONVOLUTIONAL-NETWORKS-FOR-LARGE-SCALE-IMAGE-RECOGNITION/1.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/29/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-VERY-DEEP-CONVOLUTIONAL-NETWORKS-FOR-LARGE-SCALE-IMAGE-RECOGNITION/2.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/29/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-VERY-DEEP-CONVOLUTIONAL-NETWORKS-FOR-LARGE-SCALE-IMAGE-RECOGNITION/3.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/29/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-VERY-DEEP-CONVOLUTIONAL-NETWORKS-FOR-LARGE-SCALE-IMAGE-RECOGNITION/4.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/29/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-VERY-DEEP-CONVOLUTIONAL-NETWORKS-FOR-LARGE-SCALE-IMAGE-RECOGNITION/5.png">
+<meta property="og:image" content="http://vincentho.name/2018/11/29/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-VERY-DEEP-CONVOLUTIONAL-NETWORKS-FOR-LARGE-SCALE-IMAGE-RECOGNITION/6.png">
+<meta property="article:published_time" content="2018-11-29T06:06:16.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.684Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2018/11/29/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-VERY-DEEP-CONVOLUTIONAL-NETWORKS-FOR-LARGE-SCALE-IMAGE-RECOGNITION/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2018/11/29/【论文阅读】——-VERY-DEEP-CONVOLUTIONAL-NETWORKS-FOR-LARGE-SCALE-IMAGE-RECOGNITION/"/>
+
+
+
+
+
+  <title>【论文阅读】—— VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITION | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2018/11/29/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-VERY-DEEP-CONVOLUTIONAL-NETWORKS-FOR-LARGE-SCALE-IMAGE-RECOGNITION/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文阅读】—— VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITION</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-29T14:06:16+08:00">
+                2018-11-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Title：VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITION<br>Authors：Karen Simonyan, Andrew Zisserman<br>Session：ICLR, 2015<br>Abstract：VGGNet 代表了牛津大学的 Visual Geometry Group，该网络赢得了 ILSVRC 2014分类比赛的亚军、定位比赛的冠军。VGG 首次将网络深度提升到了 19 层，并且使用较小的卷积核，深刻印证网络深度对模型性能的影响。</p>
+</blockquote>
+<span id="more"></span>
+<p><br></p>
+<h1 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h1><p>ZFNet 和 OverFeat 两个网络都是将 AlexNet 的第一层卷积层进行了修改，将卷积核缩小以求挖掘更加细致的信息，这也说明了小卷积核的优势，因此 VGG 清一色的将卷积核设为 $3 \times 3$，并且所有的卷积操作都遵循 SAME 原则，即不改变 feature map 的维度，只改变 channel 数量；而降维操作均发生在池化层，同样清一色的采取 stride 为 2 的 $2 \times 2$ 的pooling，即每次 pooling 发生，feature map 的 height 和 width 就会减半。</p>
+<p>而小卷积核对比大卷积核的优势究竟是什么呢？作者提到主要的优势有两点。</p>
+<ol>
+<li>从下图可以看出，串联两个 $3 \times 3$ 的卷积层和一个 $5 \times 5$ 的卷积层拥有相同的receptive field（感受野）；而串联三个 $3 \times 3$ 的卷积层和一个 $ 7 \times 7$ 的卷积层拥有相同的receptive field。虽然感受野相同，那么串联多个小卷积核的好处在于它带来更多的non-linearity，因为经过了多层的激活函数。</li>
+</ol>
+<img src="/2018/11/29/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-VERY-DEEP-CONVOLUTIONAL-NETWORKS-FOR-LARGE-SCALE-IMAGE-RECOGNITION/1.png" class="">
+<ol>
+<li>小卷积核会减少模型的参数量和计算量，由于 VGG 在卷积操作的时候不改变 channel 数，因此我们假设其为 C。串联三个 $3 \times 3$ 的卷积层总共的参数为 $3(3^2C^2)$，而一层 $7 \times 7$ 的卷积层就有 $7^2C^2$ 的参数，可见小而深的网络比宽而浅的网络参数要少。</li>
+</ol>
+<p>作者共涉及了 6 个 VGG网络，DE 版本就是我们常见的 VGG-16 和 VGG-19，不同网络间除了网络深度不同，其它完全一样。注意作者定义网络层数的时候，只算有参数的层，即卷积层和全连接层，池化层不算在内。里面提到 conv 均为 $3 \times 3$ 的 SAME 卷积，max-pooling 均为 stride为 2 的 $2\times 2$ 的池化。</p>
+<img src="/2018/11/29/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-VERY-DEEP-CONVOLUTIONAL-NETWORKS-FOR-LARGE-SCALE-IMAGE-RECOGNITION/2.png" class="">
+<p>A-LRN 是在 A 版本下加入了 AlexNet 的 LRN，但是实验结果表明，LRN并没有带来提升，反而会使得模型的计算量增大。C 版本尝试性地使用了两个 $1 \times 1$ 的卷积核，作者受到当时 “Network in Network” 中的启发，也使用了这样的卷积核，$1 \times 1$ 的卷积核可以看成是和每个 pixel 进行內积，它只挖掘一个 pixel 在不同 channel 之间的关系，而不去管一个 feature map 中不同 pixel 之间的 connection。</p>
+<p><br></p>
+<h1 id="训练和测试的细节"><a href="#训练和测试的细节" class="headerlink" title="训练和测试的细节"></a>训练和测试的细节</h1><h2 id="训练阶段"><a href="#训练阶段" class="headerlink" title="训练阶段"></a>训练阶段</h2><p>输入的图像是 $224 \times 224 \times 3$ 的 RGB 图像，其他参数，如 batch size、momentum、weight decay 基本和 AlexNet 一致。作者发现 VGG 收敛要比其它网络要快，分析可能的原因是 1）深度增加和卷积核变小带来的 implicit regualarization。2）某些层的预初始化。</p>
+<p><strong>预初始化：</strong></p>
+<ol>
+<li>BCDE 版本网络的初始化均来自于 pre-trained 的版本 A 网络，由于网络 A 较小，因此收敛较快，先训练一个网络 A，然后将其训练好的参数作为后面网络的初始值（前面四个卷积层和最后的三个全连接层）</li>
+<li>其它的参数进行随机初始化，从 $(0, 0.01)$ 的高斯分布中进行初始化。</li>
+</ol>
+<p><strong>数据增强</strong></p>
+<ul>
+<li><p>随机水平翻转</p>
+</li>
+<li><p>随机 RGB 颜色调整</p>
+</li>
+<li><p>scale jittering，原始图像首先会被调整到某一个尺度，如 $N\times S$，$S &lt; N$，然后我们再从中 crop 出 $224 \times 224$ 的图片作为网络的输入；如果 $S = 224$，那么这个 crop 就相当于把图像的全部信息作为输入了；而如果 $S &gt; 224$，那么输入图片为原图像的一部分。作者提出了两种方法来设定 $S$ 值。</p>
+<ul>
+<li>固定 $S = 256 \ or \  384$，256 是 AlexNet 和 ZFNet 使用的数值。</li>
+<li>设定 $S \in [256, 512]$ 之间的随机数值。</li>
+</ul>
+<p>因此对于一张图像，首先将其调整到 $N \times S$，再将它随机裁剪出 $224 \times 224$ 的部分。</p>
+</li>
+</ul>
+<h2 id="测试阶段"><a href="#测试阶段" class="headerlink" title="测试阶段"></a>测试阶段</h2><p>同样，先将测试图像调整到尺度 $N \times Q$，$Q &lt; N$，注意 $Q$ 不一定等于 $S$，两者没有任何关系。下面对比两种测试的方法。</p>
+<p><strong>Dense Evaluation</strong></p>
+<p>这种测试方法在 OverFeat 里面被提出来，在 OverFeat 中被称为 multi-scale classification，训练完网络后，将全连接层转成全卷积神经网络，从而令网络可以接收任意尺度的输入。输出会是一个 class score map，然后再处理这个 map，得到最后的预测结果。</p>
+<p><strong>Multi-crop Evaluation</strong></p>
+<p>这种测试方法在 AlexNet 中被提出来，在 AlexNet 中被称为 10 views，从测试图片中 crop 出多张 $224 \times 224$ 的图片，再进行水平镜像等操作后输入网络中，得到多个预测结果，取平均或最大作为最后的预测。</p>
+<p>作者基于 dense evaluation 提出了两种评测方式</p>
+<ul>
+<li>single-scale evaluation：顾名思义，测试图片的尺度是固定的</li>
+<li>multi-scale evaluation：选择多个 Q 值，从而对于一张图片产生多个测试图片。这里需要注意的是，Q 值的选择需要参考 S 值，如果 S 值是固定的数值，如 256 或者 384，那么 Q 值就取 $ {S - 32, S, S+ 32 }$ 三个数值；如果 S 是 $[256, 512]$ 中的随机数，那么 Q 值就取 ${ 256, 384,512 }$ 三个数值。</li>
+</ul>
+<p>multi-scale evaluation 会得到 3 个 Q 值 class score map，然后综合考虑，决定出最后的预测结果。</p>
+<p><br></p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><h2 id="Single-scale-Evaluation"><a href="#Single-scale-Evaluation" class="headerlink" title="Single-scale Evaluation"></a>Single-scale Evaluation</h2><p>在单尺度评测下，Q 值选择和 S 值 相同，从实验结果可以看出</p>
+<ul>
+<li>LRN 没有什么作用</li>
+<li>深度增大，准确率提高</li>
+<li>$1 \times 1$ 的卷积核并没有提升网络性能</li>
+<li>随机选择 S 值要比固定一个 S 值要好</li>
+</ul>
+<img src="/2018/11/29/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-VERY-DEEP-CONVOLUTIONAL-NETWORKS-FOR-LARGE-SCALE-IMAGE-RECOGNITION/3.png" class="">
+<h2 id="Multi-scale-Evaluation"><a href="#Multi-scale-Evaluation" class="headerlink" title="Multi-scale Evaluation"></a>Multi-scale Evaluation</h2><p>在测试时候采取多尺度的评测（相当于 scale jittering），会提升网络的性能</p>
+<img src="/2018/11/29/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-VERY-DEEP-CONVOLUTIONAL-NETWORKS-FOR-LARGE-SCALE-IMAGE-RECOGNITION/4.png" class="">
+<h2 id="Dense-Evaluation-vs-Multi-crop-Evaluation"><a href="#Dense-Evaluation-vs-Multi-crop-Evaluation" class="headerlink" title="Dense Evaluation vs Multi-crop Evaluation"></a>Dense Evaluation vs Multi-crop Evaluation</h2><ul>
+<li>对于 VGG-19，multi-crop 比 dense evaluation 要好一点</li>
+<li>模型融合可以得到更好的结果</li>
+</ul>
+<img src="/2018/11/29/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-VERY-DEEP-CONVOLUTIONAL-NETWORKS-FOR-LARGE-SCALE-IMAGE-RECOGNITION/5.png" class="">
+<img src="/2018/11/29/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-VERY-DEEP-CONVOLUTIONAL-NETWORKS-FOR-LARGE-SCALE-IMAGE-RECOGNITION/6.png" class="">
+<p><br></p>
+<p><em>In Conclusion</em></p>
+<p>引用 CS231n 的一句话</p>
+<blockquote>
+<p>The runner-up in ILSVRC 2014 was the network from Karen Simonyan and Andrew Zisserman that became known as the VGGNet. Its main contribution was in showing that the depth of the network is a critical component for good performance. Their final best network contains 16 CONV/FC layers and, appealingly, features an extremely homogeneous architecture that only performs 3x3 convolutions and 2x2 pooling from the beginning to the end. Their pretrained model is available for plug and play use in Caffe. A downside of the VGGNet is that it is more expensive to evaluate and uses a lot more memory and parameters (140M). Most of these parameters are in the first fully connected layer, and it was since found that these FC layers can be removed with no performance downgrade, significantly reducing the number of necessary parameters.</p>
+</blockquote>
+<p>不难提炼出如下结论：</p>
+<ol>
+<li>深度提升性能；</li>
+<li>最佳模型：VGG16，从头到尾只有3x3卷积与2x2池化。简洁优美；</li>
+<li><p>开源pretrained model。与开源深度学习框架Caffe结合使用，助力更多人来学习；</p>
+</li>
+<li><p>卷积可代替全连接。整体参数达1亿4千万，主要在于第一个全连接层，用卷积来代替后，参数量下降。</p>
+</li>
+</ol>
+<p><br><br><em>references</em></p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40027052/article/details/79015827">某博客</a></li>
+<li><a target="_blank" rel="noopener" href="http://cs231n.stanford.edu/slides/2017/cs231n_2017_lecture9.pdf">cs231n lecture 9 ppt</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.robots.ox.ac.uk/~karen/pdf/ILSVRC_2014.pdf">VGG 会议 ppt</a></li>
+</ol>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/27/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94%20OverFeat,%20Integrated%20Recognition,%20Localization%20and%20Detection%20using%20Convolutional%20Networks/" rel="next" title="【论文阅读】—— OverFeat, Integrated Recognition, Localization and Detection using Convolutional Networks">
+                <i class="fa fa-chevron-left"></i> 【论文阅读】—— OverFeat, Integrated Recognition, Localization and Detection using Convolutional Networks
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/29/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Going-deeper-with-convolutions/" rel="prev" title="【论文阅读】—— Going deeper with convolutions">
+                【论文阅读】—— Going deeper with convolutions <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">网络结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E5%92%8C%E6%B5%8B%E8%AF%95%E7%9A%84%E7%BB%86%E8%8A%82"><span class="nav-number">2.</span> <span class="nav-text">训练和测试的细节</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E9%98%B6%E6%AE%B5"><span class="nav-number">2.1.</span> <span class="nav-text">训练阶段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E9%98%B6%E6%AE%B5"><span class="nav-number">2.2.</span> <span class="nav-text">测试阶段</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">3.</span> <span class="nav-text">实验结果</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Single-scale-Evaluation"><span class="nav-number">3.1.</span> <span class="nav-text">Single-scale Evaluation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Multi-scale-Evaluation"><span class="nav-number">3.2.</span> <span class="nav-text">Multi-scale Evaluation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dense-Evaluation-vs-Multi-crop-Evaluation"><span class="nav-number">3.3.</span> <span class="nav-text">Dense Evaluation vs Multi-crop Evaluation</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

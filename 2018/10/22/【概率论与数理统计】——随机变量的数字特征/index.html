@@ -1,37 +1,985 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="概率论," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="课程名称：概率论与数理统计开设学校：中科大课程平台：icourse第三章：随机变量的数字特征，研究随机变量的几种重要的数字特征，如期望、方差、协方差，以及讲述连接概率论和数理统计的两大重要定理：大数定理和中心极限定理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【概率论与数理统计】———— 随机变量的数字特征">
+<meta property="og:url" content="http://vincentho.name/2018/10/22/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E7%9A%84%E6%95%B0%E5%AD%97%E7%89%B9%E5%BE%81/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="课程名称：概率论与数理统计开设学校：中科大课程平台：icourse第三章：随机变量的数字特征，研究随机变量的几种重要的数字特征，如期望、方差、协方差，以及讲述连接概率论和数理统计的两大重要定理：大数定理和中心极限定理。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-10-22T12:10:00.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.525Z">
+<meta property="article:author" content="Vincent Ho">
+<meta property="article:tag" content="概率论">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2018/10/22/【概率论与数理统计】——随机变量的数字特征/"/>
+
+
+
+
+
+  <title>【概率论与数理统计】———— 随机变量的数字特征 | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2018/10/22/%E3%80%90%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E3%80%91%E2%80%94%E2%80%94%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E7%9A%84%E6%95%B0%E5%AD%97%E7%89%B9%E5%BE%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【概率论与数理统计】———— 随机变量的数字特征</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-22T20:10:00+08:00">
+                2018-10-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>课程名称：概率论与数理统计<br>开设学校：中科大<br>课程平台：icourse<br>第三章：随机变量的数字特征，研究随机变量的几种重要的数字特征，如期望、方差、协方差，以及讲述连接概率论和数理统计的两大重要定理：大数定理和中心极限定理。</p>
+</blockquote>
+<span id="more"></span>
+<p><em>preface</em></p>
+<p>概率论主要研究随机事件发生的概率，最开始我们研究单独的一个随机事件，后来研究一串事件，我们用随机变量来研究它，通过研究随机变量的分布，可以知道随机事件能取哪些值，以及取不同值的概率。知道了随机变量的分布，就能对随机变量的全部概率特征有了全面的理解，它是最高境界，但是随机变量的分布不容易得到，因为分布是最宏观的理解。而有时候我们也不一定需要去了解随机变量的整个分布，我们关心的可能只是一些数字特征，如均值。数字特征分为两类，位置参数和刻度参数，位置参数包括数学期望、中位数、众数，刻度参数包括方差、标准差。另外的包括矩、协方差、相关系数。</p>
+<p><br></p>
+<h1 id="数学期望"><a href="#数学期望" class="headerlink" title="数学期望"></a>数学期望</h1><h2 id="离散型随机变量"><a href="#离散型随机变量" class="headerlink" title="离散型随机变量"></a>离散型随机变量</h2><ul>
+<li>定义：若随机变量 $X$ 为离散型随机变量，其概率分布为 $P(X = x<em>i) = p_i, i = 1,2,3,…$，若 $\sum</em>{i=1}^n p<em>ix_i &lt; \infty$，则称 $\sum</em>{i=1}^n p_ix_i &lt; \infty$ 为随机变量 $X$ 的数学期望，记为 $EX$ 或 $E(X)$ 或 $\mu$ </li>
+<li>注意：$EX$ 是一个数，非随机</li>
+<li>数学期望又叫均值，是 $X$ 的可能取值与其概率乘积的累加，看成加权平均</li>
+<li>几个经典分布的数学期望<ul>
+<li>$X \sim B(n, p)$，$E(X) = np$</li>
+<li>$X \sim P(\lambda)$，$E(X) = \lambda$ </li>
+</ul>
+</li>
+</ul>
+<h2 id="连续型随机变量"><a href="#连续型随机变量" class="headerlink" title="连续型随机变量"></a>连续型随机变量</h2><ul>
+<li>定义：若随机变量 $X$ 为连续型随机变量，概率密度函数为 $p(x)$，若积分 $\int<em>{-\infty}^{+\infty} xp(x)dx$ 绝对收敛，则称积分 $\int</em>{-\infty}^{+\infty} xp(x)dx$ 的值为随机变量 $X$ 的数学期望</li>
+<li><p>设 $(X,Y)$ 为二维连续型随机变量，则</p>
+<ul>
+<li>$E(X) = \int<em>{-\infty}^{+\infty} xf_X(x)dx = \int</em>{-\infty}^{+\infty}\int_{-\infty}^{+\infty} xf(x,y)dxdy$ </li>
+<li>$E(Y) = \int<em>{-\infty}^{+\infty} yf_Y(y)dx = \int</em>{-\infty}^{+\infty}\int_{-\infty}^{+\infty} yf(x,y)dxdy$ </li>
+</ul>
+</li>
+<li><p>几个经典分布的数学期望</p>
+<ul>
+<li>$X \sim U(a,b)$，$E(X) = \frac{a+b}{2}$，均分分布的数学期望位于区间的中点。</li>
+<li>$X \sim Exp(\lambda)$，$E(X) = \frac{1}{\lambda}$</li>
+<li>$X \sim N(\mu, \sigma^2)$，$E(X) = \mu$</li>
+</ul>
+</li>
+</ul>
+<h2 id="随机变量函数的数学期望"><a href="#随机变量函数的数学期望" class="headerlink" title="随机变量函数的数学期望"></a>随机变量函数的数学期望</h2><ul>
+<li>$X$ 为离散型随机变量，$Y = g(X)$，$E(Y) = \sum_{k=1}^{\infty} g(x_k)p_k$ </li>
+<li>$X$ 为连续型随机变量，$Y = g(X)$，$E(Y) = \int_{-\infty}^{+\infty} g(x)f(x)dx$，积分就是求和的极限，$f(x)dx$ 就相当于某一点附近的概率</li>
+<li>$(X,Y)​$ 是二维随机变量，$Z = g(X,Y)​$<ul>
+<li>若是离散型随机变量，$E(Z) = \sum<em>{i=1}^{\infty}\sum</em>{j=1}^{\infty} g(x<em>i, y_j) p</em>{ij}$ </li>
+<li>若是连续型随机变量，$E(Z) = \int\int g(x,y)f(x,y)dxdy$ </li>
+</ul>
+</li>
+</ul>
+<h2 id="数学期望的性质"><a href="#数学期望的性质" class="headerlink" title="数学期望的性质"></a>数学期望的性质</h2><ol>
+<li>$C$ 是常数，$E(C) = C$</li>
+<li>$k$ 是常数，$E(kX) = kE(X)$ </li>
+<li>$E(X + Y) = E(X) + E(Y)$，$E(X-Y) = E(X )-E(Y)$</li>
+<li>若 $X$ 和 $Y$ 相互独立，则 $E(XY) = E(X)E(Y)​$，反过来不能推独立 </li>
+</ol>
+<p><br></p>
+<h1 id="方差和标准差"><a href="#方差和标准差" class="headerlink" title="方差和标准差"></a>方差和标准差</h1><ul>
+<li>定义：设 $X$ 为随机变量，称 $E((X-EX)^2)$ 为随机变量 $X$ 的方差，其算术平方根称为标准差，分别记为 $Var(X)$ 和 $\sigma$ ，$D(X) = Var(X) = \sigma^2$ </li>
+<li>方差是刻画随机变量在其中心位置（期望）附近波动程度的一种数字特征<ul>
+<li>$EX$ 为随机变量 $X$ 的均值，$X - EX$ 为随机变量距离均值的距离，为了防止距离正负抵消，所以平方处理，但其实所表示的数学意义和 $E(|X- EX|)$ 是一样的</li>
+<li>当我们讨论数学性质的时候，用方差比较多；在实际应用时，用标准差比较多，因为标准差与 $X$ 有相同的量纲</li>
+</ul>
+</li>
+<li>计算：$Var(X) = E((X-\mu)^2) = E(X^2 - 2\mu X + \mu^2) = E(X^2) - 2\mu E(X) + \mu^2$，由于 $E(X) = \mu$，所以 $Var(X) = E(X^2)-(E(X))^2$ ；或者用方差的定义算，将 $(X-EX)^2$ 看成一个新的随机变量，再算其数学期望。</li>
+<li>常见分布的方差<ul>
+<li>$X \sim B(n, p)$，$Var(X) = np(1-p)$</li>
+<li>$X \sim P(\lambda)$，$Var(X) = \lambda$</li>
+<li>$X \sim Exp(\lambda)$，$Var(X) = \frac{1}{\lambda^2}$</li>
+<li>$X \sim N(\mu, \sigma^2)$，$Var(X) = \sigma^2$</li>
+</ul>
+</li>
+<li>方差的性质：<ul>
+<li>设 $C$ 是常数，则 $Var(C) = 0$，常数没有波动，所以方差为0</li>
+<li>若 $a$，$b$ 是常数，则 $Var(aX+b) = a^2Var(X)$<ul>
+<li>$E(aX+b) = aE(X) + b$</li>
+<li>$Var(aX+b) = E[aX+b - E(aX+b)]^2 = E[aX+b-aE(X) - b]^2$<br>​                         $=E[a(X-E(X))]^2=a^2E(X-E(X))^2=a^2Var(X)$ </li>
+</ul>
+</li>
+<li>若 $X$，$Y$ 相互独立，$Var(X+Y)=Var(X) + Var(Y)$ <ul>
+<li>注意区分期望的这条性质，在期望中，$E(X+Y)=E(X)+E(Y)$，是不需要独立条件</li>
+<li>$Var(X+Y) = E[X+Y-(E(X)+E(Y))]^2 = E[(X-E(X)) + (Y-E(Y))]^2$<br>​                        $=E[(X-EX)^2 + (Y-EY)^2-2(X-EX)(Y-EY)]$<br>​                        $=Var(X) + Var(Y)-2E[(X-EX)(Y-EY)]$ </li>
+<li>因为随机变量$X$ 和 $Y$ 相互独立，$X-EX$ 和 $Y-EY$ 也相互独立，因此<ul>
+<li>$E[(X-EX)(Y-EY)] = E(X-EX)E(Y-EY) = 0*0 = 0$</li>
+</ul>
+</li>
+<li>所以，$Var(X+Y) = Var(X) + Var(Y)$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>随机变量的标准化<ul>
+<li>假设随机变量 $X$ 的期望是 $\mu$，方差是 $\sigma^2$，则 $X^n = \frac{X-\mu}{\sigma}$ 为 $X$ 的标准化随机变量，易见 $E(X^n) = 0$，$Var(X^n) = 1$</li>
+</ul>
+</li>
+</ul>
+<p><br></p>
+<h1 id="马尔科夫不等式"><a href="#马尔科夫不等式" class="headerlink" title="马尔科夫不等式"></a>马尔科夫不等式</h1><ul>
+<li>假设 $X$ 是一个非负的随机变量，则对任意的 $\epsilon &gt; 0$，$P(X \ge \epsilon) \le \frac{E(X)}{\epsilon}$ ，马尔科夫不等式将概率和期望联系在一起</li>
+<li>证明：$E(X) = \int<em>0^{+\infty} xf(x)dx &gt; \int</em>{\epsilon}^{+\infty}xf(x)dx &gt; \epsilon\int_{\epsilon}^{+\infty}f(x)dx = \epsilon P(X \ge \epsilon)$ <ul>
+<li>所以，$P(X \ge \epsilon) \le \frac{E(X)}{\epsilon}$ </li>
+</ul>
+</li>
+<li>特例：令随机变量 $Y = (X - EX)^2$，$Y$ 满足非负的条件，令 $\epsilon = \epsilon_1^2$<ul>
+<li>则，$P(Y \ge \epsilon) = P(|X-EX| \ge \epsilon_1) \le \frac{E(Y)}{\epsilon} = \frac{Var(X)}{\epsilon_1^2}$  </li>
+<li>这是马尔科夫不等式的一个特例，叫做<strong>切比雪夫不等式</strong>：$P(|X-EX| \ge \epsilon) \le  \frac{Var(X)}{\epsilon^2}$</li>
+</ul>
+</li>
+<li>例子：需要调查吸烟率 $p$ ，需要调查多少人才能保证频率和与真正吸烟率的差不超过 $0.005$ 的概率不低于 $0.95$<ul>
+<li>假设调查的人数为 $n$，吸烟的人数为 $n_a$，那么频率 $f=\frac{n_a}{n}$，题意要求 $P(|f-p| &lt; 0.005) \ge 0.95$，则 $P(|n_a-np| &lt; 0.005n) \ge 0.95$</li>
+<li>$n_a \sim B(n, p)$，二项分布的期望为 $E(n_a) = np$，则上面要求的可以看成$P(|n_a-E(n_a)| &lt; 0.005n) \ge 0.95$，其对立事件为 $P(|n_a-np| \ge 0.005n) \le 0.05$ </li>
+<li>利用马尔科夫不等式，$P(|n_a-E(n_a)| \ge 0.005n)  &lt; \frac{np(1-p)}{0.005^2n^2}$ </li>
+<li>$p(1-p)$ 的最大值为 0.25，所以 $\frac{np(1-p)}{0.005^2n^2} \le \frac{1}{4*0.005^2n} \le 0.05$，所以 $n = 40000$</li>
+</ul>
+</li>
+</ul>
+<p><br></p>
+<h1 id="矩"><a href="#矩" class="headerlink" title="矩"></a>矩</h1><ul>
+<li>设 $X​$ 为随机变量，若 $E(X^k), k = 1,2,3,…​$ 存在，则称它为 $X​$ 的k阶原点矩</li>
+<li>设 $X$ 为随机变量，若 $E((X - EX)^k), k = 1,2,3,…$ 存在，则称它为 $X$ 的k阶中心矩</li>
+<li>数学期望是一阶原点矩，方差是二阶中心矩</li>
+<li>在实际应用中，高于4阶的矩很少使用，3阶中心距用来衡量随机变量分布是否有偏差，4阶中心矩用来衡量随机变量分布在均值附近的陡峭程度</li>
+</ul>
+<p><br>  </p>
+<h1 id="协方差与相关系数"><a href="#协方差与相关系数" class="headerlink" title="协方差与相关系数"></a>协方差与相关系数</h1><p>之前提到的方差、期望、矩都是描述一个随机变量的数字特征，反应随机变量的某一特性。而协方差和相关系数是描述两个随机变量关系的数字特征</p>
+<ul>
+<li>协方差定义：$Cov(X,Y) = E[(X-EX)(Y-EY)]$，若 $X=Y$，$Cov(X,Y) = Var(X)$，所以协方差是方差的一个推广</li>
+<li>协方差的性质<ul>
+<li>$Cov(aX+b, cY+d) = acCov(X,Y)$ <ul>
+<li>$Cov(aX+b, cY+d) = E[(aX+b - aEX - b)(cY+d - cEY - d)] $<br>$= E[ac(X-EX)(Y-EY)] = acCov(X,Y)$  </li>
+</ul>
+</li>
+<li>$Cov(aX+bY, cX+dY) = acVar(X)+adCov(X,Y) + bcCov(Y,X) + bdVar(Y)$ </li>
+<li>若随机变量 $X$ 和 $Y$ 独立，那么 $Cov(X,Y) = 0$，协方差为0，则两个随机变量不相关<ul>
+<li>随机变量 $X$ 和 $Y$ 独立，则随机变量 $X-EX$ 和 $Y-EY$ 独立</li>
+<li>$E[(X-EX)(Y-EY)] = E(X-EX)E(Y-EY) = 0 \times 0=0$ </li>
+<li>两个随机变量独立，必定不相关；但是不相关，不一定独立<ul>
+<li>$Cov(X,Y) = E[(X-EX)(Y-EY)] = E(XY) - EXEY$ </li>
+<li>若两个随机变量不相关，则 $E(XY) = EXEY$，但是这推不出随机变量独立</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>$Cov^2(X,Y) \le Var(X)Var(Y)$，等号成立，当且仅当 $X$ 和 $Y$ 存在严格的线性关系，如 $Y=aX+b$ </li>
+</ul>
+</li>
+</ul>
+<p>但是协方差描述的两个随机变量的关系，并没有考虑随机变量本身的量纲，如身高和体重之间的关系，单位不一样，因此又引入了相关系数 </p>
+<ul>
+<li>相关系数的定义：$Corr(X,Y)= \rho_{x,y}= \frac{Cov(X,Y)}{\sqrt{Var(X)Var(Y)}}$  </li>
+<li>相关系数的性质<ul>
+<li>$|\rho_{x,y}| \le 1$，因为 $Cov^2(X,Y) \le Var(X)Var(Y)$ </li>
+<li>若 $|\rho_{x,y}| = 0$，则两个随机变量不相关，严格来说，是线性不相关，即随机变量 $X$ 和 $Y$ 不存在严格的线性关系，但可能存在其他的函数关系，下面是一个反例<ul>
+<li>$X \sim U(-\pi,\pi)$，$Y = cos(X)$，$EX=0$，$EY=0$，$Cov(X,Y) = 0$</li>
+<li>协方差为0，证明不相关，但只是说明，两个随机变量没有线性相关性</li>
+</ul>
+</li>
+<li>若 $\rho_{x,y} = 1$，则 $Y = aX + b$，且 $a &gt; 0$，称两个随机变量是严格的线性关系</li>
+<li>若 $\rho_{x,y} = -1$，则 $Y = aX + b$，且 $a &lt; 0$，称两个随机变量是严格的线性关系</li>
+<li>若 $\rho_{x,y} \in (0,1)$，则两个随机变量正相关，称两个随机变量存在相关关系 </li>
+<li>若 $\rho_{x,y} \in (-1,0)$，则两个随机变量负相关，称两个随机变量存在相关关系 </li>
+<li>若两个随机变量独立，则相关系数为0；但相关系数为0，不能推出两个随机变量独立<ul>
+<li>特例：二元正态分布，$(X,Y) \sim N(\mu_1,\mu_2, \sigma_1^2, \sigma_2^2, \rho)$，其中 $\rho$ 为相关系数，则 $X$ 和 $Y$ 独立当且仅当 $\rho = 0$ </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><br></p>
+<h1 id="大数定律"><a href="#大数定律" class="headerlink" title="大数定律"></a>大数定律</h1><ul>
+<li>如果对于任何 $\epsilon &gt; 0 $，都有 $lim_{n \rightarrow \infty} P(|\xi_n - \xi| &gt; \epsilon) = 0$，那么我们称随机序列 $\xi_n$ 依概率收敛到 $\xi$，记为 $\xi_n \rightarrow^p \xi$ </li>
+<li>（弱）大数定律：{$X<em>n$} 是一列独立同分布的随机变量序列，具有共同的数学期望 $\mu$，共同的方差 $\sigma^2$，则 $(\bar{X} = \frac{1}{n}\sum</em>{k=1}^n X_k) \rightarrow^p \mu$，称 {$X_n$} 服从（弱）大数定律    <ul>
+<li>大数定律描述的事情就是：$lim_{n \rightarrow \infty} P(|\bar{X} - \mu| &gt; \epsilon) = 0$ </li>
+<li>利用切比雪夫不等式：$P(|X-EX| \ge \epsilon) \le  \frac{Var(X)}{\epsilon^2}$</li>
+<li>$E(\bar{X}) = \mu$，$Var(\bar{X}) = \frac{\sigma^2}{n}$ </li>
+<li>所以，$P(|\bar{X} - E(\bar{X})| \ge \epsilon) \le \frac{Var(X)}{\epsilon^2} = \frac{\sigma^2}{n\epsilon^2} \rightarrow 0$，当 $n \rightarrow \infty$ </li>
+</ul>
+</li>
+<li>推论：如果以 $\xi_n$ 表示 $n$ 重伯努利实验中的成功次数，则 $f_n = \frac{\xi_n}{n} \rightarrow p$，即频率（依概率）收敛到概率。简单来说就是当抽样足够多的时候，频率趋近于真实的概率</li>
+<li>在大量重复试验的基础上，随机事件多次发生的平均结果具有稳定性，不再具有随机性；大数定律表达了大量重复试验中随机现象所呈现的稳定性</li>
+<li>几个常见的大数定理<ul>
+<li><strong>切比雪夫大数定理</strong>：{$X_n$} 是相互独立的随机变量，他们都有有限的方差，且方差有共同的上界，即 $Var(X_i) \le C$，则对于任意的 $\epsilon &gt; 0$，$limP(|\frac{1}{n}\sum X_i - \frac{1}{n} \sum E(X_i) | &lt; \epsilon) = 1$，切比雪夫大数定理表明：当 $n$ 充分的大，$n$ 个独立随机变量平均值的离散程度较小，即经过算术平均以后的随机变量 $\frac{1}{n}\sum X_i $ 将比较密集地聚集在它的期望 $E(\frac{1}{n}\sum X_i ) =\frac{1}{n} \sum E(X_i) $  附近</li>
+<li><strong>辛钦大数定理</strong>： {$X<em>n$} 是独立同分布的随机变量，且 $E(X_i) = \mu$，则对于任意的 $\epsilon &gt; 0$，$lim</em>{n \rightarrow \infty}P(|\frac{1}{n}\sum X_i  - \mu| &lt; \epsilon ) = 1$，辛钦大数定理表明：当随机变量序列独立同分布时，随机变量序列的算术平均依概率收敛于整体均值。</li>
+<li><strong>伯努利大数定理</strong>：设 $n<em>A$ 是 $n$ 次独立重复试验中事件 $A$ 发生的次数，$p$ 是事件 $A$ 在每次试验中发生的概率，则对于任意的 $\epsilon &gt; 0$，有 $lim</em>{n \rightarrow \infty}P(|\frac{n_A}{n} - p| &lt; \epsilon ) = 1$，伯努利大数定理表明：在大量试验的基础上，频率依概率收敛于概率。</li>
+</ul>
+</li>
+</ul>
+<p><br></p>
+<h1 id="中心极限定理"><a href="#中心极限定理" class="headerlink" title="中心极限定理"></a>中心极限定理</h1><ul>
+<li>定义：{$X_n$} 是一列独立同分布的随机变量序列，具有共同的数学期望 $\mu$，共同的方差 $\sigma^2$，则 $P(\frac{X_1 + X_2 + \dots +X_n - n\mu}{\sigma \sqrt{n}} \le x) = \Phi(x)$ <ul>
+<li>令 $S_n = X_1 + X_2 + \dots + X_n$，则 $E(S_n)= n\mu$，$Var(S_n) = n\sigma^2$</li>
+<li>$\frac{X_1 + X_2 + \dots +X_n - n\mu}{\sigma \sqrt{n}} $ 就是随机变量 $S_n$ 的标准化</li>
+<li>中心极限定理描述的就是，当 $n$ 趋于无穷时，序列和的标准化趋向于标准正太分布，即$\frac{X_1 + X_2 + \dots +X_n - n\mu}{\sigma \sqrt{n}} \rightarrow N(0,1) $ </li>
+<li>注意：{$X_n$} 的随机变量不必是正态分布，可以是离散型随机变量，也可以是连续型的</li>
+</ul>
+</li>
+<li>用中心极限定理逼近二项分布<ul>
+<li>假设 {$X_n$} 都是0-1分布，那么 $S_n \sim B(n,p)$，可以将二项分布标准化成标准正太分布，从而计算二项分布的概率</li>
+<li>$E(S_n) = np$，$Var(S_n) = np(1-p) = npq$，令 $q = 1-p$ </li>
+<li>$P(k_1 \le X \le k_2) = P(\frac{k_1 - np}{\sqrt{npq})} \le \frac{X-np}{\sqrt{npq}} \le \frac{k_2 - np}{\sqrt{npq}}) = \Phi(\frac{k_2 - np}{\sqrt{npq}}) - \Phi(\frac{k_1 - np}{\sqrt{npq}})$ </li>
+<li>$P(X=k)=P(k - \frac{1}{2} \le X \le k +\frac{1}{2}) = P(\frac{k - 0.5 - np}{\sqrt{npq})} \le \frac{X-np}{\sqrt{npq}} \le \frac{k + 0.5 - np}{\sqrt{npq}})$<br>$ = \Phi(\frac{k + 0.5 - np}{\sqrt{npq}}) - \Phi(\frac{k - 0.5- np}{\sqrt{npq}}) $<br>再根据微分中指定理<br>$=\phi(\frac{k-np}{\sqrt{npq}})\frac{1}{\sqrt{npq}} = \frac{1}{\sqrt{2\pi npq}}exp(-\frac{(k-np)^2}{2npq})$  </li>
+</ul>
+</li>
+</ul>
+<p><br></p>
+<p><em>In Conclusion</em><br>大数定理和中心极限定理是连接概率论和数理统计的重要定理</p>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" rel="tag"># 概率论</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/03/%E5%8C%97%E4%BA%AC%E4%B8%8A%E6%B5%B7%E9%82%A3%E4%BA%9B%E4%BA%8B/" rel="next" title="北京上海那些事">
+                <i class="fa fa-chevron-left"></i> 北京上海那些事
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/05/Coursera%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%AF%BE%E7%A8%8B%E7%AC%AC%E4%BA%94%E8%AF%BE%E7%AC%AC%E4%B8%89%E5%91%A8%E2%80%94%E2%80%94%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B%E5%8F%8A%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/" rel="prev" title="Coursera深度学习课程第五课第三周————序列模型及注意力机制">
+                Coursera深度学习课程第五课第三周————序列模型及注意力机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E6%9C%9F%E6%9C%9B"><span class="nav-number">1.</span> <span class="nav-text">数学期望</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A6%BB%E6%95%A3%E5%9E%8B%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F"><span class="nav-number">1.1.</span> <span class="nav-text">离散型随机变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E7%BB%AD%E5%9E%8B%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F"><span class="nav-number">1.2.</span> <span class="nav-text">连续型随机变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%87%BD%E6%95%B0%E7%9A%84%E6%95%B0%E5%AD%A6%E6%9C%9F%E6%9C%9B"><span class="nav-number">1.3.</span> <span class="nav-text">随机变量函数的数学期望</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E6%9C%9F%E6%9C%9B%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="nav-number">1.4.</span> <span class="nav-text">数学期望的性质</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%B9%E5%B7%AE%E5%92%8C%E6%A0%87%E5%87%86%E5%B7%AE"><span class="nav-number">2.</span> <span class="nav-text">方差和标准差</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E4%B8%8D%E7%AD%89%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">马尔科夫不等式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9F%A9"><span class="nav-number">4.</span> <span class="nav-text">矩</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%8F%E6%96%B9%E5%B7%AE%E4%B8%8E%E7%9B%B8%E5%85%B3%E7%B3%BB%E6%95%B0"><span class="nav-number">5.</span> <span class="nav-text">协方差与相关系数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%A7%E6%95%B0%E5%AE%9A%E5%BE%8B"><span class="nav-number">6.</span> <span class="nav-text">大数定律</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AD%E5%BF%83%E6%9E%81%E9%99%90%E5%AE%9A%E7%90%86"><span class="nav-number">7.</span> <span class="nav-text">中心极限定理</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

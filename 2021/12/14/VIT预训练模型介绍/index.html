@@ -1,37 +1,810 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Transformer 提出后，一大堆基于 transformer 的 NLP 预训练模型被提出，如 BERT、GPT 等，但 transformer 在 CV 领域上的应用却迟迟没能火起来，最近 VIT (vision transformer) 的提出，给 CV community 注入了一剂强心剂，再一次证明了 transformer 是现今最强的特征提取器，按照 NLP 的发展历程，要训练这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VIT预训练模型介绍">
+<meta property="og:url" content="http://vincentho.name/2021/12/14/VIT%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="Transformer 提出后，一大堆基于 transformer 的 NLP 预训练模型被提出，如 BERT、GPT 等，但 transformer 在 CV 领域上的应用却迟迟没能火起来，最近 VIT (vision transformer) 的提出，给 CV community 注入了一剂强心剂，再一次证明了 transformer 是现今最强的特征提取器，按照 NLP 的发展历程，要训练这">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2021/12/14/VIT%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/vit.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/14/VIT%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/beit.png">
+<meta property="og:image" content="http://vincentho.name/2021/12/14/VIT%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/mae.png">
+<meta property="article:published_time" content="2021-12-14T13:12:40.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.403Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2021/12/14/VIT%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/vit.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2021/12/14/VIT预训练模型介绍/"/>
+
+
+
+
+
+  <title>VIT预训练模型介绍 | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2021/12/14/VIT%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">VIT预训练模型介绍</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-12-14T21:12:40+08:00">
+                2021-12-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Transformer 提出后，一大堆基于 transformer 的 NLP 预训练模型被提出，如 BERT、GPT 等，但 transformer 在 CV 领域上的应用却迟迟没能火起来，最近 VIT (vision transformer) 的提出，给 CV community 注入了一剂强心剂，再一次证明了 transformer 是现今最强的特征提取器，按照 NLP 的发展历程，要训练这种 data-hungry 的大规模网络，就必定需要预训练方法，用监督训练的方式肯定是行不通的，需要利用无标注的数据，采取自监督的方法进行预训练。这篇文章将介绍 BEIT 和 MAE 这两种预训练方法</p>
+<blockquote>
+<p>BEIT: BERT Pre-Training of Image Transformers<br>Masked Autoencoders Are Scalable Vision Learners</p>
+</blockquote>
+<span id="more"></span>
+<p><br></p>
+<h3 id="VIT-介绍"><a href="#VIT-介绍" class="headerlink" title="VIT 介绍"></a>VIT 介绍</h3><p>transformer 擅长处理序列数据，因此 NLP 领域可以很自然地利用 transformer 来构造网络，但是 CV 领域处理的是图片视频这些三维的数据，它不具有序列性。要用 transformer 来处理图片数据，就必须得引入序列信息，而 VIT 采取了一种很简单的方法：将图片或特征图（先用 CNN 得到 feature map）切成一块块的 patch，就能构造出一个从左上角到右下角的序列，加入位置编码，引入分类 token，然后再将这个序列输入到 transformer 里面。transformer 的结构对比标准的 transformer 结构也做了一点修改，将 layernorm 的位置提前了。</p>
+<img src="/2021/12/14/VIT%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/vit.png" class="" width="700">
+<p>VIT 整体的训练方式是采取 pre-train 再 finetune 的形式，跟 BERT 一样，VIT 也是有 base、large 和 huge 三种结构，对于这种 data-hungry 的网络，在小数据集（如 cifar10/100）上 train from scratch 肯定很差，因此才需要预训练再微调。VIT 采用的预训练方式是有监督的训练，从上面的网络结构图也能看出，它的预训练任务只能采取分类任务，因此作者采用了三个大分类数据集来做对比，分别是 ImageNet-1k (1.3M)、ImageNet-21k (14M) 和 JFT-18k (303M)，一个数据集比一个数据集大。</p>
+<p>由于网络大，只采取监督训练不能完全训练好网络，因此实验结果总会出现，用 ImageNet-1k 预训练的 VIT-Large 比 VIT-Base 还要差的结果，只有用 JFT 这种超大数据集训练才能训得好，但这样对数据集的要求就太高了，因此需要利用自监督的训练方式来对 VIT 进行预训练。</p>
+<p><br></p>
+<h3 id="BEIT"><a href="#BEIT" class="headerlink" title="BEIT"></a>BEIT</h3><p>BEIT 是参考 BERT 的方式对网络进行预训练的，BERT 是采用 MLM (masked language modeling) 的方式进行预训练，网络结构只用了 encoder，对输入的 sequence 进行随机 mask，然后让网络去预测 mask 掉的 token。</p>
+<p>由于 NLP 的输入的句子是由一个个的 token 组成的，而 token 是从有限的集合中来的，也就是 vocabulary，但是 cv 里，将图片切成一个个 patch 后，这些 patch 不可能从一个有限的 vocabulary 里面得到，如果要按照 BERT 那一套预训练方式，首先需要将 patch 映射到 token，因此作者训练了一个 tokenizer 实现了这个功能，作者把这个叫做 visual token，然后其他的部分和 BERT 保持一致，mask 掉某些 patch，输入到网络，网络预测 masked patch 的 visual token。对于 masking 部分，作者 mask 掉 40% 的 patch，并且不是完全随机 mask，而是提出一种 block-wise 的 masking 方法，详细看论文。</p>
+<p>预训练部分由于采取的是自监督的方式，因此并不需要像原始 VIT 那样需要那么大的监督数据集，作者只采用了 ImageNet-1k 就能取得比较好的结果了。</p>
+<img src="/2021/12/14/VIT%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/beit.png" class="" width="700">
+<p><br></p>
+<h3 id="MAE"><a href="#MAE" class="headerlink" title="MAE"></a>MAE</h3><p>MAE 代表 Masked Auto-Encoder，从名字上可以看出，它预训练的方式就是将图片 mask 掉，然后训练一个 auto-encoder 将其复原，这种结构在 cv 里的复原任务里经常能看到，但为什么现在才提出来呢，后面会详细说下 NLP 和 CV 领域的差别。</p>
+<p>整体的结构如下图，首先将图片进行随机 mask，不同 BEIT 的是，MAE mask 的比例高达 70-80%，并且 BEIT 做的是预测 masked token，MAE 做的是恢复 masked patch，并且对于 encoder 的输入，没有输入 masked patch，这是为了保持与 finetune 阶段一致，减少预训练和 finetune 的 gap，其实 bert 采取 8:1:1 的比例 mask 掉 token，也是为了减少这个 gap 的，并且只输入 visible patch，也能减少很多的运算量；然后会将 encoder 的输出加上 mask token，再一同输入到 decoder 进行解码恢复，注意 encoder 和 decoder 都是 VIT 结构，但是 encoder 要比 decoder 大，这是因为 decoder 只用于预训练，finetune 阶段 decoder 将会被去掉，下游任务只会用到 encoder。</p>
+<p>对比 BERT 和 MAE，我们可以发现，其实 BERT 更像是 MAE 的 decoder 部分，MAE 先通过 encoder 得到高级的语义信息，再和 mask token 拼接在一起，输入到 decoder，而 bert 输入是一个个的词，天然就是一种语义信息很高的 token，对比图片的一个个 patch（高冗余）。</p>
+<img src="/2021/12/14/VIT%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/mae.png" class="" width="500" height="500">
+<p>作者思考过 cv 和 nlp 两个领域在预训练 masked 编码器的区别，主要有三个方面导致 transformer 当初在 cv 领域没火起来。</p>
+<ol>
+<li>CNN 一直是 cv 领域的主流网络，因为图片这种数据适合卷积来操作，而这种 grid 的卷积操作不好加入序列信息，如位置编码或者 mask 信息，这种结构的 gap 直到 VIT 出现才被解决。</li>
+<li>文字和图片的信息密度不同，文字是一种高度语义化的信息，因此 bert 采取 MLM 这种方式，并且只要 mask 15% 就能够很好的充当预训练的功能；但是图片是一种高度冗余的信息，它可以很容易地通过邻近的像素去还原 mask，并不需要很多的高级语义，要解决这种问题，作者提出只要 mask 的比例足够大，也能学习到很多语义信息来充当预训练。</li>
+<li>对于 bert，预测 missing words 是一种高级的语义任务，encoder 的输出就已经有很多高级语义信息了，因此 bert 的 decoder 就只是一个简单的 MLP；而对于 MAE，它是要恢复 pixel，这个相对来说是不需要很多语义信息的，因此 MAE 专门引入了一个 decoder 来做这件事。</li>
+</ol>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/12/07/BERT%E7%9A%84%E5%84%BF%E5%AD%90%E4%BB%AC%E7%AE%80%E4%BB%8B/" rel="next" title="BERT的儿子们简介">
+                <i class="fa fa-chevron-left"></i> BERT的儿子们简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2022/07/05/%E8%87%B4%E9%80%9D%E5%8E%BB%E7%9A%84%E4%B8%89%E5%B9%B4%E7%A0%94%E7%A9%B6%E7%94%9F%E6%97%B6%E5%85%89/" rel="prev" title="致逝去的三年研究生时光">
+                致逝去的三年研究生时光 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#VIT-%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">VIT 介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BEIT"><span class="nav-number">2.</span> <span class="nav-text">BEIT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAE"><span class="nav-number">3.</span> <span class="nav-text">MAE</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

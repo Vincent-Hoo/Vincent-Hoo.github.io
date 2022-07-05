@@ -1,37 +1,819 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Title: OpenPose: Realtime Multi-Person 2D Pose Estimation using Part Affinity FieldsAuthor: Zhe CaoConference: CVPR 2017（后扩展为期刊）Abstract: 作者提出了一种实时的 2D 关节点检测的算法，并将关节点扩展为手部、脚部、脸部共 135 个点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文阅读】——OpenPose, Realtime Multi-Person 2D Pose Estimation using Part Affinity Fields">
+<meta property="og:url" content="http://vincentho.name/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:description" content="Title: OpenPose: Realtime Multi-Person 2D Pose Estimation using Part Affinity FieldsAuthor: Zhe CaoConference: CVPR 2017（后扩展为期刊）Abstract: 作者提出了一种实时的 2D 关节点检测的算法，并将关节点扩展为手部、脚部、脸部共 135 个点。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/1.png">
+<meta property="og:image" content="http://vincentho.name/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/2.png">
+<meta property="og:image" content="http://vincentho.name/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/3.png">
+<meta property="og:image" content="http://vincentho.name/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/4.png">
+<meta property="og:image" content="http://vincentho.name/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/5.png">
+<meta property="og:image" content="http://vincentho.name/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/6.png">
+<meta property="og:image" content="http://vincentho.name/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/7.png">
+<meta property="og:image" content="http://vincentho.name/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/8.png">
+<meta property="og:image" content="http://vincentho.name/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/9.png">
+<meta property="og:image" content="http://vincentho.name/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/10.png">
+<meta property="og:image" content="http://vincentho.name/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/11.png">
+<meta property="article:published_time" content="2020-08-30T12:01:07.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.729Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2020/08/30/【论文阅读】——OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/"/>
+
+
+
+
+
+  <title>【论文阅读】——OpenPose, Realtime Multi-Person 2D Pose Estimation using Part Affinity Fields | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文阅读】——OpenPose, Realtime Multi-Person 2D Pose Estimation using Part Affinity Fields</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-08-30T20:01:07+08:00">
+                2020-08-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Title: OpenPose: Realtime Multi-Person 2D Pose Estimation using Part Affinity Fields<br>Author: Zhe Cao<br>Conference: CVPR 2017（后扩展为期刊）<br>Abstract: 作者提出了一种实时的 2D 关节点检测的算法，并将关节点扩展为手部、脚部、脸部共 135 个点。</p>
+</blockquote>
+<span id="more"></span>
+<h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><p>openpose 是一种 bottom-up 的方法，所谓的 bottom-up，就是从一张图片中先找出所有的关节点，然后再对关节点进行重组，这种方法不受图片中人数的影响，runtime 比较固定，因此可以做到实时，openpose 整体的流程如下。整张图片作为输入，经过神经网络会输出两种图，一种是 heatmap（part confidence maps，openpose里面将 keypoint 称为 part），另一种是骨骼连接图（part affinity fields，也就是连接不同关节点之间的骨骼），然后再对得到的关节点进行 match 和 parse。</p>
+<img src="/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/1.png" class="">
+<h4 id="Confidence-Maps"><a href="#Confidence-Maps" class="headerlink" title="Confidence Maps"></a>Confidence Maps</h4><p>在 top-down 方法里面，ground-true 的关节点的热力图是以关节点为原点的一个二维高斯分布，热力图最大值的点即为关节点；而对于 bottom-up 的方法，一张图片会有多个人，因此对于某一个关节点，如脖子，热力图上会有多个 peak，是多个高斯分布的叠加，这里不同高斯分布采取的是取最大值的做法，防止关节点隔得太近，所以不能取平均，$S^{\ast}_j $ 表示的是第 j-th 个关节点的 GT 热力图</p>
+<img src="/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/2.png" class="">
+<h4 id="Part-Affinity-Fields-for-Part-Association"><a href="#Part-Affinity-Fields-for-Part-Association" class="headerlink" title="Part Affinity Fields for Part Association"></a>Part Affinity Fields for Part Association</h4><p>假设一个人体有 17 个关节点，那么 17 个点，就会有 16 根连线，这里的一根连线对应一个 part affinity field，PAF 是一个 $w\times h \times 2$ 的矩阵，每个 pixel 对应一个 2D 向量，指示连线的方向。对于 limb c 上的点，PAF 为一个指示单位向量。至于如何找到 limb c 上的点，作者连接两个关节点成一条线，距离该线在一定范围内的点即为 limb c 上的点。一张图会有 k 个人，所以会有 k 个 limb c，因此最终对于 limb c 的 GT PAF $L^\ast _c$ 是单独一个人 PAF 的平均。 </p>
+<img src="/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/3.png" class="">
+<img src="/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/4.png" class="">
+<p>测试的时候，会预测出一堆的关节点，以及一堆的 limb，就比如图1的例子，两个人，预测出两个肩膀点和两个手肘点，这里可以自由组合出 4 个 limb，然后预测的 PAF 会有两条 limb，如果会用组合的 4 个 limb 去对预测的两条 limb 做积分，来算一个能量值，若组合出来的某一条 limb 的方向和预测的方向几乎一致，那么这个能量值就会很高，反之很低，然后就会用这个能量值作为 keypoint parsing 的依据</p>
+<img src="/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/5.png" class="">
+<h4 id="network-architecture"><a href="#network-architecture" class="headerlink" title="network architecture"></a>network architecture</h4><p>在原 openpose 论文里面（cvpr会议），网络结构是采取 simultaneous 的形式，分两条支路分别预测 part confidence 和 part affinity field，但后面改成期刊后，采取了 serial detection and association，先预测 limb 再预测 part。</p>
+<img src="/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/6.png" class="">
+<p>首先图像经过一个 VGG-19 作为特征提取器，得到特征图 F，特征图后有先经过 $T_P$ 个 stage 的 limb 预测，每个 stage 的预测上一个 stage 的预测结果以及特侦图 F 作为输入</p>
+<img src="/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/7.png" class="">
+<p>$T_P$ 个 stage 的 part affinity field 后是 $T_C$ 个 stage 的 part confidence maps，预测关节点的时候会将预测的 PAF 作为输入</p>
+<img src="/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/8.png" class="">
+<p>网路训练引入了 intermediate supervision，每个 stage 的输出都用来进行监督</p>
+<img src="/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/9.png" class="">
+<h4 id="Multi-person-Parsing-using-PAFs"><a href="#Multi-person-Parsing-using-PAFs" class="headerlink" title="Multi-person Parsing using PAFs"></a>Multi-person Parsing using PAFs</h4><p>我们网络预测得到 candidate parts 和 candidate limbs，组合过程采取启发式的方法，对于一条 limb c，连接它的两个关节点分别是 $j<em>1$ 和 $j_2$，检测到的两种关节点数量为 $D</em>{j<em>1}$ 和 $D</em>{j_2}$，这两个数量不一定相等，因为存在遮挡或者半身情况，然后建立一个二分图，边的权重为上面提到的能量值，然后对于一条 limb c，我们需要找出一个使得边权重最大的二分图，然后这就是最可能的 limb。</p>
+<p>对于整个 body，分别找出每条 limb 的组合，再拼接起来即为最终结果。</p>
+<h4 id="foot-detection"><a href="#foot-detection" class="headerlink" title="foot detection"></a>foot detection</h4><p>openpose 将 coco 的 17 个点扩展成 25 个点，其中增加了 6 个脚部的点，脚部的数据集是部分 coco 数据集中标注出来的，共 1.5k 张。叫上脚部检测后，解决了遮挡的问题，左图的 b 和 c。</p>
+<img src="/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/10.png" class="">
+<p>除此之外，openpose 还训练了手部和脸部关节点的检测器，整体效果如下</p>
+<img src="/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields/11.png" class="">
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/06/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Knowledge-Distillation-Meets-Self-Supervision/" rel="next" title="【论文阅读】—— Knowledge Distillation Meets Self-Supervision">
+                <i class="fa fa-chevron-left"></i> 【论文阅读】—— Knowledge Distillation Meets Self-Supervision
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/08/30/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94MotioNet-3D-Human-Motion-Reconstruction-from-Monocular-Video-with-Skeleton-Consistency/" rel="prev" title="【论文阅读】——MotioNet, 3D Human Motion Reconstruction from Monocular Video with Skeleton Consistency">
+                【论文阅读】——MotioNet, 3D Human Motion Reconstruction from Monocular Video with Skeleton Consistency <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Method"><span class="nav-number">1.</span> <span class="nav-text">Method</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Confidence-Maps"><span class="nav-number">1.1.</span> <span class="nav-text">Confidence Maps</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Part-Affinity-Fields-for-Part-Association"><span class="nav-number">1.2.</span> <span class="nav-text">Part Affinity Fields for Part Association</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#network-architecture"><span class="nav-number">1.3.</span> <span class="nav-text">network architecture</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Multi-person-Parsing-using-PAFs"><span class="nav-number">1.4.</span> <span class="nav-text">Multi-person Parsing using PAFs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#foot-detection"><span class="nav-number">1.5.</span> <span class="nav-text">foot detection</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

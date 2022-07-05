@@ -1,37 +1,807 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-small.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nameless rookie" type="application/atom+xml" />
+
+
+
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="致逝去的四年大学时光">
+<meta property="og:url" content="http://vincentho.name/2019/07/14/%E8%87%B4%E9%80%9D%E5%8E%BB%E7%9A%84%E5%9B%9B%E5%B9%B4%E5%A4%A7%E5%AD%A6%E6%97%B6%E5%85%89/index.html">
+<meta property="og:site_name" content="Nameless rookie">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://vincentho.name/2019/07/14/%E8%87%B4%E9%80%9D%E5%8E%BB%E7%9A%84%E5%9B%9B%E5%B9%B4%E5%A4%A7%E5%AD%A6%E6%97%B6%E5%85%89/head.JPG">
+<meta property="article:published_time" content="2019-07-14T15:05:46.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:44:37.825Z">
+<meta property="article:author" content="Vincent Ho">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vincentho.name/2019/07/14/%E8%87%B4%E9%80%9D%E5%8E%BB%E7%9A%84%E5%9B%9B%E5%B9%B4%E5%A4%A7%E5%AD%A6%E6%97%B6%E5%85%89/head.JPG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vincentho.name/2019/07/14/致逝去的四年大学时光/"/>
+
+
+
+
+
+  <title>致逝去的四年大学时光 | Nameless rookie</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nameless rookie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vincentho.name/2019/07/14/%E8%87%B4%E9%80%9D%E5%8E%BB%E7%9A%84%E5%9B%9B%E5%B9%B4%E5%A4%A7%E5%AD%A6%E6%97%B6%E5%85%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/ProfilePhoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nameless rookie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">致逝去的四年大学时光</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-14T23:05:46+08:00">
+                2019-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <img src="/2019/07/14/%E8%87%B4%E9%80%9D%E5%8E%BB%E7%9A%84%E5%9B%9B%E5%B9%B4%E5%A4%A7%E5%AD%A6%E6%97%B6%E5%85%89/head.JPG" class="" width="500" height="500">
+<span id="more"></span>
+<p>2019年7月7日，星期天，晴，毕业已经有一个星期了，在家躺了几天之后，在整理抽屉途中，无意间找到了自己高中三年的日记，看着看着眼角突然间湿润了，高中的自己是多么的单纯，那时的自己目标很明确，也清楚知道高考是自己的唯一出路，因而为此奋斗，那本日记记录了我的叛逆期，我的奋斗史，无论多久之后再去看，总能回想起自己当时生活和学习上的点点滴滴。</p>
+<p>大学四年也就这样过去了，即将迈入新的学校，开始新的生活，因此我决定写点东西来纪念我那逝去的四年大学光阴，下面主要将以回忆录的方式去记录我的大学时光，分为：宿舍篇、合唱团篇、学院篇、朋友篇。</p>
+<h3 id="宿舍篇"><a href="#宿舍篇" class="headerlink" title="宿舍篇"></a>宿舍篇</h3><p>有人说，大学中能分到一个宿舍是缘分，大学中陪伴我们最长时间的无疑也是舍友。大一，我们来到了一个全新的学校——中山大学珠海校区，这个依山傍水的全新的环境，被高年级的师兄师姐调侃为珠海养老院，寓意着生活舒适。而在命运的驱使下，四个素未谋面的大学生相遇在榕园9楼431房间，这是缘分，他们分别是何智通、洪佳平、侯伟权和我。作为大学中最先认识的人，这三个舍友理应会成为我大学中比较重要的朋友，我一开始也是这样认为的，我们一起吃饭，一起上下课，一起打游戏（在舍友洪佳平的影响下，大一上学期我们宿舍集体开始玩起了地下城与勇士这款游戏），我们大家参加的社团都不一样，但是当时我看到他们几个都做了社团活动的PM，并且为了筹办活动忙得飞起，而我却一直默默地在社团打着酱油，当时的我是羡慕他们的。后来到了大一下学期，我也成功地做上了PM，举办了活动，而我的大学在这一方面上也算是没有遗憾了。</p>
+<p>而这个和谐的宿舍环境最后为什么破裂了？是因为学习问题上。上面提到我们当时一个宿舍都在玩DNF这款游戏，但是我和何智通玩了半个月就觉得无聊而没有继续了，洪佳平作为发起人，当然是这款游戏的死忠粉，而侯伟权虽然不是死忠粉，但是也慢慢地沉迷上了DNF。移动学院在大一上学期每个星期天下午都会有编程训练，我每次都会参加，而侯伟权一开始也会参加，但是后来慢慢地由于沉迷游戏，参加的次数越来越少；而洪佳平从一开学接触到编程之后，就没有起过兴趣，因此自然他一次都没参加过。但是就这件事不至于使得我讨厌他们，真正让我对他们反感的是大一期末复习周，大一的我对待学习的态度是绝对的认真，大一真正考试的课程可能就是高数和线代，期末复习周，每一科，我都会总结知识点，并且写到本子上，除此之外我甚至都把两本书课后的习题全部刷完，还反过来教当时大二的姚彤昕线性代数，而最后这两科的成绩我也考得很好。和我相反的是，侯伟权和洪佳平到了考前都没有去复习，侯伟权本身就要比洪佳平要聪明，从他对新知识的接受能力上就能看得出来，当时他的编程能力也甚至在我之上，但是当时期末复习周他的一句话，使我彻底对他改观了。当时他说：现在剩那么少时间了，复习了也不会过，复习来干嘛用。。。听到这句话我瞬间无语了，但是我已经无力反驳他了，这是他自己个人的选择，我也不想干涉。他的这句话有两点使我无语的地方，一是为什么时间只剩下那么少了而你却还没开始复习？为什么不会提前早点去复习呢？时间都拿去打游戏了吗？当时的我理解为什么他的复习时间那么少，我们当时貌似是1月10多号的期末考试，他举办了一个跨年的活动，所以我也理解他在举办完活动后想放松一下的心情，但是元旦即使你玩过去了，你还有10天的复习时间，那么为什么你不开始复习呢？二是为什么时间剩下那么少，复习就没有用了呢？这一点是我非常无语的，他直接否定了临时抱佛脚的有效性，虽说临时抱佛脚用处不大，但是不能否定他的有效性，当时洪佳平线性代数什么都没复习，靠我考前一晚上给他的知识点，最后他也顺利地及格了，而侯伟权你比洪佳平要聪明地多，为什么你就不相信临时抱佛脚呢？而最后侯伟权也是顺利地挂了科，当然洪佳平也不例外，毕竟不是所有东西都能临时抱佛脚的，比如他那糟糕的编程能力。</p>
+<p>从那开始，我和他们的交流也就变少了，我也经常不在宿舍学习，或去图书馆或去自习室，当然也有姚彤昕的原因。大一下学期，我本来以为挂了科的两兄弟会突然觉悟过来，开始发奋学习，没想到是我想多了，他们依旧老样子，甚至变本加厉，大一上学期都鲜有逃课的侯伟权，大一下直接就不去上课，在宿舍打游戏（当时还有个另外觉得好笑的事情，侯伟权打DNF走火入魔了，说要进行第一批小号计划，然后第一批小号满级后，接着第二批小号计划，真的是可笑至极）。而洪佳平作为DNF的死忠粉，自然不会放弃DNF，而没有大一上学期基础的洪佳平，大一下学期听课就更为难受了，上了几个星期课后，也是进入半放弃状态，而此时的侯伟权已经是全放弃状态了。当时我还听到一个更为可笑的东西，据说洪佳平是生物自主招生进的中大，他也说自己不太喜欢移动这个专业，但是当时从他的学习接受能力来看，我完全没有看出来他像是自主招生进来的，以我的说法就是太蠢了，最基本的数学和编程的逻辑思维能力都没有，也怪不得他学得如此吃力，以至于放弃。但是既然你不喜欢这个专业，那你又有没有转专业的想法呢？如果有，那为什么不努力学呢？知道自己蠢，为什么不多花点时间呢？大学最后一年，洪佳平自己坦言说自己当时上了大学就开始放松了，可能高中压抑了太久，上了大学终于可以肆无忌惮地打DNF，于是变一发不可收拾，在我眼里，他不仅学习不好，而且自制能力也是真的很差。</p>
+<p>大一下学期中，我对他们俩压抑的愤怒已经很多了，某天中午午觉后，理应该是要去上课的，但是毫无疑问，他俩依旧在打游戏，毫无上课的想法，于是我就在床上拍了张他俩的照片，并且发到宿舍群，说两条咸鱼。没想到侯伟权还自嘲自己是salted fish之类的，当时在图书馆学习的我，不知道为什么就和他喷了起来，可能压抑了太久了。没过几个星期的一天，回到宿舍，突然发现侯伟权把东西全部收拾好已经走了，后来才发现他退学了，至于他退学之后是去复读还是什么我就不知道了，我只记得在他退学前的一段时间，他总是晚上12点后自己在床上写东西，或许是实在受不了自己颓废的样子了吧。到此为止，我们宿舍变成三人宿舍。</p>
+<p>大一下学期由于院系调整的原因，我们院会回迁到东校，而有消息传出回到东校后可以自主组建宿舍，当时的我急切想摆脱我的舍友，因此找了三个伙伴组建了一个宿舍，但是最后自主组建的政策没有实施，因此只能维持原宿舍，来到东校后，我们被告知有一个名叫陈瑶的14级师兄要入住我们的宿舍，当时的我并没有因为他是师兄而高兴，待我查清楚后才知道这个师兄是个留级生，并且在14级几乎没有存在感，我当时就有了危机感，等到和他相处下来后发现果然和我预想的一样，留级生，性格孤僻，独来独往，不上课，每天宅在宿舍，吃外卖，睡觉，他也不是游戏迷，就是单纯地不想上课而已。他和洪佳平两个组成了宿舍最坚实的“后盾”，每天守护着宿舍，当时大二我出门压根不用带钥匙，因为回到宿舍肯定会有两个人在。当时大二的洪佳平是有点后悔自己大一的样子的，他很挣扎，来来回回地卸载了DNF好几次，想学习，但是在陈瑶的影响下，最终大二下彻底放弃了，整个学期都不去上课，他俩甚至期末都不去考试（其实去不去都一样，反正已经没有了全部平时分）。大三下学期，陈瑶搬出去自己一个人住，我们宿舍又回到三人宿舍，一直到毕业。</p>
+<p>如今洪佳平因为学分不够无法正常毕业而留级了，另外一个舍友何智通考研考到了本校，而我即将去清华读研。可以说我们宿舍是比较传奇的，有退学的，有留级的，有保研的，很多人的大学舍友会成为他们大学四年里很好的朋友，而我的舍友并没有，我曾不止一次想要摆脱他们，到最后也只能默默接受。</p>
+<p>有些人相遇后会成为一生挚友，有些人相遇后注定只会成为漫长人生路上的一个过客，而我的舍友是后者。</p>
+<h3 id="合唱团篇"><a href="#合唱团篇" class="headerlink" title="合唱团篇"></a>合唱团篇</h3><p>合唱团作为单独的一篇，可见其特殊性。从高中开始，唱歌一直作为我的一大爱好，到了大学也一直继续发扬，由于只是单独喜欢瞎唱，可以理解为KTV选手，我对乐理乐器等均为一窍不通，并且当我上了大学才发现，唱歌厉害的比比皆是，而我只是芸芸众生中的一个小透明，独唱、乐队等都不适合我，因此我选择加入合唱团。而加入合唱团的另外一大原因是，当时大一军训时候举办军歌大赛，而我毫不犹豫就参加了，在那里认识了隔壁班的CJ，在他的安利下，我提前认识了合唱团的骨干成员，如团长方东仪，艺术副团姚彤昕，团长助理谢育廷，其中有一些还是我们移动的师兄师姐，比如常务副团赵扬波（后面同样在他的安利下，加入了学生会秘书处），男高声部长钟璟华，女低声部长尹晓琳，在军训的某一晚还一起去了珠海富华里通宵唱k，并且还很骚的跳了一个凳子舞（羞死），也因为这个后面才会私下创建舞蹈部，大家还叫我为部长。可以说除了我的两个组爸外，合唱团是我第二个地方认识各位师兄师姐，因此在种种原因下，我毫不犹豫地加入了合唱团。</p>
+<p>我在合唱团的一年里，可谓收获满满。第一次团员大会学唱as long as I have music，至今为止，一听到前奏就会瞬间感动落泪；第一次学做海报，虽然做得一坨屎一样；光棍节送歌，作为小透明的我，竟然也有10来首可以唱（在合唱团呆久了，就会发现网红特别多，对比他们，我真的就只是一个小透明）；mini concert的小组唱以及活动之后的轰趴；大一寒假的南校演出，当时考完线代还下着雨，就要赶过去了；大二下学期的四校合唱演出，以及最后的专场音乐会，无数的回忆，由于当时移动需要回迁，这也使得我不能继续留任，育廷和我说如果我竞选的话，团长助理这个位置肯定是非我莫属的，而如果我选择留任了，我是否也会有机会去竞争阿卡的男高呢，但是没有如果，我和珠团的故事只停留在了大一。</p>
+<p>现在回想起来，我当时大一经常去合唱团训练，经常去音教，一部分原因是出于当时和姚彤昕在一起，但是另一部分原因也在于我想学习一些乐理知识，经过一年后，我的基本乐理知识已经掌握差不多了，但是我的耳朵和嘴巴就差得太多，当时的我和姚彤昕整天在一起，在这个游走的钢琴旁边，我的试唱和练耳还是没有半点进步，实在惭愧，到现在我还是不能从一个合唱歌曲中，清楚地分出男声和女声（可能大一都把时间花在恋爱上了，真正学音乐的时间太少哈哈），育廷当时也说如果我不是因为姚彤昕，我是不会去合唱团那么勤的，我当时就否定了他的说法，毕竟大一的我还是比较闲的哈哈。在珠团的最后一个活动专场音乐会当天，下起了小雨，晚上演出时，当最后响起团歌as long的时候，瞬间泪崩，这个地方真的承载了我太多的记忆了。虽然说这里是我大一最重要的地方，但是真正和我玩得来的当时并没有太多，除了自己的男高声部外，就只有主席团和移动天团的几个师兄师姐，其它声部就没有太多熟悉的了。玩得最多的应该还是当时的主席团，一起夜跑，一起唱k，一起吃冒菜，一起去荣一吃宵夜等，育廷也是到现在为止很好的一个朋友，每次回去珠海，他都无一例外地和我睡一个房间。</p>
+<p>在这里，我收获了第一份爱情，收获了一个挚友，可以说已经足够了。回迁到东校之后，我和波波彩虹他们一起加入了东团，当时正值中山情演出，我们也顺理成章的加入了演出，中山情演出是四校巡回演出，南校那场最后的几分钟，我站在台上忽然间眼前就一团黑，什么都看不见，猛出冷汗，在快要撑不住倒下的时候，旁边的鸡煲及时发现了，并把我搀住，好在有他，不然我从台上掉下去了，影响可就不是一点点了，那时我就真的一夜成名了。演出过后，我去东团的次数越来越少，一是作业增多，二是东团训练严厉，三是缺少了动力，以前大一干劲满满可能真的是因为姚彤昕呵呵，四是作为一个外来人，归属感太少，况且我不是一个自来熟的人，因此训练中场休息，我总是无聊地自己一个人玩手机，训练结束后也是第一时间就溜。就这样我就退了东团，和东团最后的接触是大二下学期东团的音乐会，当时冷爷可能看在我中山情上面的“卖力”演出，给了我两张票，最后是我和郭鑫去看了。</p>
+<p>在后面的日子里，和合唱团的故事仅仅发生在每年的mini和专场，大二我回去了，大三mini也回去了，隔了一年，到大四毕业季的时候最后一次回去珠海听专场，这时，专场已经从以前的风雨球场到现在的新体育馆里举行了，而珠海也是各种拆拆建建，每一次地回去只会加深我的一个想法：这里并没有我留念的东西，我在这里的归属感越来越少。大一这里是我精神的寄托，到大二回去看看旧友，到大三回去发现没有一个认识的，到大四最后一次回去，更多地是去纪念吧，那一晚和育廷和岳安坐在台下看演出，同样地最后一首歌山高水长开始上台一起唱，那时我才发现自己已经把男高的旋律忘得七七八八了，而as long的歌词也同样忘了，虽然感动依旧，但是已经没有了当年的那种感动了，剩下地更多地是感叹吧，感叹时间的流逝，感叹好友的疏远。当时回珠海也没有人叫我，说好地一起拍毕业照，又把我踢出群聊，27号南校毕业典礼后拍毕业照，也没有叫我，当时我就已经心淡了，因为他们压根就没有想起我，也没有把我当成是合唱团的一份子。</p>
+<p>至此，我的合唱生涯结束了，我想我以后也不会再回去了吧。</p>
+<h3 id="学院篇"><a href="#学院篇" class="headerlink" title="学院篇"></a>学院篇</h3><p>“读着读着把学院读没了”，这句话来形容我们这一届的学生是最适合不过的了。2015年，高考的失利使我一直以来的外省求学梦破灭，只能屈居于华南首府——中山大学，并且只能沦落到几乎被调剂的地步，好在我遇到了移动信息工程学院，这个每年都几乎以中山大学最低录取分数线为分数线的学院，当时我的成绩也只能选这个学院了。因此命运让我和移动信息工程学院相遇，这个唯一坐落在珠海校区的信息类学院，也是比较特殊的。</p>
+<p>开学院长第一课就给我们灌输移动信息工程学院是一个软硬兼施的学院，顾名思义就是既要学习软件学院的知识也要上电子学院的课，虽然是移动信息工程学院的录取分数线很低，但是院长的办学理念却让我敬佩，从往届师兄师姐的发言中，我都可以看得出这个学院的前景，工程实训、工程嘉年华、创新班（忘了是不是叫这个名字，反正就是大二选择导师进实验室开始干活）等等都让我眼前一亮，并且从2012年开始招新的移动学院，2015年正好招满了4届的学生。回想2012年刚开始招新的移动学院，我不由得感叹12届的师兄师姐实在太强了，当时的他们没有前辈带领，自己成立学生会团委，并且一步步地把学生会完善壮大，实在不容易，在学习上，12、13届的师兄师姐也是人才辈出，最让我印象深刻的是13届的师兄师姐们，竟然有3个人去了清华的交叉信息学院继续读研，叉院是出了名的难进的，而我们一个小小的移动学院竟然去了3个，厉害的师兄师姐还包括剑飞师兄，超颖师姐等等，这使我不由得感叹，这个移动学院真的是中大分数线最低的学院吗？不过也有可能是他们作为移动学院的开山鼻祖，受到的资源自然很多，所以我总有一种感觉是，12、13级的师兄师姐和院里面的老师和领导都很熟。而我们移动学院的老师和领导都很亲切，在学生会工作的一年里，接触到的老师都给我留下深刻印象，杨然副院长，大一就教我们导论课，没想到大四答辩让我再一次碰到她；刘念辅导员，念姐；14级辅导员琼哥；陈凌书记；校长助理，移动学院院长李文军，还有很多的移动的老师，张子臻，栋哥，饶阳辉等等。而移动出品的活动也是一流，班风大赛，我和郭鑫筹办的年度沸点大会，工程嘉年华，第一次让我知道了，我们以后可能发展的方向，各种智能小车，智能小船，智能穿戴设备等等；而大一的工程实训也是很难忘的一段时光，可以说珠海的移动学院给我留下了很多美好的回忆。</p>
+<p>2015年，中山大学换了校长，新校长罗俊一上台就开始了院系调整，我印象中，第一个动刀的学院是国际商学院，当时国商被改名为国际金融学院，国商一下子变成了国金，而这个改动只是名字的改动，影响不大。2015年12月，罗俊终于对我们开刀了，整合软件学院，信科院，超算等几个学院成一个数据科学与计算机学院，同时整合电子学院，微电子学院，通信工程等成一个电子信息与技术学院，很明显这个改动就是要将软件和硬件的学院彻底分开（因为当时的信科院和电子学院是在一个学院，只是不同专业）。而作为软硬兼施，并且身在珠海校区这个偏远山区的移动信息工程学院就成了争议最大的学院了，它到底属于软还是硬呢？最开始学校给出的答案是：1.将移动信息工程学院整合到电子信息工程学院，2.我们为移动信息工程的最后一届，2016年不在招新，3.学院完全迁去广州的可能性不大，东校床位有限，只能先把师兄师姐迁过去。这一下子整个学院就炸了，我们学院是学校改革的白老鼠吗？不再招新且只留下我们在珠海，让我们自生自灭吗？并且学校在做决定之前，完全没有征求过民意。不过最后在师兄师姐的努力争取下，我们学院将全部并入数计院，并且全部迁入东校，这场闹剧也总算有了结尾。从那以后，我就开始了珠海生活半年倒计时。怎么说呢？这个决策有好有坏吧，对于高年级的师兄师姐，广州找工作要比珠海简单不少，整合后资源是否会增多？（其实也不见得，以前移动的老师都很尽责，工程实训等等，和老师接触机会也很多，合并成一整个数据院后，反而觉得和老师的距离变大了），不过当时对我来说，影响最大的可能是社团不可以留任了，即使说，移动学生会会和软院学生会等整合成一整个的数计学生会，这就使得竞争更大了，并且去到东校的我们和新生并没有什么不同，也是一个完全新的环境，因此我们没有任何的优势。所以我也没有留任，大二去到东校后，每天就是图书馆学习，还有图书馆期刊组上班。</p>
+<p>接下来在东校的三年里面，我几乎没有感觉到学院的存在，没有感受到辅导员的存在，到了毕业了，我甚至还不太记得院长叫什么名字，这也是院系合并带来的，以前在珠海，移动学院亲似一家，合并后瞬间成了孤儿。现在毕业了，我更加希望说自己是SMIEer，而不是SDCSer。</p>
+<h3 id="朋友篇"><a href="#朋友篇" class="headerlink" title="朋友篇"></a>朋友篇</h3><p>在大学里，我们会碰到很多很多的人，同一个学院的，同一个社团的，大大小小活动认识的，上大学前我微信的好友仅限于初高中同学，加起来就200多个，一上大学之后，微信好友直接突破500，而大一时看过姚彤昕和育廷的微信好友，甚至是1000+，这都能够说明大学里面我们确实会遇到很多人，但是在大学里面，认识到真正成为朋友之间的鸿沟却一直难以跨越，这问题当然出在我自己身上，我的性格和我的心态决定了我大学里面没有和任何一个人成为朋友，可能这样说得过于绝对，但是在我的世界里面，朋友是那种即使许久不见，但是一见面却能无话不说的人，生活中遇到困难你能想他倾诉的人，满足我所说的就只有高中的谭展宏、李晓慧、年梓帆，大学里我曾经觉得是朋友的梁泳嘉，韩硕轩可能也符合我的朋友定义。除此之外，其他人都只能是我的同学或者甚至是生命中的一个过客而已。</p>
+<p>大一，刚刚进入大学的我，就遇到了一个为我指明道路的师姐：姚彤昕，说她是我大一里最重要的人一定也不为过，因为我的大一有50%以上的空余时间是和她一起过的。第一次见到她是在我军训的某一晚，CJ带我去认识合唱团的老肉们，那一晚他们去了富华里唱k通宵，当时我也不知道为什么就答应了，然后这就成了我大学生涯里的第一次刷夜，刚遇到她的时候，觉得她美丽动人，穿衣品味好，会打扮，打听过后知道她是合唱团的艺术指导，那一晚唱完k后，就开始等天亮，在富华里的星巴克前玩起了游戏，然后我可能是游戏输了，然后围着我旁边的CJ跳了一个凳子舞，从此我就有了一系列与跳舞有关的别称，什么凳子彬，什么舞蹈部部长等等。然后各种的原因，我就加入了合唱团，因为CJ总是和他们老人家玩在一起，特别是嘉成、方东仪、老板，而我大一刚开始的时候，就经常跟着CJ一起混，于是就有了很多和姚彤昕育廷接触的机会。和姚彤昕第一次单独接触是在国庆，当时移动学生会的全员大会每个部门都要表演节目，我抽到了跳舞，并且还是很骚的舞，当时我就知道姚彤昕是个能歌善舞的女生，因此我就借这个机会和她聊天（可能当时我是想和她拉近关系？）然后接下来的一个月，我接着跟着CJ和他们主席团玩，当时也正好有一个粤唱粤强的比赛，我也去参加了，并且进了复赛，在准备复赛的时候，我就顺势找她帮我指导，虽然最后也没进决赛，但是我们的关系在一步步地拉近，后来在某一个周五的下午，我竟然和她两人一起去看了个电影（当时我并不知道只有我和她，好像还有方东仪，但是方东仪放鸽子了，最后只有我和她去看），回来的时候好像还买了个玫瑰花，我现在记起来那个玫瑰花是给育廷在粤唱决赛上用的，当时的我实在太蠢了，我应该也买一支玫瑰送给她，粤唱的决赛我俩一起去看，并见证了移动霸占前三。我俩关系真正突破性进展可能是在我们移动工程嘉年华的前一天，犹记得那个星期五是短码之美的第一次比赛，合唱团的训练我请了假去参加比赛，我比赛结束他们的训练也正好结束，然后我们就去我们常去的荣一吹水宵夜，那晚我貌似借了她一个什么东西，然后回到宿舍才发现还没还，之后她就说明天星期六，我们可以约个馆，顺便还给她，还说要早起去霸位？她说怕起不来，然后我要求给她morning call，这就开始了我们的morning call的传统。第二天星期六我们就一起去图书馆，下午她和方东仪出去浪了，我也和学生会的其他人布置场地，晚上她好像给我买了泡芙？然后第二天星期天，我也忘了发生了什么事，我好想惹她生气了，星期天那天是我们移动的工程嘉年华，同时他们地院在榕广摆摊，我那天在嘉年华做志愿者，我很记得她早上去榕广逛了下，给我买了个钥匙扣，我现在还挂在我书包，接下来就发生了一系列比较暧昧搞笑的事情，当时我惹她生气了，她和方东仪来图书馆，泡馆顺便看看我？然后我就躲着她，但是还是给她发现了哈哈，那晚我还清楚记得是k歌的初赛，她去做评委，总的来说那个周末是比较关键的转折点。而另外一个对我们关系起推动作用的是舞蹈部的每周一约饭，她和育廷捧我做了舞蹈部部长，后来还把婧宜拉进了舞蹈部，后来我们的关系就是平稳中发展，一直到mini，那晚刷夜，很冷，我们一起睡在地上，她竟然握住了我的手，当时我就觉得很暖，也意识到我们的关系已经到达了一定阶段了，于是第二天我就想去表白，还在谭展宏的教唆下，那晚我和她一起走回宿舍，我们没有走平常回宿舍的路，而是绕到了岁月湖那边，我走在她后面，然后一下子从后面把她抱住，并且说了一些很肉麻的话，她马上就挣扎开了，然后我陪她去了音教，她自己回宿舍了，第二天晚上她约我出来走一下，我本以为成了，没想到还是没成功，这次的失败一定程度上促成了后面我们的成功，期末复习周我们一起在自习室复习，每天都泡在一起，期末考结束后，我们去南校演出，我没有令她满意，可能我们的暧昧关系，使我在公众场所表现得很不自然，我也不好意思在合唱团其他人面前表现得和她很暧昧的感觉，她就有点不开心，我也理解，这问题出在我身上，即使下学期我们关系再进一步，我也很难在合唱团其他人面前表现出那种她就是我要追的女孩的样子，毕竟大学第一次追别人，并且还是追一个这样的网红，怎么都觉得自己有点不配。这个小风波就这样结束了，她南校演出结束就马上飞去哈尔滨旅游了，而我也回家了，放假我们关系进一步进展，甚至到了视频聊天的阶段。大一下学期，我们选了同一个公选，一起去上课，关系也越来越暧昧，在某一个周末我们两个出去浪，我顺利地牵了她的手，这一牵就没松过了。3月份我们俩周末一起去了澳门一天游，也算是小约会了，总体来说还是玩得很开心的，虽然在威尼斯人那里迷路了很久，因为不能下赌场，所以总是要绕路。4月份我的生日，她带我去了boocafe，过了一晚属于我们的二人世界，那个小阁楼，我们一起跳舞，我抱起她，她躺在我身上看杂志，终于我没忍住，把我的初吻给了她，这一吻便一发不可收拾，我们的关系更加暧昧了，我很感谢她给了我这样一个难忘的生日，真的很感动，也在生日拿到她的吻，可以说是很完美了。这一吻之后的4月份可以说是痛苦与甜蜜双重奏，我们的关系已经进展到几乎情侣的阶段了，因此吵闹也增多了，可能是我不满足她内心所预想的模样，也可能是我第一次拍拖不太会经营感情，我一直都是被动地接受她对我的好，从来没有主动地对她好，花心思为她做过一点事，这也就导致我们的争吵比较多，而每次都是我去哄她，渐渐地磨去了我的耐性，而她也为了合唱团的事，维纳斯的事忙得不可开交，她们主席团也在冷战，当时的我同时也是很迷茫，我做了年度沸点大会的PM，也做了专场音乐会的资宣组长，也在弄转专业的事，大家都很忙，也没有互相体谅，最终在5月初的某个星期六，我们的关系彻底破裂了，那一个下午，我说要不我们一起去游个泳，我载着她去到游泳馆才发现，原来游泳馆下午不开，然后她就很不开心，可能觉得我没有事先调查清楚吧，然后就一直生气，那一晚我坐在岁月湖旁边的长凳上，坐了很久，后来我叫育廷来了，我们聊了很久，最后聊得我也哭了，我们也有聊到姚彤昕的事，聊完之后，我瞬间感觉姚彤昕在我心中的人设好像突然间崩塌了，可能是积压太久的怨气，也可能是育廷和我说的一些关于姚彤昕的生活的事，总之突然间，我对她的好感没了，这也是一件很奇怪的事，为什么对一个人的态度可以瞬间变化那么大，人设瞬间崩塌的感觉，那一晚她自己一个人去游泳了，还妥协叫了我，我犹豫了很久，最后还是去了，看到她之后，我们没有说一句话，我看着她，不知道该说什么，因为我不想哄，第二天，周日，当时我本来就计划好煲汤给她喝，并且顺便表白，我还问佳民借了她的小套间，没想到星期六发生了那样的事，可能上天也不想我继续这段感情，但是我还是自己一个人去买好材料，自己煲了汤，煮了菜，自己在房间里面看着她送我的纪念本，还有以前的聊天记录，很是伤感，最后我还是叫她来了，她来了之后，依旧表现出一副很冷漠的样子，我也没有想去哄，所以我们两个人在房子里就干坐着，自己做自己的事，最后大家还是一起走了，路上也是没有说什么。从那之后，我们的关系就破裂了，微信恢复以前的样子，一整天都没响几下，有一晚她叫我出来走走，我们走到岁月湖旁边我们以前经常坐的长凳，她觉得很累，社团生活的各种事快把她逼疯了，她躺我肩上的时候，我突然有种想挣扎开的冲动，我知道我们已经结束了，但是我又没有勇气说出口，于是就一直晾着，终于等到快闪当天，我们上午拍完快闪，下午赶去北理工，她给我发了信息，说我们彻底结束，到这为止，我大一的感情生活就告一段落了，我不知道为什么自己好像没有什么伤心难过的感觉，可能还是爱得不够，付出得不多吧，其实甚至说我俩一直都只是处于暧昧，压根还没有到达情侣。</p>
+<p>大二到大四，我的感情生活全部给了郭鑫，其实如果大一不是姚彤昕闯进了我的生活，可能大学四年我都在跟郭鑫耗着。其实大一军训的时候，我就对郭鑫有所感觉了，然后分在一个英语班之后，才感受到她的强大，一口流利地道的英语口语，恰巧的是我们同在学生会的秘书处，还是一个班，理应该我们的关系应该很不错，但是大一一直到沸点大会之前，我们的关系都只是处于普通同学，平时也并没有什么交流，沸点大会，阴差阳错地我们一起做了PM，接触机会增多了，一起策划活动，但是都是工作上的接触，以前别人做PM，几个PM在一起都会擦出火花，甚至一起浪浪浪啊，但是我们就真的只是单纯的工作，因此这次活动我们并没有变成多熟，只是给了她一个印象，我是一个做事负责，很靠得住的人而已。大二去到东校，我就开始追她，但是和她聊天下来就觉得很无趣，中间也没有发生什么特别印象深刻的事，都是不温不火的，她可能会有时候过来问问我作业，所以我们的关系就真的只是普通同学，而我自己总是在yy，她可能对我有点感觉，但其实啥都没有，一直到4月份，寒假的时候冷爷给了我两张东团音乐会的票，日期是4月1号，正好是我生日前的一天，我就约了郭鑫请她去看，这好像是我们第一次单独出去，虽然后来她和我说她不是很喜欢看合唱，其实我也不是很喜欢，我也不会欣赏，但是回宿舍前，她竟然祝我生日快乐了，这是让我很吃惊的，她竟然记得我的生日，那天过后4月份，我明显感到她好像对我有点意思，她和我说想去话剧社看话剧，虽然最后没抢到票，然后我们的交流也变多了，但是大多数的也都是在学习上的交流，可能这都是我YY的，但是后来rrr竟然说她对我有好感，还和她聊过我，那我就更加自信的去找她聊天了，还想约她去吃饭，也不知道为什么突然间，她就对我冷漠起来，也不找我问作业了，真的是很奇怪，明明说对我有好感，但是又回避我，一下子搞得很尴尬，后面的关系都很尴尬了，实训见到面也不知道说什么，聊天也不知道聊什么，后来隔了几个月没聊天，最后还是我自己亲自打破了，我知道她考过了托福，我也要考托，就问她取经，不过也是简短的聊一下而已，后来她去了英国，我朋友圈托她带手信，时间到了9月份，大三刚开学，她约我出来吃饭，顺便给我手信，手信是一个英国伦敦的磁铁，还有一张明信片，她叫我看完之后给她个答复，明信片的内容写得很清楚，就是我的过度关心和关注使她受宠若惊，她不值得我那样对她，也是写得很委婉了，但是很明显就是拒绝了我了，为啥还要叫我给她一个答复呢，于是我就索性向她表白了，结果也很明显，她拒绝了我，虽然我们说好像没发生过一样，但是后面的日子，我们越来越疏远，她也不会再问我作业问题，没了这一环节，我们几乎就是几个月可以不聊天了，甚至有一次被迫和她还有思璐吃饭，也是很尴尬，这样一直维持到了大三下学期，当时我想改善一下我们的关系，正好想参加那个政务的大数据比赛，就拉上了她，那时正好也是我生日，就终于成功地和她约了次饭，后来她也因为要备考GRE而退赛了，就这样，我们的联系又断了，就这样过了大半年，期间她的生日我也没去祝福，一直到大四下学期开学前，她找了我想说大家彻底谈一下，于是我们边走内环边聊，终于走到一个公园那里坐下来，然后终于谈到了关键性问题，还聊到了很多她的价值观，爱情观，以及她对我的看法，她直言，其实她对我并不是很了解，因为在她眼里，我一直都是表现得很奇怪，所以奇怪就是她对我的唯一印象，不过仔细一想，我们真的也没啥太deep的交流，基本就是她问我作业，我回答，过了大三没课之后，也就基本不会有交流，所以我和她充其量就是一个可能关系比较好的同班同学罢了。然后也有聊到她的爱情观，她说同龄的男生都太幼稚了，她应该会找比她大的成熟的男人，至于平时她也不会是一个喜欢找别人聊天倾诉的女生，她内心独立坚强，自主，果然是和一般的女生不太一样，也难怪说谭展宏说她是BOSS级别，我还是太弱了。聊过之后，我们的关系好转了些，后来断断续续地也在微信聊了下天，就到了4月份，又是我生日了，我们又是一起吃了饭，为了和她约饭，我还专程从深圳回来广州，不过还是值得的。生日过后就几乎没啥联系了，甚至我深圳回来广州，告诉她我回来了，也没有回复，估计是没看到，就这样差不多一直到了毕业季，拍毕业照，我们俩终于有了一张照片了，去掉大一沸点那张和宇翔一起的三人照，我和她后面三年就一张照片都没有，最后留张毕业照也算是做纪念了。时间一直到在学校的最后一天，也就是6月28号，那一天是领学位证和毕业证的日子，那一天的前一个晚上，她说写了点东西给我，其实我猜到她会写给我，其实我一早就想写给她，但是看着我们的关系也就一直都这样，并且我很懒，就没写什么了，那现在她说她都已经写了东西给我了，我就顺势也说我写了个她，虽然她不信，我也强作镇定说就是这样，我一早就写好了，就等你先开口。过后，我急急忙忙地写了张明信片，第二天一大早还把我们那张唯一的毕业照打印出来，买了个相框放进去，没想到那相框还不太管用，时间太急，我也没去弄那个相框，就连着明信片一起给她了。回去我看了她的信，信一开头就说以她对我的了解，我是不会给她写东西的，确实我没写，我是假装我已经写了，其实是后补的，后来她好像还是发现了我是临时准备的，但是我还是死口不认，我才不管了，反正也是学校的最后一天了，打死不认。看完她的信，我是真的对我和她的未来彻底不抱希望了，感觉我们真的不会有未来，就这样，追了她三年，最后也就没有结果地毕业了。</p>
+<p>至于大学里面其他的同学，还真的没有特别熟的，韩硕轩可以算一个，经常互相调戏为儿子，也经常晚上一起打球，除此之外也没有太多交集了。至于梁泳嘉，大四前，我们可以算是比较熟的，她以前喜欢陈煌辉，也经常找我聊，我喜欢郭鑫的事她也知道，后来她找了男朋友之后，我们的聊天就少了，她男朋友也不喜欢她和我聊得太多，久而久之，我们就疏远了，一直到大四下学期有一次我回去珠海，本来是想和她和婧宜一起吃饭，没想到她男朋友也在，还说要我和她男朋友聊一聊，是关于不要在骚扰梁泳嘉的问题，我当时就无语了，我怎么了吗？瞬间就爆了粗，说了句叼你（粤语），她男朋友马上怼我：叼你（粤语）我还是能听得懂的，我瞬间转身离开，不想再和这个人说半句话，就这样我和梁泳嘉的关系彻底破裂，6月专场我回去，也没和梁泳嘉有什么交流，后来她主动请求合好，我才和她稍微说了几句话。现在毕业了，微信一天都是不响的，和大学的同学也再没有联系，也没有人联系我，也印证了我前面说的，我在大学并没有真正的朋友，不知道这是不是一件可悲的事呢？</p>
+<p><em>写在最后</em></p>
+<p>四个篇章都以悲剧收尾，宿舍篇道出了和他们同为舍友的无奈；合唱团篇高开低走，最后也是以悲剧收尾；学院篇最后以移动信息工程学院的消亡结束；朋友篇最后变成了无朋友。写到这里，不知不觉写了上万字了，基本上就是回忆录和流水账，希望以后老了的自己看到这些东西还能有所触动吧。</p>
+<p><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/16/%E3%80%90%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E3%80%91%E2%80%94%E2%80%94-Convolutional-Networks-with-Adaptive-Computation-Graphs/" rel="next" title="【论文阅读】—— Convolutional Networks with Adaptive Computation Graphs">
+                <i class="fa fa-chevron-left"></i> 【论文阅读】—— Convolutional Networks with Adaptive Computation Graphs
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/19/Introduction-to-Conditional-GAN/" rel="prev" title="Introduction to Conditional GAN">
+                Introduction to Conditional GAN <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ProfilePhoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Vincent-Hoo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vincent.ho.2497@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bing.com/" title="Bing" target="_blank">Bing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%BF%E8%88%8D%E7%AF%87"><span class="nav-number">1.</span> <span class="nav-text">宿舍篇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%88%E5%94%B1%E5%9B%A2%E7%AF%87"><span class="nav-number">2.</span> <span class="nav-text">合唱团篇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E9%99%A2%E7%AF%87"><span class="nav-number">3.</span> <span class="nav-text">学院篇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8B%E5%8F%8B%E7%AF%87"><span class="nav-number">4.</span> <span class="nav-text">朋友篇</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Vincent</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Thank you so much for visiting the site.</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
